@@ -1,0 +1,39 @@
+﻿
+.Language-BlueLight-Box {
+	background-color: rgba(37, 37, 37, 0.5);
+	border: 3px solid #555555;
+	-moz-border-radius: 16px;
+	-webkit-border-radius: 16px;
+	border-radius: 16px;
+}
+
+.Language-BlueLight-Box:hover {
+	border: 3px solid #5bc0de;
+	-webkit-box-shadow: 0px 0px 28px #5bc0de;
+	-moz-box-shadow: 0px 0px 28px #5bc0de;
+	box-shadow: 0px 0px 28px #5bc0de;
+}
+
+.Language-Label {
+	width: 100px;
+	height: 100px;
+	top: 60px;
+	margin: 0px 8px 0px 8px;
+	float: right;
+	position: relative;
+	z-index: 500;
+}
+
+.Language-Label a {
+	padding: 24px 0px 0px 0px;
+	height: 100%;
+	text-align: center;
+	font-size: 42px;
+	text-decoration: none;
+	color: #727272;
+	display: block;
+}
+
+.Language-Label a:hover {
+	color: #DDDDDD;
+}
