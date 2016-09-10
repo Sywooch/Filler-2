@@ -1,5 +1,9 @@
 <?php
 
+namespace app\components;
+
+use Yii;
+
 /**
  * EmailNotification class file.
  *
@@ -64,7 +68,7 @@ class EmailNotification {
 		// Электронная почта получателя.
 		$this -> Email = $Email;
 		// Получение пути к файлу с набором шаблонов.
-		$FilePath = realpath(Yii::app() -> params['EmailLayout']);
+		$FilePath = realpath(Yii::$app -> params['EmailLayout']);
 		// Если файл с набором шаблонов не найден:
 		if ($FilePath === false)
 			throw new GameException('Не удается открыть файл с набором шаблонов электронных сообщений.');
@@ -109,11 +113,11 @@ class EmailNotification {
 		// Тема письма.
 		$Subject = '=?UTF-8?B?' . base64_encode($this -> Subject) . '?=';
 		// Настройка заголовков письма.
-		$Headers = "From: " . $Name . " <" . Yii::app() -> params['GameEmail'] . ">\r\n" .
-			"Reply-To: " . $Name . " <" . Yii::app() -> params['GameEmail'] . ">\r\n" .
+		$Headers = "From: " . $Name . " <" . Yii::$app -> params['GameEmail'] . ">\r\n" .
+			"Reply-To: " . $Name . " <" . Yii::$app -> params['GameEmail'] . ">\r\n" .
 			"MIME-Version: 1.0\r\n" .
 			"Content-Type: text/plain; charset=UTF-8";
-		// echo $this -> Message . $this -> Signature;
+		echo $this -> Message . $this -> Signature;
 		// Отправка подготовленного письма пользователю.
 		return mail($this -> Email, $Subject, $this -> Message . $this -> Signature, $Headers);
 	}

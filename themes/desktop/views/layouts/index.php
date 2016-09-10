@@ -2,7 +2,7 @@
 	// use Yii;
 	use yii\helpers\Url;
 	use yii\helpers\Html;
-	use yii\base\Widget;
+	// use yii\base\Widget;
 	use app\components\LanguageSwitcher\LanguageSwitcherWidget;
 
 	// use app\assets\IndexAsset;
@@ -15,7 +15,7 @@
 
 <div class="row">
 	<div class="col-xs-24 header">
-		<?php
+		<?=
 			// Виджет переключателя языка.
 			LanguageSwitcherWidget::widget(array(
 				'Languages' => Yii::$app -> params['Languages'],
@@ -24,7 +24,7 @@
 		?>
 		<div class="Help-Label BlueLight-Box" title="<?php echo(Yii::t('Dictionary', 'Help')); ?>"  id="Button-Help">
 			<!-- <a href="#">?</a> -->
-			<?php echo Html::a('?', Url::to('/site/help')); ?>
+			<?= Html::a('?', Url::to('help')); ?>
 		</div>
 	</div>
 </div>

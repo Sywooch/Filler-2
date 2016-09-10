@@ -5,10 +5,17 @@ namespace app\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\helpers\Url;
+// use yii\web\View;
 use yii\filters\VerbFilter;
 use app\assets\IndexAsset;
 use app\assets\ThemesAsset;
 use app\components\ExtController;
+use app\models\User;
+// use app\models\User;
+use app\components\EmailNotification;
+use app\components\UserIdentity;
+// use app\models\models\User;
 // use app\models\User;
 // use app\models\ContactForm;
 
@@ -87,7 +94,7 @@ class SiteController extends ExtController {
 					[
 						'actions' => [
 							'registration', 'forgot', 'recovery', 'login', 
-							'index', 'help', 'test', 'captcha', 'shortHelp'
+							'index', 'help', 'test', 'captcha', 'shortHelp', 'personal'
 						],
 						'allow' => true,
 						'roles' => ['?'],
@@ -259,6 +266,15 @@ class SiteController extends ExtController {
 		// 	ERROR_MESSAGE[2] = '" . Yii::t('Dictionary', 'Incorrect e-mail address') . "';",		
 		// 	CClientScript::POS_HEAD
 		// );
+		// $this -> registerJs(
+		// 	"var BASE_URL = '" . Yii::$app -> request -> baseUrl . "';
+		// 	var ERROR_MESSAGE = [];
+		// 	ERROR_MESSAGE[0] = '" . Yii::t('Dictionary', 'Enter a e-mail address') . "';
+		// 	ERROR_MESSAGE[1] = '" . Yii::t('Dictionary', 'Enter a password') . "';
+		// 	ERROR_MESSAGE[2] = '" . Yii::t('Dictionary', 'Incorrect e-mail address') . "';", 
+		// 	View::POS_HEAD, 
+		// 	'Authorization'
+		// );
 		// Вывод представления (главная страница).
 		$this -> layout = self::INDEX_LAYOUT;
 		return $this -> render('index');
@@ -284,10 +300,10 @@ class SiteController extends ExtController {
 	 */
 	public function actionShortHelp() {
 		// Если тип запроса AJAX:
-		if (Yii::app() -> request -> isAjaxRequest) {
+		if (Yii::$app -> request -> isAjaxRequest) {
 			// Возвращение краткой справочной информации в формате HTML.
 			echo $this -> renderPartial('shorthelp');
-			Yii::app() -> end();
+			Yii::$app -> end();
 		}
 	}
 
@@ -305,7 +321,7 @@ class SiteController extends ExtController {
 	 *		(код и описание ошибки) в формате JSON.
 	 *
 	 */
-	public function actionLogin() {
+	public function actionLogin() {		
 		// $request = Yii::$app->request;
 		// Получение POST данных.
 		$Email = Yii::$app -> request -> post('Email');
@@ -313,20 +329,22 @@ class SiteController extends ExtController {
 		$Password = Yii::$app -> request -> post('Password');
 		// Если тип запроса AJAX:
 		if (Yii::$app -> request -> isAjax) {
-			$Player = new UserIdentity($Email, $Password);
+			// $Player = new UserIdentity($Email, $Password);
 			// Если авторизация пользователя пройдена успешно:
-			if ($Player -> authenticate()) {
+			// if ($Player -> authenticate()) {
 				// Начинается авторизованная сессия.
-				Yii::$app -> user -> login($Player);
+				// Yii::$app -> user -> login($Player);
+			if (1) {
+				// Yii::$app -> user -> login($Player);
 				// Запись в соответствующий журнал логов информационного сообщения.
-				Yii::log('Авторизация пользователя [ ' . $Email . ' ].', 'info', 'user.login');
+				Yii::info('Авторизация пользователя [ ' . $Email . ' ].', 'user.login');
 				// Возвращается код успешной авторизации.
 				echo(self::SUCCESS);
 			}
 			// Если авторизация не пройдена, возвращается информация об ошибке.
 			else {
 				// Запись в соответствующий журнал логов информационного сообщения.
-				Yii::log('Отклоненная авторизация пользователя [ ' . $Email . ' ].', 'info', 'user.login');
+				Yii::info('Отклоненная авторизация пользователя [ ' . $Email . ' ].', 'user.login');
 				// Получение кода и описания ошибки.
 				$Result['ErrorCode'] = $Player -> errorCode;
 				$Result['ErrorMessage'] = $Player -> errorMessage;
@@ -349,11 +367,11 @@ class SiteController extends ExtController {
 	 */
 	public function actionLogout() {
 		// Завершение авторизованной сессии.
-		Yii::app() -> user -> logout();
+		Yii::$app -> user -> logout();
 		// Запись в соответствующий журнал логов информационного сообщения.
-		// Yii::log('Выход пользователя [ ' . $Email . ' ].', 'info', 'user.logout');
+		// Yii::info('Выход пользователя [ ' . $Email . ' ].', 'info', 'user.logout');
 		// Перенаправление на домашнюю страницу.
-		$this -> redirect(Yii::app() -> homeUrl);
+		$this -> redirect(Yii::$app -> homeUrl);
 	}
 
 
@@ -367,29 +385,30 @@ class SiteController extends ExtController {
 	 */
 	public function actionForgot() {
 		// 
-		$Model = new tableUser('forgot');
+		$Model = new User(['scenario' => User::FORGOT]); // tableUser('forgot')
 		// AJAX-проверка.
-		$this -> performAjaxValidation($Model);
+		// $this -> performAjaxValidation($Model);
 		// Если получен адрес электронной почты:
-		if (isset($_POST['tableUser']['Email'])) {
-			$Email = $_POST['tableUser']['Email'];
-			$User = new User();
+		if (isset($_POST['User']['Email'])) {
+			$Email = $_POST['User']['Email'];
+			$User = new \app\models\models\User();
 			// Если пользователь с указанным адресом электронной почты найден:
 			if ($User -> SearchByEmail($Email)) {
 				// Генерирование идентификационного кода.
 				$Code = $User -> setPasswordRecovery();
 				// Отправка пользователю письма для восстановления доступа.
 				$EmailNotification = new EmailNotification($Email, 'forgot', array(
-					'Link' => Yii::app() -> getBaseUrl(true) . '/site/recovery?code=' . $Code,
+					'Link' => Yii::$app -> urlManager -> getHostInfo() . '/site/recovery?code=' . $Code,
 					'PlayerEmail' => $Email,
 				));
 				// Если письмо не отправлено:
 				if (!$EmailNotification -> Send())
 					// Запись в соответствующий журнал логов сообщения об ошибке.
-					Yii::log('Ошибка при отправке пользователю [ ' . $Email . ' ] письма для восстановления доступа.', 'error', 'email');
+					Yii::error('Ошибка при отправке пользователю [ ' . $Email . ' ] письма для восстановления доступа.', 'email');
+				// 
 				$Result = TRUE;
 				// Запись в соответствующий журнал логов информационного сообщения.
-				Yii::log('Запрос восстановления доступа для пользователя [ ' . $Email . ' ].', 'info', 'user.forgot');
+				Yii::info('Запрос восстановления доступа для пользователя [ ' . $Email . ' ].', 'user.forgot');
 			}
 			// Если пользователь с указанным адресом электронной почты не найден:
 			else {
@@ -399,7 +418,7 @@ class SiteController extends ExtController {
 			}
 		}
 		// Вывод представления (Восстановление пароля).
-		$this -> render('forgot', array(
+		return $this -> render('forgot', array(
 			'Model' => $Model,
 			'Result' => $Result,
 		));
@@ -418,27 +437,28 @@ class SiteController extends ExtController {
 	 */
 	public function actionRecovery() {
 		// 
-		$Model = new tableUser('recovery');
+		$Model = new User(['scenario' => User::RECOVERY]);
 		// AJAX-проверка.
-		$this -> performAjaxValidation($Model);
+		// $this -> performAjaxValidation($Model);
 		// 
-		$User = new User();		
+		$User = new \app\models\models\User();
 		// Если получен действующий идентификационный код:
 		if (isset($_GET['code']) && $User -> SearchByRecoveryCode($_GET['code'], 60 * 60)) {
 			// Если получены данные пользователя:
-			if (isset($_POST['tableUser'])) {
+			if (isset($_POST['User'])) {
 				// Поиск пользователя в БД по указанному идентификатору.
-				$Model = tableUser::model() -> findByPk($User -> getID());
+				// $Model = tableUser::model() -> findByPk($User -> getID());
+				$Model = User::findOne($User -> getID());
 				// Установка сценария восстановления доступа пользователя.
-				$Model -> setScenario('recovery');
+				$Model -> setScenario(User::RECOVERY);
 				// Полученные данные из POST-запроса копируются в модель.
-				$Model -> attributes = $_POST['tableUser'];
+				$Model -> attributes = $_POST['User'];
 				// Пароль копируется в чистом виде для отправки в письме.
 				$Password = $Model -> Password;
-				// Результат для представления: успешное восстановление доступа.
-				$Result = TRUE;
 				// Если новый пароль пользователя успешно сохранен:
 				if ($Model -> save()) {
+					// Результат для представления: успешное восстановление доступа.
+					$Result = TRUE;
 					// Отправка пользователю письма об успешной смене пароля и восстановлении доступа.
 					$EmailNotification = new EmailNotification($Model -> Email, 'recovery', array(
 						'PlayerName' => $Model -> Name,
@@ -448,9 +468,9 @@ class SiteController extends ExtController {
 					// Если письмо не отправлено:
 					if (!$EmailNotification -> Send())
 						// Запись в соответствующий журнал логов сообщения об ошибке.
-						Yii::log('Ошибка при отправке пользователю [ ' . $Model -> Email . ' ] письма об успешной смене пароля и восстановлении доступа.', 'error', 'email');
+						Yii::error('Ошибка при отправке пользователю [ ' . $Model -> Email . ' ] письма об успешной смене пароля и восстановлении доступа.', 'email');
 					// Запись в соответствующий журнал логов информационного сообщения.
-					Yii::log('Восстановление доступа для пользователя [ ' . $Model -> Email . ' ].', 'info', 'user.recovery');
+					Yii::info('Восстановление доступа для пользователя [ ' . $Model -> Email . ' ].', 'user.recovery');
 				}
 			}
 
@@ -458,9 +478,10 @@ class SiteController extends ExtController {
 		// Если идентификационный код не получен или является недействительным:
 		else
 			// Перенаправление для повторного запроса восстановления доступа.
-			$this -> redirect($this -> createUrl('/site/forgot/'));
+			// $this -> redirect($this -> createUrl('/site/forgot/'));
+			$this -> redirect(Url::to(['site/forgot']));
 		// Вывод представления:
-		$this -> render('recovery', array(
+		return $this -> render('recovery', array(
 			'Model' => $Model,
 			'Result' => $Result,
 		));
@@ -487,7 +508,7 @@ class SiteController extends ExtController {
 	 */
 	public function actionRegistration() {
 		// 
-		$Model = new \app\models\User; //('registration');
+		$Model = new \app\models\User(['scenario' => User::REGISTRATION]); //('registration');
 		// AJAX-проверка.
 		// $this -> performAjaxValidation($Model);
 		// Если получены POST данные регистрационной формы:
@@ -508,16 +529,17 @@ class SiteController extends ExtController {
 				// Если письмо не отправлено:
 				if (!$EmailNotification -> Send())
 					// Запись в соответствующий журнал логов сообщения об ошибке.
-					Yii::log('Ошибка при отправке пользователю [ ' . $Model -> Email . ' ] письма об успешной регистрации.', 'error', 'email');
+					Yii::error('Ошибка при отправке пользователю [ ' . $Model -> Email . ' ] письма об успешной регистрации.', 'email');
 				// Запись в соответствующий журнал логов информационного сообщения.
-				Yii::log('Регистрация нового пользователя [ ' . $Model -> Email . ' ].', 'info', 'user.registration');
+				Yii::info('Регистрация нового пользователя [ ' . $Model -> Email . ' ].', 'user.registration');
 				// Автоматическая авторизация нового пользователя.
-				$Player = new UserIdentity($Model -> Email, $Password);
-				if ($Player -> authenticate()) {
-					Yii::app() -> user -> login($Player);
-					// Перенаправление на страницу игры.
-					$this -> redirect($this -> createUrl('/game/game/'));
-				}
+				// $Player = new UserIdentity($Model -> Email, $Password);
+				// if ($Player -> authenticate()) {
+				// 	Yii::app() -> user -> login($Player);
+				// 	// Перенаправление на страницу игры.
+				// 	$this -> redirect($this -> createUrl('/game/game/'));
+				// }
+				// $this -> redirect($this -> createUrl('/site/index/'));
 			}
 		}
 		// Отображение страницы регистрации.
@@ -544,29 +566,29 @@ class SiteController extends ExtController {
 	 */
 	public function actionPersonal() {
 		// Поиск пользователя в БД по указанному идентификатору.
-		$Model = tableUser::model() -> findByPk(Yii::app() -> user -> getId());
+		$Model = User::findOne(1); // Yii::$app -> user -> getId()
 		// Если получены POST данные формы с личными данными:
-		if (isset($_POST['tableUser'])) {
+		if (isset($_POST['User'])) {
 			// Если в POST данных отсутствуют пароль и проверочный пароль:
-			if ($_POST['tableUser']['Password'] == NULL && $_POST['tableUser']['ControlPassword'] == NULL) {
+			if ($_POST['User']['Password'] == NULL && $_POST['User']['ControlPassword'] == NULL) {
 				// Установка сценария обновления данных пользователя без пароля.
-				$Model -> setScenario('update');
+				$Model -> setScenario(User::UPDATE);
 				// Удаление из POST данных пустых атрибутов.
-				unset($_POST['tableUser']['Password']);
-				unset($_POST['tableUser']['ControlPassword']);
+				unset($_POST['User']['Password']);
+				unset($_POST['User']['ControlPassword']);
 				// Установка информации о неизменности пароля для отправки в письме.
 				$Password = Yii::t('Dictionary', 'Unchanged');
 			}
 			else {
 				// Установка сценария обновления данных пользователя с паролем.
-				$Model -> setScenario('update-password');
+				$Model -> setScenario(User::UPDATE_PASSWORD);
 				// Новый пароль копируется в чистом виде для отправки в письме.
-				$Password = $_POST['tableUser']['Password'];
+				$Password = $_POST['User']['Password'];
 			}
 			// AJAX-проверка.
-			$this -> performAjaxValidation($Model);
+			// $this -> performAjaxValidation($Model);
 			// Полученные данные из POST-запроса копируются в модель.
-			$Model -> attributes = $_POST['tableUser'];
+			$Model -> attributes = $_POST['User'];
 			// Если данные пользователя успешно сохранены в БД:
 			if ($Model -> save()) {
 				$Result = TRUE;
@@ -579,9 +601,9 @@ class SiteController extends ExtController {
 				// Если письмо не отправлено:
 				if (!$EmailNotification -> Send())
 					// Запись в соответствующий журнал логов сообщения об ошибке.
-					Yii::log('Ошибка при отправке пользователю [ ' . $Model -> Email . ' ] письма об изменении личных данных.', 'error', 'email');
+					Yii::error('Ошибка при отправке пользователю [ ' . $Model -> Email . ' ] письма об изменении личных данных.', 'email');
 				// Запись в соответствующий журнал логов информационного сообщения.
-				Yii::log('Изменение личных данных пользователя [ ' . $Model -> Email . ' ].', 'info', 'user.personal');
+				Yii::info('Изменение личных данных пользователя [ ' . $Model -> Email . ' ].', 'user.personal');
 			}
 		}
 		// Удаление из модели пароля и проверочного пароля, 
@@ -589,7 +611,7 @@ class SiteController extends ExtController {
 		$Model -> Password = NULL;
 		$Model -> ControlPassword = NULL;
 		// Отображение страницы.
-		$this -> render('personal', array(
+		return $this -> render('personal', array(
 			'Model' => $Model,
 			'Result' => $Result
 		));
@@ -623,11 +645,61 @@ class SiteController extends ExtController {
 
 
 
-	// public function actionTest() {
-	// 	if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-	// 		Yii::$app->response->format = Response::FORMAT_JSON;
-	// 		return ActiveForm::validate($model);
-	// 	}
-	// }
+	public function actionTest() {
+		// if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+		// 	Yii::$app->response->format = Response::FORMAT_JSON;
+		// 	return ActiveForm::validate($model);
+		// }
+		// echo('actionTest()');
+		// $user = User::findOne(4);
+		// $user -> Name = 'Александр Поветкин';
+		//$user -> save();
+		// print_r($user);
+
+		// Yii::info('Тестирование.', 'user.login');
+
+		// `identity` текущего пользователя. `Null`, если пользователь не аутентифицирован.
+		// echo $identity = Yii::$app -> user -> identity;
+
+		// ID текущего пользователя. `Null`, если пользователь не аутентифицирован.
+		// echo $id = Yii::$app -> user -> id;
+
+		// проверка на то, что текущий пользователь гость (не аутентифицирован)
+		// echo $isGuest = Yii::$app -> user -> isGuest;
+
+		// найти identity с указанным username.
+		// замечание: также вы можете проверить и пароль, если это нужно
+		// $identity = \app\models\models\User::findOne(['Email' => 'poluektovkv@gmail.com']);
+
+		// логиним пользователя
+		// Yii::$app->user->login($identity);
+
+		// echo 'Адрес: ' . Yii::$app -> basePath;
+		// echo 'Адрес: ' . Url::base();
+
+		// echo Yii::$app->getSecurity()->generateRandomString();
+
+		// echo Yii::$app->getSecurity()->generatePasswordHash('dinsy2494');
+
+		// if (Yii::$app->getSecurity()->validatePassword('dinsy2494', '$2y$13$1fPWyAeuY1v8140pQndoOOYLJDGhHmenI6P8YXQcQlvxra4tXbcoa')) {
+		//     echo ('всё хорошо, пользователь может войти');
+		// } else {
+		//     echo ('неправильный пароль');
+		// }
+
+		// echo Yii::$app -> theme -> getName();
+
+		// echo Yii::$app->controller->route;
+
+		// echo Yii::$app -> request -> baseUrl;
+
+		// echo Yii::$app -> urlManager -> getHostInfo();
+
+		$ModelName = '\app\models\User';
+		$dbModel = $ModelName::find()
+			-> where(['Email' => 'apple@apple.com'])
+			-> one();
+		print_r($dbModel);
+	}
 
 }

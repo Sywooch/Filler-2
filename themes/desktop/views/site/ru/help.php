@@ -1,3 +1,13 @@
+<?php
+
+	use yii\helpers\Url;
+	use yii\helpers\Html;
+	use app\components\FooterMenu\FooterMenuWidget;
+	// use app\assets\ThemesAsset;
+
+	// $bundle = ThemesAsset::register($this);
+
+?>
 
 <div class="row">
 	<div class="col-xs-1">
@@ -126,21 +136,21 @@
 <?php
 
 	// Если пользователь не авторизован:
-	if (Yii::app() -> user -> isGuest) {
+	if (Yii::$app -> user -> isGuest) {
 		// Выводится меню "В начало".
-		$this -> widget('ext.FooterMenu.FooterMenuWidget', array(
+		echo FooterMenuWidget::widget(array(
 			'ItemList' => array(
-				Yii::t('Dictionary', 'Start') => $this -> createUrl("/site/index")
+				Yii::t('Dictionary', 'Start') => Url::to('index')
 			)
 		));
 	}
 	// Если пользователь авторизован:
 	else {
 		// Выводится меню "Играть | Выход".
-		$this -> widget('ext.FooterMenu.FooterMenuWidget', array(
+		echo FooterMenuWidget::widget(array(
 			'ItemList' => array(
-				Yii::t('Dictionary', 'Play') => $this -> createUrl("/game/game"),
-				Yii::t('Dictionary', 'Logout') => $this -> createUrl("/site/logout")
+				Yii::t('Dictionary', 'Play') => Url::to('game'),
+				Yii::t('Dictionary', 'Logout') => Url::to('logout')
 			),
 			'Style' => 2
 		));

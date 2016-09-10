@@ -5,7 +5,7 @@
 
 	// 
 	$form = ActiveForm::begin([
-		'id' => 'user-form-73',
+		'id' => 'user-form',
 		// 'options' => ['class' => 'form-horizontal'],
 		// 'action' => \yii\helpers\Url::toRoute('/site/test'),
 		// 'enableClientValidation' => true,
@@ -190,8 +190,8 @@
 <?php } ?>
 <div class="row">
 	<div class="col-xs-24 indent-md text-right" id="EntryButton">
-		<?php 
-			echo Html::submitButton(($Button['Name']), array(
+		<?= 
+			Html::submitButton(($Button['Name']), array(
 				'class' => 'btn btn-primary btn-lg',
 				'style' => 'padding-left: 50px; padding-right: 50px;'
 			));

@@ -9,7 +9,7 @@
 	// BootstrapAsset::register($this);
 
 ?>
-<?php $this->beginPage() ?>
+<?php $this -> beginPage() ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -17,12 +17,12 @@
 	
 	<?php
 		// Регистрация мета тега Description.
-		$this->registerMetaTag([
+		$this -> registerMetaTag([
 			'name' => 'description', 
 			'content' => Yii::t('Dictionary', 'Filler')
 		]);
 		// Регистрация мета тега Keywords.
-		$this->registerMetaTag([
+		$this -> registerMetaTag([
 			'name' => 'keywords', 
 			'content' => Yii::t('Dictionary', 'Filler')
 		]);
@@ -34,11 +34,11 @@
 	<link rel="icon" href="<?php echo Yii::$app -> request -> baseUrl; ?>/images/favicon.ico" type="image/png">
 	<link rel="shortcut icon" href="<?php echo Yii::$app -> request -> baseUrl; ?>/images/favicon.ico" type="image/png">
 
-	 <?php $this->head() ?>
+	 <?php $this -> head() ?>
 </head>
 
 <body>
-<?php $this->beginBody() ?>
+<?php $this -> beginBody() ?>
 
 	<div class="container-fluid">
 		<?php echo $content; ?>
@@ -51,7 +51,7 @@
 		All Rights Reserved.<br/>
 	</div><!-- footer -->
 
-<?php $this->endBody() ?>
+<?php $this -> endBody() ?>
 </body>
 </html>
-<?php $this->endPage() ?>
+<?php $this -> endPage() ?>

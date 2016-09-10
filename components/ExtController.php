@@ -5,6 +5,7 @@ namespace app\components;
 use Yii;
 use yii\web\Controller;
 use yii\web\Request;
+use yii\web\Cookie;
 
 /**
  * Controller is the customized base controller class.
@@ -110,25 +111,32 @@ class ExtController extends Controller {
 	 */
 	private function LanguageInit() {
 		// Получение куки.
-		// $CookieLanguage = Yii::$app -> request -> cookies['language'] -> value;
+		$CookieLanguage = Yii::$app -> request -> cookies['language'] -> value;
+		// echo 'CookieLanguage=' . $CookieLanguage;
+		$Cookie = Yii::$app -> response -> cookies;
 		// // Если язык указан в запросе:
-		// if (!empty($_GET['language']))
+		if (!empty($_GET['language'])) {
 			// Текущий язык устанавливается из запроса.
 			Yii::$app -> language = Yii::$app -> request -> get('language');
 			// echo 'language=' . Yii::$app -> language;
-		// // Если язык не указан в запросе, но указан в куке:
-		// else if (!empty($CookieLanguage))
-		// 	// Текущий язык устанавливается из куки.
-		// 	Yii::$app -> language = $CookieLanguage;
-		// // Если язык еще не сохранен в куке или текущий язык отличается от сохраненного в куке:
-		// if (empty($CookieLanguage) || $CookieLanguage != Yii::$app -> language) {
-		// 	// Установка значения куки из текущего языка.
-		// 	$Cookie = new CHttpCookie('language', Yii::$app -> language);
-		// 	// Установка срока действия куки 1 год.
-		// 	$Cookie -> expire = time() + (365 * 24 * 60 * 60);
-		// 	// Обновление значения куки.
-		// 	Yii::$app -> request -> cookies['language'] = $Cookie;
-		// }
+		}
+		// Если язык не указан в запросе, но указан в куке:
+		else if (!empty($CookieLanguage))
+			// Текущий язык устанавливается из куки.
+			Yii::$app -> language = $CookieLanguage;
+		// Если язык еще не сохранен в куке или текущий язык отличается от сохраненного в куке:
+		if (empty($CookieLanguage) || $CookieLanguage != Yii::$app -> language) {
+			// Установка значения куки из текущего языка.
+			$Cookie -> add(new \yii\web\Cookie([
+				'name' => 'language',
+				'value' => Yii::$app -> language,
+				'expire' => time() + (365 * 24 * 60 * 60)
+			]));
+			// Установка срока действия куки 1 год.
+			// $Cookie -> expire = time() + (365 * 24 * 60 * 60);
+			// Обновление значения куки.
+			// Yii::$app -> request -> cookies['language'] = $Cookie;
+		}
 	}
 
 }

@@ -1,3 +1,10 @@
+<?php
+
+	use yii\helpers\Url;
+	use yii\helpers\Html;
+	use app\components\FooterMenu\FooterMenuWidget;
+
+?>
 
 <div class="row">
 	<div class="col-lg-8 col-md-12 col-sm-16 col-xs-20 col-lg-offset-8 col-md-offset-6 col-sm-offset-4 col-xs-offset-2 text-center">
@@ -15,9 +22,9 @@
 				<?php echo(Yii::t('Dictionary', 'You can change the personal data. If you don\'t want to edit the current password, just leave the corresponding fields empty.')); ?>
 			</div>
 
-			<?php
+			<?=
 
-				$this -> renderPartial('formUserData', array(
+				$this -> render('formUserData', array(
 					'Model' => $Model,
 					'Field' => array(
 						'Name' => true,
@@ -39,17 +46,15 @@
 <div class="row">
 	<div class="col-md-24 IndexFooterMenuBlock ">
 
-<?php
-
+<?=
 	// Выводится меню "Играть | Выход".
-	$this -> widget('ext.FooterMenu.FooterMenuWidget', array(
+	FooterMenuWidget::widget(array(
 		'ItemList' => array(
-			Yii::t('Dictionary', 'Play') => $this -> createUrl("/game/game"),
-			Yii::t('Dictionary', 'Logout') => $this -> createUrl("/site/logout")
+			Yii::t('Dictionary', 'Play') => Url::to('/game/game'),
+			Yii::t('Dictionary', 'Logout') => Url::to('/site/logout')
 		),
 		'Style' => 2
 	));
-
 ?>
 
 	</div>

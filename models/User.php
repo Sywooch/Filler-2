@@ -51,12 +51,35 @@ class User extends \yii\db\ActiveRecord
 
 	
 
+	/**
+	 *	Хеширование пароля перед сохранением новой модели.
+	 *
+	 */
+	public function beforeSave($insert) {
+		if (parent::beforeSave($insert)) {
+			// Если модель новая или обновление пароля или восстановление пароля:
+			if ($this -> isNewRecord || $this -> getScenario() == 'update-password' || $this -> getScenario() == 'recovery')
+				// Пароль хешируется.
+				$this -> Password = Yii::$app -> getSecurity() -> generatePasswordHash($this -> Password);
+			return true;
+		}
+		else
+			return false;
+	}
+
+
+
+	/**
+	 *	
+	 *
+	 */
 	// public function scenarios()
 	// {
 	//     return [
-	//         self::REGISTRATION => ['username', 'password'],
-	//         self::REGISTRATION_AJAX => ['username', 'email', 'password'],
-	//         // array('Name', 'required', 'on' => 'registration, registration-ajax, update, update-password'),
+	        // self::REGISTRATION => ['Name', 'Email', 'Password'],
+	        // self::REGISTRATION_AJAX => ['Name', 'Email', 'Password'],
+	        // self::RECOVERY => ['ControlPassword', 'Password'],
+	        // array('Name', 'required', 'on' => 'registration, registration-ajax, update, update-password'),
 	//     ];
 	// }
 
@@ -74,13 +97,27 @@ class User extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['Name', 'Password', 'Email'], 'required'],
-			[['RegistrationDate', 'ActivityMarker', 'GameMarker'], 'safe'],
-			[['Enable', 'Rating'], 'integer'],
-			[['Name', 'Email'], 'string', 'max' => 50],
-			[['Password'], 'string', 'max' => 60],
-			[['ControlPassword'], 'compare', 'compareAttribute' => 'Password', 'on' => 'registration, registration-ajax, update-password, recovery'],
-			[['ControlCode'], 'captcha', 'on' => 'registration'],
+			// [['Name', 'Password', 'Email'], 'required'],
+			['Name', 'required', 'on' => ['registration', 'registration-ajax', 'update', 'update-password']],
+			['Email', 'required', 'on' => ['registration', 'registration-ajax', 'update', 'update-password', self::FORGOT]],
+			[['Password', 'ControlPassword'], 'required', 'on' => ['registration', 'registration-ajax', 'update-password', 'recovery']],
+			
+			// [['RegistrationDate', 'ActivityMarker', 'GameMarker'], 'safe'],
+			// [['Enable', 'Rating'], 'integer'],
+			// [['Name', 'Email'], 'string', 'max' => 50],
+			// [['Password'], 'string', 'max' => 60],
+			[['Enable', 'Rating'], 'number', 'integerOnly' => true],
+			['Name', 'string', 'min' => 2, 'max' => 20, 'tooShort' => Yii::t('Dictionary', 'Field «{attribute}» must contain at least {min} characters')],
+			[['Password', 'Email'], 'string', 'min' => 5, 'max' => 60, 'tooShort' => Yii::t('Dictionary', 'Field «{attribute}» must contain at least {min} characters')],
+			['ControlCode', 'string', 'min' => 1, 'max' => 10],
+			[['Email'], 'email'],
+
+			[['Email'], 'unique', 'on' => ['registration', 'update', 'update-password']],
+			[['ControlPassword'], 'compare', 'compareAttribute' => 'Password', 'on' => ['registration', 'registration-ajax', 'update-password', 'recovery']],
+			['ControlCode', 'captcha', 'on' => 'registration'],
+
+			['ActivityMarker', 'safe'],
+			[['ID', 'Name', 'Password', 'Email', 'RegistrationDate', 'Enable', 'GameMarker', 'Rating'], 'safe', 'on' => 'search'],
 		];
 	}
 

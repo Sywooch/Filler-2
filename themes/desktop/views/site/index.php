@@ -2,13 +2,29 @@
 
 	use yii\helpers\Url;
 	use yii\helpers\Html;
+	use yii\web\View;
 	// use yii\base\Widget;
 	use app\components\FooterMenu\FooterMenuWidget;
+	use app\assets\ThemesAsset;
+
+	$bundle = ThemesAsset::register($this);
 
 	// use app\assets\IndexAsset;
 	// use app\assets\ThemesAsset;
 	// IndexAsset::register($this);
 	// ThemesAsset::register($this);
+
+	// Yii::$app -> request -> baseUrl
+
+	$this -> registerJs(
+		"var BASE_URL = '';
+		var ERROR_MESSAGE = [];
+		ERROR_MESSAGE[0] = '" . Yii::t('Dictionary', 'Enter a e-mail address') . "';
+		ERROR_MESSAGE[1] = '" . Yii::t('Dictionary', 'Enter a password') . "';
+		ERROR_MESSAGE[2] = '" . Yii::t('Dictionary', 'Incorrect e-mail address') . "';", 
+		View::POS_HEAD, 
+		'Authorization'
+	);
 
 ?>
 
@@ -29,29 +45,30 @@
 
 <div class="modal fade" id="PlayerAuthorization" tabindex="-1" role="dialog" aria-labelledby="Authorization" data-backdrop="static" aria-hidden="true">
 	<div id="Loading">
-		<img src="<?php echo($this -> theme -> getUrl('/images/ajax-loader.gif')); ?>" alt=""></img>
+		<img src="<?= $bundle -> baseUrl . '/images/ajax-loader.gif'; ?>" alt=""></img>
 	</div>
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content modal-background">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="PlayerAuthorizationTitle"><?php echo(Yii::t('Dictionary', 'Player authorization')); ?></h4>
+				<h4 class="modal-title" id="PlayerAuthorizationTitle"><?= Yii::t('Dictionary', 'Player authorization'); ?></h4>
 			</div>
-			<form id="EmailForm" action="<?php echo Url::to(['site/login']); ?>" method="post">
+			<form id="EmailForm" action="<?= Url::to(['site/login']); ?>" method="post">
+				<input type="hidden" name="_csrf" value="<?= Yii::$app -> request -> getCsrfToken(); ?>" />
 				<div class="modal-body">
 					<div class="form-group">
 						<div class="text-14 error-message text-left" id="AuthorizationError"></div>
-						<input type="email" class="form-control" maxlength="50" name="Email" id="Email" placeholder="<?php echo(Yii::t('Dictionary', 'E-mail')); ?>">
+						<input type="email" class="form-control" maxlength="50" name="Email" id="Email" placeholder="<?= Yii::t('Dictionary', 'E-mail'); ?>">
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" maxlength="50" name="Password" id="Password" placeholder="<?php echo(Yii::t('Dictionary', 'Password')); ?>">
+						<input type="password" class="form-control" maxlength="50" name="Password" id="Password" placeholder="<?= Yii::t('Dictionary', 'Password'); ?>">
 					</div>
 					<div class="text-right standart-link">
-						<?php echo Html::a(Yii::t('Dictionary', 'Forgot your password?'), Url::to('site/forgot')); ?>
+						<?= Html::a(Yii::t('Dictionary', 'Forgot your password?'), Url::to('forgot')); ?>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary btn-block btn-lg" id="LoginButton"><?php echo(Yii::t('Dictionary', 'Login')); ?></button>
+					<button type="submit" class="btn btn-primary btn-block btn-lg" id="LoginButton"><?= Yii::t('Dictionary', 'Login'); ?></button>
 				</div>
 			</form>
 		</div>
@@ -67,18 +84,14 @@
 	
 	// Если пользователь не авторизован:
 	if (Yii::$app -> user -> isGuest) {
-?>
-<?=
 		// Выводится меню "Вход | Регистрация".
-		FooterMenuWidget::widget(array(
+		echo FooterMenuWidget::widget(array(
 			'ItemList' => array(
 				Yii::t('Dictionary', 'Login') => 'javascript:LoginWindow();',
 				Yii::t('Dictionary', 'Registration') => Url::to('registration')
 			),
 			'Style' => 2
 		));
-?>
-<?php
 	}
 	// Если пользователь авторизован:
 	else {

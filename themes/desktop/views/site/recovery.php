@@ -1,6 +1,10 @@
 
 <?php
 
+	use yii\helpers\Url;
+	use yii\helpers\Html;
+	use app\components\FooterMenu\FooterMenuWidget;
+
 	if ($Result == TRUE) {
 
 ?>
@@ -32,16 +36,16 @@
 		<div class="form text-left text-14">
 
 			<div class="col-xs-24 text-left indent-top-md indent-bottom-md text-18 color-blue">
-				<?php echo(Yii::t('Dictionary', 'Access recovery') . ' : ' . Yii::t('Dictionary', 'Step {i} of {n}', array('{i}' => 2, '{n}' => 2))); ?>
+				<?php echo(Yii::t('Dictionary', 'Access recovery') . ' : ' . Yii::t('Dictionary', 'Step {i} of {n}', array('i' => 2, 'n' => 2))); ?>
 			</div>
 
 			<div class="col-xs-24 indent-bottom-md color-gray">
 				<?php echo(Yii::t('Dictionary', 'To reset a forgotten password and setting a new, enter the new password twice. Copy the new password will be sent to your email.')); ?>
 			</div>
 
-			<?php
+			<?=
 
-				$this -> renderPartial('formUserData', array(
+				$this -> render('formUserData', array(
 					'Model' => $Model,
 					'Field' => array(
 						'Password' => true,
@@ -67,13 +71,14 @@
 <div class="row">
 	<div class="col-md-24 IndexFooterMenuBlock ">
 
-<?php
+<?=
 
 	// Выводится меню "В начало".
-	$this -> widget('ext.FooterMenu.FooterMenuWidget', array(
+	FooterMenuWidget::widget(array(
 		'ItemList' => array(
-			Yii::t('Dictionary', 'Start') => $this -> createUrl("/site/index")
-		)
+			Yii::t('Dictionary', 'Start') => Url::to('index')
+		),
+		'Style' => 2
 	));
 
 ?>

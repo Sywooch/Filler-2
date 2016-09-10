@@ -3,6 +3,9 @@
 	use yii\helpers\Url;
 	use yii\helpers\Html;
 	use app\components\FooterMenu\FooterMenuWidget;
+	// use app\assets\ThemesAsset;
+
+	// $bundle = ThemesAsset::register($this);
 
 ?>
 
@@ -35,9 +38,9 @@
 </div>
 <div class="row">
 	<div class="col-md-24 IndexFooterMenuBlock ">
-<?php
+<?=
 	// Выводится меню "В начало".
-	echo FooterMenuWidget::widget(array(
+	FooterMenuWidget::widget(array(
 		'ItemList' => array(
 			Yii::t('Dictionary', 'Start') => Url::to('index')
 		)

@@ -4,22 +4,32 @@
 	use yii\helpers\Html;
 	use yii\base\Widget;
 	use app\components\LanguageSwitcher\LanguageSwitcherWidget;
+	use app\assets\ThemesAsset;
+
+	$bundle = ThemesAsset::register($this);
+
 	// use app\components\FooterMenu\FooterMenuWidget;
 	$this -> beginContent('@app/themes/desktop/views/layouts/main.php');
 ?>
 
 <div class="row">
 	<div class="col-xs-12 text-left" id="Logo">
-		<?php
+		<?=
 			// Изображение логотипа.
-			// echo Html::img(
-			// 	Yii::$app -> theme -> baseUrl . '/images/LogoSmall.png',
-			// 	Yii::t('Dictionary', 'Filler')
-			// );
+			Html::img(
+				$bundle -> baseUrl . '/images/LogoSmall.png'
+				// Yii::t('Dictionary', 'Filler')
+			);
 		?>
 	</div>
 	<div class="col-xs-12 header">
-		<?php
+		<?=
+			// Виджет переключателя языка.
+			LanguageSwitcherWidget::widget(array(
+				'Languages' => Yii::$app -> params['Languages'],
+				'CurrentLanguageCode' => Yii::$app -> language,
+			));
+
 			// Виджет переключателя языка.
 			// $this -> widget('ext.LanguageSwitcher.LanguageSwitcherWidget', array(
 			// 	'Languages' => Yii::app() -> params['Languages'],
@@ -27,7 +37,7 @@
 			// ));
 		?>
 		<div class="Help-Label BlueLight-Box" title="<?php echo(Yii::t('Dictionary', 'Help')); ?>"  id="Button-Help">
-			<?php echo Html::a('?', Url::to('/site/help')); ?>
+			<?= Html::a('?', Url::to('help')); ?>
 		</div>
 	</div>
 </div>

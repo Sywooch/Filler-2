@@ -10,6 +10,7 @@
 
 namespace app\components;
 
+use Yii;
 use yii\web\UrlManager;
 
 /**
@@ -24,12 +25,12 @@ class ExtUrlManager extends UrlManager {
 	 *	Генерация URL, с учетом текущего языка (переопределенный метод).
 	 *
 	 */
-	// public function createUrl($route, $params = array(), $ampersand = '&') {
-	// 	if (empty($params['language'])) {
-	// 		$params['language'] = Yii::$app -> language;
-	// 	}
-	// 	return $this -> fixPathSlashes(parent::createUrl($route, $params, $ampersand));
-	// }
+	public function createUrl($params) {
+		if (empty($params['language'])) {
+			$params['language'] = Yii::$app -> language;
+		}
+		return $this -> fixPathSlashes(parent::createUrl($params));
+	}
 
 
 

@@ -7,7 +7,7 @@ $config = [
 	// 'layout' => 'index',
 	'basePath' => dirname(__DIR__),
 	'defaultRoute' => 'site/index',
-	// 'sourceLanguage' => 'en',
+	'sourceLanguage' => 'en-EN',
 	'language' => 'ru-RU',
 	// 'bootstrap' => ['log'],
 	'bootstrap' => ['debug'],
@@ -26,7 +26,7 @@ $config = [
 			'class' => 'yii\caching\FileCache',
 		],
 		'user' => [
-			'identityClass' => 'app\models\User',
+			'identityClass' => 'app\models\models\User',
 			'enableAutoLogin' => true,
 		],
 		'errorHandler' => [
@@ -46,6 +46,32 @@ $config = [
 					'class' => 'yii\log\FileTarget',
 					'levels' => ['error', 'warning'],
 				],
+				[
+					'class' => 'yii\log\FileTarget',
+					'levels' => ['info'], //CLogger::LEVEL_INFO,
+					'categories' => ['user.*'],
+					'logFile' => '@app/runtime/Logs/User/User.log',
+					'logVars' => [],
+					'enabled' => true,
+				],
+				[
+					'class' => 'yii\log\FileTarget',
+					'levels' => ['info'], //CLogger::LEVEL_INFO,
+					'categories' => ['game.*'],
+					'logFile' => '@app/runtime/Logs/Game/Game.log',
+					'logVars' => [],
+					'enabled' => true,
+				],
+				[
+                    'class' => 'yii\log\EmailTarget',
+                    'levels' => ['error', 'warning', 'info'],
+                    'categories' => ['user.*'],
+                    'message' => [
+                       'from' => ['Game Logs <logs@game-test.ru>'],
+                       'to' => ['poluektovkv@gmail.com'],
+                       'subject' => 'User log',
+                    ],
+                ],
 			],
 		],
 		'db' => require(__DIR__ . '/db.php'),
@@ -55,7 +81,7 @@ $config = [
 				'*' => [
 					'class' => 'yii\i18n\PhpMessageSource',
 					'basePath' => '@app/messages',
-					'sourceLanguage' => 'en-US',
+					'sourceLanguage' => 'en-EN',
 					// 'fileMap' => [
 					// 	'app'       => 'app.php',
 					// 	'app/error' => 'error.php',

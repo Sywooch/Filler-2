@@ -2,6 +2,7 @@
 
 	namespace app\components\LanguageSwitcher;
 
+	use Yii;
 	use yii\helpers\Url;
 	use yii\helpers\Html;
 	use yii\base\Widget;
@@ -49,30 +50,43 @@ class LanguageSwitcherWidget extends Widget {
 	 *
 	 */
 	public function init() {
-		// // Если текущая тема для мобильных устройств, подключение соответствующих стилей.
+		// Если текущая тема для мобильных устройств, подключение соответствующих стилей.
 		// if (Yii::app() -> theme -> getName() == 'mobile')
-		// 	$fileCSS = '/LanguageSwitcher-mobile.css';
+			// $fileCSS = '/LanguageSwitcher-mobile.css';
 		// else
-		// 	$fileCSS = '/LanguageSwitcher.css';
-		// // Подключение и публикация стиля.
-		// Yii::app() -> clientScript -> registerCssFile(
-		// 	Yii::app() -> assetManager -> publish(
+			// $fileCSS = '/LanguageSwitcher.css';
+		// Подключение и публикация стиля.
+		// Yii::$app -> clientScript -> registerCssFile(
+		// 	Yii::$app -> assetManager -> publish(
 		// 		Yii::getPathOfAlias('ext.LanguageSwitcher.views') . $fileCSS
 		// 	)
 		// );
-		// // Формирование списка наименований языков (Ру, En, De).
-		// $LanguageKeys = array_keys($this -> Languages);
-		// // Формирование списка кодов языков (ru, en, de).
-		// $LanguageValues = array_values($this -> Languages);
-		// // Вычисление индекса текущего языка.
-		// $CurrentLanguageIndex = array_search($this -> CurrentLanguageCode, $LanguageKeys);
-		// // Получение наименования следующего языка.
-		// $this -> LanguageName = ($CurrentLanguageIndex != sizeof($this -> Languages) - 1) ? $LanguageValues[$CurrentLanguageIndex + 1] : $LanguageValues[0];
-		// // Получение ссылки следующего языка.
-		// Yii::app() -> language = ($CurrentLanguageIndex != sizeof($this -> Languages) - 1) ? $LanguageKeys[$CurrentLanguageIndex + 1] : $LanguageKeys[0];
-		// $this -> LanguageLink = Yii::app() -> controller -> createUrl('');
-		// // Восстановление текущего языка.
-		// Yii::app() -> language = $this -> CurrentLanguageCode;
+
+		//$this -> registerCssFile(Yii::getAlias('@app') . $fileCSS);
+
+		// echo Html::cssFile(Yii::getAlias('@app') . $fileCSS);
+		// print_r($this -> Languages);
+		// echo '$this -> language = ' . Yii::$app -> language . ' ';
+		// Формирование списка наименований языков (Ру, En, De).
+		$LanguageKeys = array_keys($this -> Languages);
+		// Формирование списка кодов языков (ru, en, de).
+		$LanguageValues = array_values($this -> Languages);
+		// Вычисление индекса текущего языка.
+		$CurrentLanguageIndex = array_search($this -> CurrentLanguageCode, $LanguageKeys);
+		// echo 'CurrentLanguageIndex=' . $CurrentLanguageIndex;
+		// Получение наименования следующего языка.
+		$this -> LanguageName = ($CurrentLanguageIndex != sizeof($this -> Languages) - 1) ? $LanguageValues[$CurrentLanguageIndex + 1] : $LanguageValues[0];
+		// Получение ссылки следующего языка.
+		Yii::$app -> language = ($CurrentLanguageIndex != sizeof($this -> Languages) - 1) ? $LanguageKeys[$CurrentLanguageIndex + 1] : $LanguageKeys[0];
+		// echo '$this -> language = ' . Yii::$app -> language . ' ';
+		$this -> LanguageLink = Yii::$app -> urlManager -> createUrl(Yii::$app -> language . '/' . Yii::$app -> controller -> route);
+		// Yii::$app -> language .'/site/index'
+		// $this -> LanguageLink = Url::to('site/index', true);
+		// echo Yii::$app -> language . '/' . '';
+		// $this -> LanguageLink = Url::toRoute([Yii::$app -> language, '']);
+		// Восстановление текущего языка.
+		Yii::$app -> language = $this -> CurrentLanguageCode;
+		// echo '$this -> language = ' . Yii::$app -> language . ' ';
 	}
 
 
@@ -83,10 +97,10 @@ class LanguageSwitcherWidget extends Widget {
 	 *
 	 */
 	public function run() {
-		// $this -> render('LanguageSwitcher', array(
-		// 	'LanguageLink' => $this -> LanguageLink,
-		// 	'LanguageName' => $this -> LanguageName,
-		// ));
+		return $this -> render('LanguageSwitcher', array(
+			'LanguageLink' => $this -> LanguageLink,
+			'LanguageName' => $this -> LanguageName,
+		));
 	}
 
 }
