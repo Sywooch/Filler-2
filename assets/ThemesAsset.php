@@ -21,13 +21,10 @@ class ThemesAsset extends AssetBundle
 		'css/game.css',
 	];
 	public $js = [
-		'js/site/index.js',
-		'js/site/jquery.validate.js',
-		'js/site/jquery.form.js',
+
 	];
 	public $depends = [
 		'yii\web\YiiAsset',
-		// 'yii\bootstrap\BootstrapPluginAsset',
 		'app\assets\BootstrapAsset'
 	];
 }

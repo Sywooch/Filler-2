@@ -43,7 +43,7 @@
 </div>
 
 <div id="content">
-	<?php echo $content; ?>
+	<?= $content; ?>
 </div><!-- content -->
 
 <?php

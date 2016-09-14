@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace app\assets;
+namespace app\components\GameBoard\assets;
 
 use yii\web\AssetBundle;
 
@@ -13,14 +13,14 @@ use yii\web\AssetBundle;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class IndexAsset extends AssetBundle {
-	public $sourcePath = '@app/js/site';
+class GameBoardAsset extends AssetBundle {
+	public $sourcePath = '@app/components/GameBoard/views';
 	public $css = [
+		YII_DEBUG ? 'GameBoard.css' : 'GameBoard.min.css'
 	];
 	public $js = [
-		YII_DEBUG ? 'index.js' : 'index.min.js',
-		'jquery.validate.js',
-		'jquery.form.js',
+		YII_DEBUG ? 'modelGameBoard.js' : 'modelGameBoard.min.js',
+		YII_DEBUG ? 'viewGameBoard.js' : 'viewGameBoard.min.js'
 	];
 	public $depends = [
 		'yii\web\YiiAsset',

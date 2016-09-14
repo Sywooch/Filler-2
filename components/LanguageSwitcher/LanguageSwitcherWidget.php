@@ -1,11 +1,11 @@
 <?php
 
-	namespace app\components\LanguageSwitcher;
+namespace app\components\LanguageSwitcher;
 
-	use Yii;
-	use yii\helpers\Url;
-	use yii\helpers\Html;
-	use yii\base\Widget;
+use Yii;
+use yii\helpers\Url;
+use yii\helpers\Html;
+use yii\base\Widget;
 
 /**
  *	Виджет переключателя языка интерфейса.

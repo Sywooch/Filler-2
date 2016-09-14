@@ -1,10 +1,10 @@
 <?php
 
-	namespace app\components\FooterMenu;
+namespace app\components\FooterMenu;
 
-	use yii\helpers\Url;
-	use yii\helpers\Html;
-	use yii\base\Widget;
+use yii\helpers\Url;
+use yii\helpers\Html;
+use yii\base\Widget;
 	
 
 /**

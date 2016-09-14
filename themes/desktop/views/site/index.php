@@ -5,8 +5,12 @@
 	use yii\web\View;
 	// use yii\base\Widget;
 	use app\components\FooterMenu\FooterMenuWidget;
+	use app\assets\IndexAsset;
 	use app\assets\ThemesAsset;
 
+	//
+	IndexAsset::register($this);
+	//
 	$bundle = ThemesAsset::register($this);
 
 	// use app\assets\IndexAsset;

@@ -1,3 +1,18 @@
+<?php
+
+	use yii\helpers\Url;
+	use yii\helpers\Html;
+	use app\components\FooterMenu\FooterMenuWidget;
+	use app\components\GameBoard\GameBoardWidget;
+	use app\assets\ThemesAsset;
+	use app\assets\GameAsset;
+
+	// 
+	GameAsset::register($this);
+	// 
+	$bundle = ThemesAsset::register($this);
+
+?>
 
 <div class="row">
 	<!-- LobbyMode -->
@@ -35,9 +50,17 @@
 		<div class="col-xs-24 text-center text-14 color-yellow" id="TopString"></div>
 		<!-- GameBoardBlock -->
 		<div class="col-lg-14 col-md-18 col-sm-24 col-xs-24 col-lg-push-5 text-center" id="GameBoardDiv">
-			<?php
-				// Виджет игрового поля.
-				$this -> widget('ext.GameBoard.GameBoardWidget', array(
+			<?=
+				// // Виджет игрового поля.
+				// $this -> widget('ext.GameBoard.GameBoardWidget', array(
+				// 	// Размер игрового поля.
+				// 	'Size' => array(30, 20),
+				// 	// Количество игровых цветов.
+				// 	'ColorsNumber' => 1,
+				// 	// Список игровых цветов.
+				// 	// 'ColorsList' => array()
+				// ));
+				GameBoardWidget::widget(array(
 					// Размер игрового поля.
 					'Size' => array(30, 20),
 					// Количество игровых цветов.
@@ -59,12 +82,12 @@
 <!-- FooterMenu -->
 <div class="row">
 	<div class="col-md-24 IndexFooterMenuBlock ">
-		<?php
+		<?=
 			// Выводится меню "Личные данные | Выход".
-			$this -> widget('ext.FooterMenu.FooterMenuWidget', array(
+			FooterMenuWidget::widget(array(
 				'ItemList' => array(
-					Yii::t('Dictionary', 'Personal') => $this -> createUrl("/site/personal"),
-					Yii::t('Dictionary', 'Logout') => $this -> createUrl("/site/logout")
+					Yii::t('Dictionary', 'Personal') => Url::to('site/personal'),
+					Yii::t('Dictionary', 'Logout') => Url::to('site/logout')
 				),
 				'Style' => 2
 			));
@@ -142,7 +165,7 @@
 			</div>
 			<div class="modal-footer">
 				<div class="WaitingIcon" id="LobbyDialog-Loading">
-					<img src="<?php echo(Yii::app() -> theme -> baseUrl . '/images/ajax-loader.gif'); ?>" alt=""></img>
+					<img src="<?= $bundle -> baseUrl . '/images/ajax-loader.gif'; ?>" alt=""></img>
 				</div>
 				<div class="row">
 					<div class="col-xs-4 timer" id="LobbyTimer"></div>
@@ -173,7 +196,7 @@
 			</div>
 			<div class="modal-footer"><!-- text-center -->
 				<div class="WaitingIcon" id="MessageDialog-Loading">
-					<img src="<?php echo(Yii::app() -> theme -> baseUrl . '/images/ajax-loader.gif'); ?>" alt=""></img>
+					<img src="<?= $bundle -> baseUrl . '/images/ajax-loader.gif'; ?>" alt=""></img>
 				</div>
 				<button type="button" class="btn btn-primary Button-Padding" data-dismiss="modal" id="MessageDialog-YesButton">YesButton</button>
 				<button type="button" class="btn btn-default Button-Padding" data-dismiss="modal" id="MessageDialog-NoButton">NoButton</button>
@@ -185,14 +208,14 @@
 
 
 <audio preload="auto" id="Move">
-	<source src="<?php echo Yii::app() -> request -> baseUrl; ?>/sounds/move.mp3" type="audio/mp3"></source>
-	<source src="<?php echo Yii::app() -> request -> baseUrl; ?>/sounds/move.ogg" type="audio/ogg"></source>
+	<source src="<?php echo Yii::$app -> request -> baseUrl; ?>/sounds/move.mp3" type="audio/mp3"></source>
+	<source src="<?php echo Yii::$app -> request -> baseUrl; ?>/sounds/move.ogg" type="audio/ogg"></source>
 </audio>
 <!-- <audio preload="auto" loop="loop" id="Lobby">
 	<source src="<?php //echo Yii::app() -> request -> baseUrl; ?>/sounds/lobby.mp3" type="audio/mp3"></source>
 	<source src="<?php //echo Yii::app() -> request -> baseUrl; ?>/sounds/lobby.ogg" type="audio/ogg"></source>
 </audio> -->
 <audio preload="auto" id="Victory">
-	<source src="<?php echo Yii::app() -> request -> baseUrl; ?>/sounds/victory.mp3" type="audio/mp3"></source>
-	<source src="<?php echo Yii::app() -> request -> baseUrl; ?>/sounds/victory.ogg" type="audio/ogg"></source>
+	<source src="<?php echo Yii::$app -> request -> baseUrl; ?>/sounds/victory.mp3" type="audio/mp3"></source>
+	<source src="<?php echo Yii::$app -> request -> baseUrl; ?>/sounds/victory.ogg" type="audio/ogg"></source>
 </audio>

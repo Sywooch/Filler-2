@@ -1,5 +1,17 @@
 <?php
 
+namespace app\models\models;
+
+use \DateTime;
+use app\models\models\User;
+use app\models\models\Player;
+use app\models\models\Lobby;
+use app\models\models\LobbyPlayer;
+
+use app\models\User as tableUser;
+use app\models\Lobby as tableLobby;
+use app\models\LobbyPlayer as tableLobbyPlayer;
+
 /**
  * Player class file.
  *
@@ -25,7 +37,7 @@
  * @author Konstantin Poluektov <poluektovkv@gmail.com>
  *
  */
-class Player extends User {
+class Player extends \app\models\models\User {
 
 	/**
 	 *	Количество игр, после которого ведется рейтинг.
@@ -204,10 +216,10 @@ class Player extends User {
 	 */
 	public function getPropertyList() {
 		return array_merge(
-			array(
+			[
 				'ID' => $this -> ID,
 				'Name' => $this -> Name
-			),
+			],
 			$this -> getStatistics()
 		);
 	}
@@ -219,7 +231,7 @@ class Player extends User {
 	 *
 	 */
 	public function getStatistics() {
-		return array(
+		return [
 			'TotalGames' => $this -> TotalGames,
 			'WinGames' => $this -> WinGames,
 			'LoseGames' => $this -> LoseGames,
@@ -227,7 +239,7 @@ class Player extends User {
 			'WinningStreak' => $this -> WinningStreak,
 			'Rating' => $this -> getRating(' %'),
 			'Status' => $this -> getStatus()
-		);
+		];
 	}
 
 
@@ -239,10 +251,11 @@ class Player extends User {
 	 */
 	public function getLastLobbyID() {
 		// Поиск в БД последнего лобби, в котором участвовал игрок.
-		$dbModel = tableLobbyPlayer::model() -> findByAttributes(
-			array('PlayerID' => $this -> ID),
-			array('order' => 'LobbyID DESC')
-		);
+		// $dbModel = LobbyPlayer::findOne(['PlayerID' => 1]) -> orderBy('LobbyID DESC');
+		$dbModel = tableLobbyPlayer::find()
+			-> where(['PlayerID' => 1])
+			-> orderBy('LobbyID DESC')
+			-> one();
 		return $dbModel -> LobbyID;
 	}
 
@@ -254,17 +267,24 @@ class Player extends User {
 	 */
 	public function getAvailableCompetitors($TimeInterval = 60) {
 		// Поиск активных игроков за указанный интервал времени.
-		$dbModel = tableUser::model() -> findAllByAttributes(
-			array('Enable' => 1),
-			array(
-				'condition' => 'ID <> ' . $this -> ID . 
-				' AND (ActivityMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND) OR GameMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND))',
-				'order' => 'Name ASC'
+		// $dbModel = tableUser::model() -> findAllByAttributes(
+		// 	array('Enable' => 1),
+		// 	array(
+		// 		'condition' => 'ID <> ' . $this -> ID . 
+		// 		' AND (ActivityMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND) OR GameMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND))',
+		// 		'order' => 'Name ASC'
+		// 	)
+		// );
+		$dbModel = tableUser::find()
+			-> where(
+				'Enable = 1 AND ID <> ' . $this -> ID .
+				' AND (ActivityMarker >= (NOW() - INTERVAL ' . $TimeInterval . 
+				' SECOND) OR GameMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND))'
 			)
-		);
+			-> orderBy('Name ASC');
 		// Если активные игроки найдены:
 		if ($dbModel !== null) {
-			$Players = array();
+			$Players = [];
 			$Player = new Player();
 			// Формирование массива активных игроков.
 			foreach ($dbModel as $PlayerData) {
@@ -286,16 +306,19 @@ class Player extends User {
 	 */
 	public function getLobbiesList($TimeInterval = 60) {
 		// Поиск в БД активных лобби за указанный интервал времени.
-		$dbModel = tableLobby::model() -> findAllByAttributes(
-			array('Status' => 1),
-			array(
-				'condition' => 'Date >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND)',
-				'order' => 'ID DESC'
-			)
-		);
+		// $dbModel = tableLobby::model() -> findAllByAttributes(
+		// 	array('Status' => 1),
+		// 	array(
+		// 		'condition' => 'Date >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND)',
+		// 		'order' => 'ID DESC'
+		// 	)
+		// );
+		$dbModel = tableLobby::find()
+			-> where('Status = 1 AND Date >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND)')
+			-> orderBy('ID DESC');
 		// Если активные лобби найдены:
 		if ($dbModel !== null) {
-			$LobbiesList = array();
+			$LobbiesList = [];
 			$Lobby = new Lobby();
 			// Формирование списка активных лобби.
 			foreach ($dbModel as $LobbyData) {
@@ -348,10 +371,9 @@ class Player extends User {
 	 */
 	public function setActivityMarker() {
 		$Date = date("Y-m-d H:i:s");
-		if (tableUser::model() -> updateByPk(
-			$this -> ID, 
-			array('ActivityMarker' => $Date)
-		)) {
+		$dbModel = tableUser::findOne($this -> ID);
+		$dbModel -> ActivityMarker = $Date;
+		if ($dbModel -> update()) {
 			$this -> ActivityMarker = $Date;
 			return true;
 		}
@@ -393,7 +415,7 @@ class Player extends User {
 		if (parent::Load($ID)) {
 			// Загрузка игровых показателей игрока.
 			$this -> loadStatistics($ID);
-			return parent::loadModel($ID, 'tableUser', array(
+			return parent::loadModel($ID, '\app\models\User', array(
 				'Rating',
 				'ActivityMarker',
 				'GameMarker'
@@ -415,12 +437,20 @@ class Player extends User {
 		$this -> DrawGames = 0;
 		$this -> WinningStreak = 0;
 		// Получение из БД всех игр для указанного игрока.
-		$dbModel = tableLobbyPlayer::model() -> with(array(
-			'lobby.games' => array(
+		// $dbModel = LobbyPlayer::model() -> with(array(
+		// 	'lobby.games' => array(
+		// 		'select' => 'ID, StartDate, WinnerID', 
+		// 		'condition' => 'WinnerID'
+		// 	)
+		// )) -> findAllByAttributes(array('PlayerID' => $ID));
+
+		$dbModel = tableLobbyPlayer::find() -> with([
+			'lobby.games' => [
 				'select' => 'ID, StartDate, WinnerID', 
 				'condition' => 'WinnerID'
-			)
-		)) -> findAllByAttributes(array('PlayerID' => $ID));
+			]
+		]) -> where(['PlayerID' => $ID]);
+
 		// Подсчет общего количества побед и текущей победной серии игрока.
 		foreach ($dbModel as $Game) {
 			if ($Game -> lobby -> games[0] -> WinnerID == $ID) {
@@ -444,7 +474,7 @@ class Player extends User {
 	 *
 	 */
 	public function Save() {
-		return parent::saveModel('tableUser', array(
+		return parent::saveModel('\app\models\User', array(
 			'Name' => $this -> Name,
 			'Email' => $this -> Email,
 			'Password' => $this -> Password,

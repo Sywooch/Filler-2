@@ -1,3 +1,8 @@
+<?php
+
+	use yii\helpers\Html;
+
+?>
 
 <span class="title-2">CREATE LOBBY</span>
 <p>
@@ -58,5 +63,5 @@ For each player there is statistics of key indicators: total number of games and
 rating, continuous winning streak.
 </p>
 <div class="indent-top-sm text-right standart-link">
-	<?php echo CHtml::link('Detailed help', Controller::createUrl("/site/help")); ?>
+	<?= Html::a('Detailed help', Yii::$app -> urlManager -> createUrl("/site/help")); ?>
 </div>

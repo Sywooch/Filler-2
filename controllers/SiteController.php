@@ -3,21 +3,28 @@
 namespace app\controllers;
 
 use Yii;
+
+use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\helpers\Url;
 // use yii\web\View;
-use yii\filters\VerbFilter;
+
 use app\assets\IndexAsset;
 use app\assets\ThemesAsset;
+
 use app\components\ExtController;
-use app\models\User;
-// use app\models\User;
 use app\components\EmailNotification;
 use app\components\UserIdentity;
+
 // use app\models\models\User;
 // use app\models\User;
 // use app\models\ContactForm;
+
+use app\models\User as tableUser;
+use app\models\Lobby as tableLobby;
+
+// use app\components\UserIdentity;
 
 /**
  *	Контроллер управляет регистрацией, авторизацией и восстановлением доступа пользователей.
@@ -77,12 +84,14 @@ class SiteController extends ExtController {
 	// 	];
 	// }
 
-	public function behaviors()
-	{
+	public function behaviors() {
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['index', 'registration'],
+				'only' => [
+					'index', 'registration', 'login', 'logout', 
+					'forgot', 'recovery', 'personal', 'test', 'shorthelp', 'help'
+				],
 				'rules' => [
 					// deny all POST requests
 					// [
@@ -93,8 +102,8 @@ class SiteController extends ExtController {
 					// Список actions, доступных не авторизованным пользователям.
 					[
 						'actions' => [
-							'registration', 'forgot', 'recovery', 'login', 
-							'index', 'help', 'test', 'captcha', 'shortHelp', 'personal'
+							'registration', 'forgot', 'recovery', 'login', 'test', 
+							'index', 'help', 'captcha', 'shorthelp', 'personal'
 						],
 						'allow' => true,
 						'roles' => ['?'],
@@ -102,8 +111,8 @@ class SiteController extends ExtController {
 					// Список actions, доступных авторизованным пользователям.
 					[
 						'actions' => [
-							'personal', 'Logout', 'index', 
-							'help', 'test', 'captcha', 'shortHelp'
+							'personal', 'logout', 'index', 
+							'help', 'test', 'captcha', 'shorthelp'
 						],
 						'allow' => true,
 						'roles' => ['@'],
@@ -144,8 +153,7 @@ class SiteController extends ExtController {
 	// 	);
 	// }
 
-	public function actions()
-	{
+	public function actions() {
 		// return [
 		//     'error' => [
 		//         'class' => 'yii\web\ErrorAction',
@@ -298,9 +306,9 @@ class SiteController extends ExtController {
 	 *	Получает запрос на получение краткой справочной информации.
 	 *
 	 */
-	public function actionShortHelp() {
+	public function actionShorthelp() {
 		// Если тип запроса AJAX:
-		if (Yii::$app -> request -> isAjaxRequest) {
+		if (Yii::$app -> request -> isAjax) {
 			// Возвращение краткой справочной информации в формате HTML.
 			echo $this -> renderPartial('shorthelp');
 			Yii::$app -> end();
@@ -329,13 +337,11 @@ class SiteController extends ExtController {
 		$Password = Yii::$app -> request -> post('Password');
 		// Если тип запроса AJAX:
 		if (Yii::$app -> request -> isAjax) {
-			// $Player = new UserIdentity($Email, $Password);
+			$Player = new UserIdentity($Email, $Password);
 			// Если авторизация пользователя пройдена успешно:
-			// if ($Player -> authenticate()) {
+			if ($Player -> authenticate()) {
 				// Начинается авторизованная сессия.
-				// Yii::$app -> user -> login($Player);
-			if (1) {
-				// Yii::$app -> user -> login($Player);
+				Yii::$app -> user -> login($Player);
 				// Запись в соответствующий журнал логов информационного сообщения.
 				Yii::info('Авторизация пользователя [ ' . $Email . ' ].', 'user.login');
 				// Возвращается код успешной авторизации.
@@ -385,7 +391,7 @@ class SiteController extends ExtController {
 	 */
 	public function actionForgot() {
 		// 
-		$Model = new User(['scenario' => User::FORGOT]); // tableUser('forgot')
+		$Model = new tableUser(['scenario' => tableUser::FORGOT]); // tableUser('forgot')
 		// AJAX-проверка.
 		// $this -> performAjaxValidation($Model);
 		// Если получен адрес электронной почты:
@@ -437,7 +443,7 @@ class SiteController extends ExtController {
 	 */
 	public function actionRecovery() {
 		// 
-		$Model = new User(['scenario' => User::RECOVERY]);
+		$Model = new tableUser(['scenario' => tableUser::RECOVERY]);
 		// AJAX-проверка.
 		// $this -> performAjaxValidation($Model);
 		// 
@@ -448,9 +454,9 @@ class SiteController extends ExtController {
 			if (isset($_POST['User'])) {
 				// Поиск пользователя в БД по указанному идентификатору.
 				// $Model = tableUser::model() -> findByPk($User -> getID());
-				$Model = User::findOne($User -> getID());
+				$Model = tableUser::findOne($User -> getID());
 				// Установка сценария восстановления доступа пользователя.
-				$Model -> setScenario(User::RECOVERY);
+				$Model -> setScenario(tableUser::RECOVERY);
 				// Полученные данные из POST-запроса копируются в модель.
 				$Model -> attributes = $_POST['User'];
 				// Пароль копируется в чистом виде для отправки в письме.
@@ -508,7 +514,7 @@ class SiteController extends ExtController {
 	 */
 	public function actionRegistration() {
 		// 
-		$Model = new \app\models\User(['scenario' => User::REGISTRATION]); //('registration');
+		$Model = new tableUser(['scenario' => tableUser::REGISTRATION]); //('registration');
 		// AJAX-проверка.
 		// $this -> performAjaxValidation($Model);
 		// Если получены POST данные регистрационной формы:
@@ -566,13 +572,13 @@ class SiteController extends ExtController {
 	 */
 	public function actionPersonal() {
 		// Поиск пользователя в БД по указанному идентификатору.
-		$Model = User::findOne(1); // Yii::$app -> user -> getId()
+		$Model = tableUser::findOne(1); // Yii::$app -> user -> getId()
 		// Если получены POST данные формы с личными данными:
 		if (isset($_POST['User'])) {
 			// Если в POST данных отсутствуют пароль и проверочный пароль:
 			if ($_POST['User']['Password'] == NULL && $_POST['User']['ControlPassword'] == NULL) {
 				// Установка сценария обновления данных пользователя без пароля.
-				$Model -> setScenario(User::UPDATE);
+				$Model -> setScenario(tableUser::UPDATE);
 				// Удаление из POST данных пустых атрибутов.
 				unset($_POST['User']['Password']);
 				unset($_POST['User']['ControlPassword']);
@@ -581,7 +587,7 @@ class SiteController extends ExtController {
 			}
 			else {
 				// Установка сценария обновления данных пользователя с паролем.
-				$Model -> setScenario(User::UPDATE_PASSWORD);
+				$Model -> setScenario(tableUser::UPDATE_PASSWORD);
 				// Новый пароль копируется в чистом виде для отправки в письме.
 				$Password = $_POST['User']['Password'];
 			}
@@ -695,11 +701,81 @@ class SiteController extends ExtController {
 
 		// echo Yii::$app -> urlManager -> getHostInfo();
 
-		$ModelName = '\app\models\User';
-		$dbModel = $ModelName::find()
-			-> where(['Email' => 'apple@apple.com'])
-			-> one();
-		print_r($dbModel);
+		// $ModelName = '\app\models\User';
+		// $dbModel = $ModelName::find()
+		// 	-> where(['Email' => 'apple@apple.com'])
+		// 	-> one();
+		// print_r($dbModel);
+
+		// if (Yii::$app -> request -> isAjax) {
+		// 	echo 'Yii::$app -> request -> isAjax';
+		// }
+		// return $this -> renderPartial('shorthelp');
+		// return $this -> render('shorthelp');
+
+		
+		// $TimeInterval = 600000;
+		// $dbModel = tableLobby::find()
+		// 	-> where([
+		// 		'Status = 1 AND Date >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND)',
+		// 	])
+		// 	-> orderBy('ID DESC');
+		// print_r($dbModel);
+
+		// Yii::$app -> session -> close();
+		// Yii::$app -> session -> open();
+
+		// найти identity с указанным username.
+		// замечание: также вы можете проверить и пароль, если это нужно
+		// $identity = UserIdentity::findOne(['Email' => 'victoria@victoria.ru']);
+
+		// print_r($identity);
+
+		// // логиним пользователя
+		// Yii::$app->user->login($identity);
+
+		// // Yii::$app->user->logout();
+
+		// // `identity` текущего пользователя. `Null`, если пользователь не аутентифицирован.
+		// $identity = Yii::$app->user->identity;
+
+		// // ID текущего пользователя. `Null`, если пользователь не аутентифицирован.
+		// echo Yii::$app->user->id;
+
+		// // проверка на то, что текущий пользователь гость (не аутентифицирован)
+		// echo Yii::$app->user->isGuest;
+
+		// print_r($identity);
+
+
+
+		$Email = 'poluektovkv@gmail.com';
+		// $Email = $request->post('Email'); 
+		$Password = 'dinsy2494';
+		// Если тип запроса AJAX:
+
+			$Player = new UserIdentity($Email, $Password);
+			// Если авторизация пользователя пройдена успешно:
+			if ($Player -> authenticate()) {
+				// Начинается авторизованная сессия.
+				Yii::$app -> user -> login($Player);
+				// Запись в соответствующий журнал логов информационного сообщения.
+				Yii::info('Авторизация пользователя [ ' . $Email . ' ].', 'user.login');
+				// Возвращается код успешной авторизации.
+				echo(self::SUCCESS);
+			}
+			// Если авторизация не пройдена, возвращается информация об ошибке.
+			else {
+				// Запись в соответствующий журнал логов информационного сообщения.
+				Yii::info('Отклоненная авторизация пользователя [ ' . $Email . ' ].', 'user.login');
+				// Получение кода и описания ошибки.
+				$Result['ErrorCode'] = $Player -> errorCode;
+				$Result['ErrorMessage'] = $Player -> errorMessage;
+				// Возвращается информация об ошибке.
+				echo(json_encode($Result));
+			}
+
+
 	}
 
 }

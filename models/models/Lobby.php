@@ -1,5 +1,12 @@
 <?php
 
+namespace app\models\models;
+
+use \DateTime;
+use app\models\User as tableUser;
+use app\models\Lobby as tableLobby;
+use app\models\LobbyPlayer as tableLobbyPlayer;
+
 /**
  * Lobby class file.
  *
@@ -155,9 +162,12 @@ class Lobby extends LSD {
 	 *
 	 */
 	public function getCurrentPlayersNumber() {
-		return tableLobbyPlayer::model() -> countByAttributes(
-			array('LobbyID' => $this -> ID)
-		);
+		// return tableLobbyPlayer::model() -> countByAttributes(
+		// 	array('LobbyID' => $this -> ID)
+		// );
+		return tableLobbyPlayer::find()
+			-> where(['LobbyID' => $this -> ID])
+			-> count();
 	}
 
 
@@ -264,12 +274,11 @@ class Lobby extends LSD {
 	 */
 	public function getPlayersList() {
 		// Список подключившихся к лобби игроков.
-		$PlayersList = array();
+		$PlayersList = [];
 		// Поиск в БД всех подключившихся к лобби игроков.
-		$dbModel = tableLobbyPlayer::model() -> findAllByAttributes(
-			array('LobbyID' => $this -> ID),
-			array('order' => 'Date, PlayerID ASC')
-		);
+		$dbModel = tableLobbyPlayer::find()
+			-> where(['LobbyID' => $this -> ID])
+			-> orderBy('Date, PlayerID ASC');
 		// Формирование списка подключившихся к лобби игроков.
 		$Player = new Player();
 		foreach ($dbModel as $LobbyPlayer) {
@@ -391,7 +400,7 @@ class Lobby extends LSD {
 	 *
 	 */
 	public function Load($ID) {
-		return parent::loadModel($ID, 'tableLobby', array(
+		return parent::loadModel($ID, '\app\models\Lobby', array(
 			'Name',
 			'SizeX',
 			'SizeY',
@@ -412,7 +421,7 @@ class Lobby extends LSD {
 	 *
 	 */
 	public function Save() {
-		return parent::saveModel('tableLobby', array(
+		return parent::saveModel('\app\models\Lobby', array(
 			'Name' => $this -> Name,
 			'SizeX' => $this -> SizeX,
 			'SizeY' => $this -> SizeY,
@@ -432,7 +441,7 @@ class Lobby extends LSD {
 	 *
 	 */
 	public function Delete() {
-		return parent::deleteModel('tableLobby');
+		return parent::deleteModel('\app\models\Lobby');
 	}
 
 }

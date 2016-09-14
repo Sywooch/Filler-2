@@ -30,11 +30,12 @@
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="language" content="<?php echo(Yii::$app -> language); ?>" />
+	<?= Html::csrfMetaTags(); ?>
 
 	<link rel="icon" href="<?php echo Yii::$app -> request -> baseUrl; ?>/images/favicon.ico" type="image/png">
 	<link rel="shortcut icon" href="<?php echo Yii::$app -> request -> baseUrl; ?>/images/favicon.ico" type="image/png">
 
-	 <?php $this -> head() ?>
+	<?php $this -> head() ?>
 </head>
 
 <body>

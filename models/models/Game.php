@@ -1,5 +1,11 @@
 <?php
 
+namespace app\models\models;
+
+use \DateTime;
+use app\models\Game as tableGame;
+use app\models\GameDetail as tableGameDetail;
+
 /**
  * Game class file.
  *
@@ -213,10 +219,13 @@ class Game extends LSD {
 	 */
 	public function getMovesList($Order = 'DESC') {
 		// Загрузка из БД всех сделанных ходов для указанной игры.
-		$dbModel = tableGameDetail::model() -> findAllByAttributes(
-			array('GameID' => $this -> ID),
-			array('order' => 'ID ' . $Order)
-		);
+		// $dbModel = tableGameDetail::model() -> findAllByAttributes(
+		// 	array('GameID' => $this -> ID),
+		// 	array('order' => 'ID ' . $Order)
+		// );
+		$dbModel = tableGameDetail::find()
+			-> where(['GameID' => $this -> ID])
+			-> orderBy('ID ' . $Order);
 		// Формирование массива ходов.
 		foreach ($dbModel as $Move) {
 			$MovesList[] = array(
@@ -339,9 +348,9 @@ class Game extends LSD {
 	 */
 	public function Search($LobbyID) {
 		// Поиск игры в БД по указанному идентификатору лобби.
-		$dbModel = tableGame::model() -> findByAttributes(array(
+		$dbModel = tableGame::findOne([
 			'LobbyID' => $LobbyID
-		));
+		]);
 		// Если игра найдена:
 		if ($dbModel !== null) {
 			// Если модель загрузилась:
@@ -364,7 +373,7 @@ class Game extends LSD {
 	 */
 	public function Load($ID, $AutoSave = true) {
 		$this -> AutoSave = $AutoSave;
-		$Result = parent::loadModel($ID, 'tableGame', array(
+		$Result = parent::loadModel($ID, '\app\models\Game', array(
 			'ColorMatrix',
 			'StartDate',
 			'FinishDate',
@@ -385,7 +394,7 @@ class Game extends LSD {
 	 *
 	 */
 	public function Save() {
-		return parent::saveModel('tableGame', array(
+		return parent::saveModel('\app\models\Game', array(
 			'ColorMatrix' => serialize($this -> ColorMatrix),
 			'FinishDate' => $this -> FinishDate,
 			'Comment' => $this -> Comment,
@@ -403,7 +412,7 @@ class Game extends LSD {
 	 *
 	 */
 	public function Delete() {
-		return parent::deleteModel('tableGame');
+		return parent::deleteModel('\app\models\Game');
 	}
 
 }

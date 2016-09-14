@@ -85,7 +85,7 @@ return array(
 	// Правила игры.
 	'GameHelp' => array(
 		'Caption' => Yii::t('Dictionary', 'Game rules'),
-		'MessageURL' => $this -> createUrl("/site/shorthelp"),
+		'MessageURL' => Yii::$app -> urlManager -> createUrl("/site/shorthelp"),
 		'YesButton' => Yii::t('Dictionary', 'Close'),
 		'NoButton' => '',
 		'Type' => 'info',

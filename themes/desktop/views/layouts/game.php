@@ -1,15 +1,24 @@
 <?php
-	$this -> beginContent('//layouts/main');
+	// use Yii;
+	use yii\helpers\Url;
+	use yii\helpers\Html;
+	use yii\base\Widget;
+	use app\components\LanguageSwitcher\LanguageSwitcherWidget;
+	use app\assets\ThemesAsset;
+
+	$bundle = ThemesAsset::register($this);
+
+	$this -> beginContent('@app/themes/desktop/views/layouts/main.php');
 ?>
 
 <div class="row">
 	<div class="col-xs-24 delimiter-bottom" id="header">
 		<div class="col-md-5 col-sm-7 col-xs-12 text-left" id="Logo">
-			<?php
+			<?=
 				// Изображение логотипа.
-				echo CHtml::image(
-					Yii::app() -> theme -> baseUrl . '/images/LogoSmall.png',
-					Yii::t('Dictionary', 'Filler')
+				Html::img(
+					$bundle -> baseUrl . '/images/LogoSmall.png'
+					// Yii::t('Dictionary', 'Filler')
 				);
 			?>
 		</div>
@@ -22,11 +31,11 @@
 			<div class="col-xs-8 text-center color-white text-18 text-bold title-sm" id="PlayerRating">0 %</div>
 		</div>
 		<div class="col-md-5 col-sm-6 col-xs-12 header">
-			<?php
+			<?=
 				// Виджет переключателя языка.
-				$this -> widget('ext.LanguageSwitcher.LanguageSwitcherWidget', array(
-					'Languages' => Yii::app() -> params['Languages'],
-					'CurrentLanguageCode' => Yii::app() -> getLanguage(),
+				LanguageSwitcherWidget::widget(array(
+					'Languages' => Yii::$app -> params['Languages'],
+					'CurrentLanguageCode' => Yii::$app -> language,
 				));
 			?>
 			<div class="Help-Label BlueLight-Box" title="<?php echo(Yii::t('Dictionary', 'Game rules')); ?>"  id="Button-Help">
@@ -46,7 +55,7 @@
 	</div>
 </div>
 <div id="content">
-	<?php echo $content; ?>
+	<?= $content; ?>
 </div><!-- content -->
 
 <?php

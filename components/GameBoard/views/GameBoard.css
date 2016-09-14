@@ -1,0 +1,127 @@
+﻿#FieldContainer {
+	padding: 10px 10px 10px 10px;
+	font-size: 150%;
+	vertical-align: middle;
+	text-align: center;
+	background-color: #303030;
+	height: 386px;
+	position: relative;
+	top: 0px;
+	display: block;
+
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+
+	-webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 1);
+	-moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 1);
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 1);
+
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+#GamePad {
+	padding: 10px 10px 10px 10px;
+	margin-top: 20px;
+	vertical-align: middle;
+	text-align: center;
+	height: 80px;
+}
+
+.GameTile {
+	float: left;
+	margin: 1px;
+	width: 20px;
+	height: 20px;
+	position: relative;
+	overflow: hidden;
+	text-align: center;
+	padding: 3px 1px 0px 0px;
+	color: #FFFFFF;
+	background-color: #897559;
+
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.GameTile-Mask {
+	-webkit-animation: Mask 500ms infinite ease-in-out;
+	animation: Mask 500ms infinite ease-in-out;
+}
+
+@-webkit-keyframes Mask {
+	from {
+		background-color: rgba(255, 255, 255, 0);
+	}
+	50% {
+		background-color: rgba(255, 255, 255, 1);
+	}
+	to {
+		background-color: rgba(255, 255, 255, 0);
+	}
+}
+@keyframes Mask {
+	from {
+		background-color: rgba(255, 255, 255, 0);
+	}
+	50% {
+		background-color: rgba(255, 255, 255, 1);
+	}
+	to {
+		background-color: rgba(255, 255, 255, 0);
+	}
+}
+
+.GameButton {
+	float: left;
+	margin: 5px;
+	width: 48px;
+	height: 48px;
+	position: relative;
+	overflow: hidden;
+	text-align: center;
+	cursor: pointer;
+	background-color: #897559;
+	border: 3px solid #292929;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.GameButton:hover {
+	border: 3px solid #202020;
+}
+
+.GameButton-Disabled {
+	cursor: default;
+	/*display: none;*/
+	filter: alpha(opacity = 0);
+	-moz-opacity: 0;
+	-khtml-opacity: 0;
+	opacity: 0;
+}
+
+.GameButton-Progress {
+	width: 30px;
+	height: 19px;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	text-align: center;
+
+	padding-top: 3px;
+	font-size: 12px;
+	color: #DDDDDD;
+	
+	background-color: #292929;
+	-moz-border-radius: 6px 0px 0px 0px;
+	-webkit-border-radius: 6px 0px 0px 0px;
+	border-radius: 6px 0px 0px 0px;
+
+	filter: alpha(opacity = 0.5);
+	-moz-opacity: 0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+}

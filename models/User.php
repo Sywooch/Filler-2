@@ -117,7 +117,7 @@ class User extends \yii\db\ActiveRecord
 			['ControlCode', 'captcha', 'on' => 'registration'],
 
 			['ActivityMarker', 'safe'],
-			[['ID', 'Name', 'Password', 'Email', 'RegistrationDate', 'Enable', 'GameMarker', 'Rating'], 'safe', 'on' => 'search'],
+			[['id', 'Name', 'Password', 'Email', 'RegistrationDate', 'Enable', 'GameMarker', 'Rating'], 'safe', 'on' => 'search'],
 		];
 	}
 
@@ -137,7 +137,7 @@ class User extends \yii\db\ActiveRecord
 			// 'GameMarker' => Yii::t('app', 'GameMarker'),
 			// 'Rating' => Yii::t('app', 'Rating'),
 
-			'ID' => Yii::t('Dictionary', 'ID'),
+			'id' => Yii::t('Dictionary', 'id'),
 			'Name' => Yii::t('Dictionary', 'Player name'),
 			'Password' => Yii::t('Dictionary', 'Password'),
 			'ControlPassword' => Yii::t('Dictionary', 'Confirm password'),
