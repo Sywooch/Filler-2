@@ -63,6 +63,13 @@ class LobbyPlayer extends \yii\db\ActiveRecord
      */
     public function getPlayer()
     {
-        return $this->hasOne(User::className(), ['ID' => 'PlayerID']);
+        return $this->hasOne(User::className(), ['id' => 'PlayerID']);
     }
+
+    // public function getLobbygame()
+    // {
+    //     return $this -> hasOne(Lobby::className(), ['ID' => 'LobbyID'])
+    //                  -> viaTable('user', ['id' => 'PlayerID']);
+    //                  // -> viaTable('game', ['LobbyID' => 'ID']);
+    // }
 }

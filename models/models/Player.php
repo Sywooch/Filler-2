@@ -281,14 +281,15 @@ class Player extends \app\models\models\User {
 				' AND (ActivityMarker >= (NOW() - INTERVAL ' . $TimeInterval . 
 				' SECOND) OR GameMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND))'
 			)
-			-> orderBy('Name ASC');
+			-> orderBy('Name ASC')
+			-> all();
 		// Если активные игроки найдены:
 		if ($dbModel !== null) {
 			$Players = [];
 			$Player = new Player();
 			// Формирование массива активных игроков.
 			foreach ($dbModel as $PlayerData) {
-				if ($Player -> Load($PlayerData -> ID)) {
+				if ($Player -> Load($PlayerData -> id)) {
 					$Players[] = $Player -> getPropertyList();
 				}
 			}
@@ -315,7 +316,8 @@ class Player extends \app\models\models\User {
 		// );
 		$dbModel = tableLobby::find()
 			-> where('Status = 1 AND Date >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND)')
-			-> orderBy('ID DESC');
+			-> orderBy('ID DESC')
+			-> all();
 		// Если активные лобби найдены:
 		if ($dbModel !== null) {
 			$LobbiesList = [];
@@ -391,10 +393,16 @@ class Player extends \app\models\models\User {
 	 */
 	public function setGameMarker() {
 		$Date = date("Y-m-d H:i:s");
-		if (tableUser::model() -> updateByPk(
-			$this -> ID, 
-			array('GameMarker' => $Date)
-		)) {
+		// if (tableUser::model() -> updateByPk(
+		// 	$this -> ID, 
+		// 	array('GameMarker' => $Date)
+		// )) {
+		// 	$this -> GameMarker = $Date;
+		// 	return true;
+		// }
+		$dbModel = tableUser::findOne($this -> ID);
+		$dbModel -> GameMarker = $Date;
+		if ($dbModel -> update()) {
 			$this -> GameMarker = $Date;
 			return true;
 		}
@@ -435,6 +443,7 @@ class Player extends \app\models\models\User {
 		$this -> WinGames = 0;
 		$this -> LoseGames = 0;
 		$this -> DrawGames = 0;
+		$this -> TotalGames = 0;
 		$this -> WinningStreak = 0;
 		// Получение из БД всех игр для указанного игрока.
 		// $dbModel = LobbyPlayer::model() -> with(array(
@@ -444,15 +453,22 @@ class Player extends \app\models\models\User {
 		// 	)
 		// )) -> findAllByAttributes(array('PlayerID' => $ID));
 
-		$dbModel = tableLobbyPlayer::find() -> with([
-			'lobby.games' => [
-				'select' => 'ID, StartDate, WinnerID', 
-				'condition' => 'WinnerID'
-			]
-		]) -> where(['PlayerID' => $ID]);
+		// SELECT lobby_player.*, game.*, lobby.*
+		// FROM lobby_player 
+		// LEFT JOIN game ON lobby_player.LobbyID = game.LobbyID 
+		// LEFT JOIN lobby ON lobby_player.LobbyID = lobby.ID 
+		// WHERE PlayerID = 4;
+
+		// Получение из БД всех игр для указанного игрока.
+		$dbModel = tableLobbyPlayer::find()
+			-> with('lobby.games') 
+			-> where(['PlayerID' => $ID])
+			-> all();
 
 		// Подсчет общего количества побед и текущей победной серии игрока.
 		foreach ($dbModel as $Game) {
+			if ($Game -> lobby -> games[0] -> WinnerID != null)
+				$this -> TotalGames++;
 			if ($Game -> lobby -> games[0] -> WinnerID == $ID) {
 				$this -> WinGames++;
 				$this -> WinningStreak++;
@@ -461,7 +477,7 @@ class Player extends \app\models\models\User {
 				$this -> WinningStreak = 0;
 		}
 		// Подсчет общего количества игр и количества поражений игрока.
-		$this -> TotalGames = sizeof($dbModel);
+		// $this -> TotalGames = sizeof($dbModel);
 		$this -> LoseGames = $this -> TotalGames - $this -> WinGames;
 	}
 

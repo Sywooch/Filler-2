@@ -92,7 +92,7 @@
 		echo FooterMenuWidget::widget(array(
 			'ItemList' => array(
 				Yii::t('Dictionary', 'Login') => 'javascript:LoginWindow();',
-				Yii::t('Dictionary', 'Registration') => Url::to('registration')
+				Yii::t('Dictionary', 'Registration') => Url::to('site/registration')
 			),
 			'Style' => 2
 		));
@@ -102,8 +102,8 @@
 		// Выводится меню "Играть | Выход".
 		echo FooterMenuWidget::widget(array(
 			'ItemList' => array(
-				Yii::t('Dictionary', 'Play') => Url::to('game'),
-				Yii::t('Dictionary', 'Logout') => Url::to('logout')
+				Yii::t('Dictionary', 'Play') => Url::to('game/game'),
+				Yii::t('Dictionary', 'Logout') => Url::to('site/logout')
 			),
 			'Style' => 2
 		));

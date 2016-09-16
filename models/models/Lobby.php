@@ -7,6 +7,9 @@ use app\models\User as tableUser;
 use app\models\Lobby as tableLobby;
 use app\models\LobbyPlayer as tableLobbyPlayer;
 
+use app\models\models\Player;
+
+
 /**
  * Lobby class file.
  *
@@ -278,7 +281,8 @@ class Lobby extends LSD {
 		// Поиск в БД всех подключившихся к лобби игроков.
 		$dbModel = tableLobbyPlayer::find()
 			-> where(['LobbyID' => $this -> ID])
-			-> orderBy('Date, PlayerID ASC');
+			-> orderBy('Date, PlayerID ASC')
+			-> all();
 		// Формирование списка подключившихся к лобби игроков.
 		$Player = new Player();
 		foreach ($dbModel as $LobbyPlayer) {
@@ -300,10 +304,17 @@ class Lobby extends LSD {
 	 */
 	public function setStatus($Status) {
 		// Если статус лобби успешно обновлен:
-		if (tableLobby::model() -> updateByPk(
-				$this -> ID, 
-				array('Status' => $Status)
-			)) {
+		// if (tableLobby::model() -> updateByPk(
+		// 		$this -> ID, 
+		// 		array('Status' => $Status)
+		// 	)) {
+		// 	$this -> Status = $Status;
+		// 	return true;
+		// }
+
+		$dbModel = tableLobby::findOne($this -> ID);
+		$dbModel -> Status = $Status;
+		if ($dbModel -> update()) {
 			$this -> Status = $Status;
 			return true;
 		}
@@ -330,10 +341,10 @@ class Lobby extends LSD {
 			return false;
 		// Подключение указанного игрока к лобби.
 		$dbModel = new tableLobbyPlayer();
-		$dbModel -> attributes = array(
+		$dbModel -> attributes = [
 			'LobbyID' => $this -> ID,
 			'PlayerID' => $PlayerID
-		);
+		];
 		// Если указанный игрок успешно добавлен к списку игроков лобби в БД:
 		if ($dbModel -> insert())
 			return true;
@@ -350,10 +361,10 @@ class Lobby extends LSD {
 	 */
 	public function isPlayerIncluded($PlayerID) {
 		// Если указанный игрок не найден в списке игроков лобби в БД:
-		if (!tableLobbyPlayer::model() -> findByPk(array(
+		if (!tableLobbyPlayer::findOne([
 			'LobbyID' => $this -> ID, 
 			'PlayerID' => $PlayerID
-		)))
+		]))
 			return false;
 		else
 			return true;

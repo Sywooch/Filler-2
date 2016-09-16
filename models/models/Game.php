@@ -151,7 +151,7 @@ class Game extends LSD {
 	 *
 	 */
 	public function getPropertyList() {
-		return array(
+		return [
 			'ID' => $this -> ID,
 			'ColorMatrix' => $this -> ColorMatrix,
 			'StartDate' => $this -> StartDate,
@@ -159,7 +159,7 @@ class Game extends LSD {
 			'Comment' => $this -> Comment,
 			'LobbyID' => $this -> LobbyID,
 			'WinnerID' => $this -> WinnerID,
-		);
+		];
 	}
 
 
@@ -225,10 +225,11 @@ class Game extends LSD {
 		// );
 		$dbModel = tableGameDetail::find()
 			-> where(['GameID' => $this -> ID])
-			-> orderBy('ID ' . $Order);
+			-> orderBy('ID ' . $Order)
+			-> all();;
 		// Формирование массива ходов.
 		foreach ($dbModel as $Move) {
-			$MovesList[] = array(
+			$MovesList[] = [
 				// Индекс цвета.
 				'ColorIndex' => $Move -> ColorIndex,
 				// Количество захваченных ячеек.
@@ -237,7 +238,7 @@ class Game extends LSD {
 				'Date' => $Move -> Date,
 				// Идентификатор игрока.
 				'PlayerID' => $Move -> PlayerID,
-			);
+			];
 		}
 		// Возвращается список ходов.
 		return $MovesList;
@@ -256,12 +257,12 @@ class Game extends LSD {
 		// Если модель создана:
 		if ($dbModel !== null) {
 			// Копирование свойств (индекс цвета, количество баллов, идентификаторы игры и игрока) в модель.
-			$dbModel -> attributes = array(
+			$dbModel -> attributes = [
 				'ColorIndex' => $ColorIndex,
 				'Points' => $Points,
 				'GameID' => $this -> ID,
 				'PlayerID' => $PlayerID
-			);
+			];
 			// Сохранение модели в БД.
 			return $dbModel -> save();
 		}
@@ -373,14 +374,14 @@ class Game extends LSD {
 	 */
 	public function Load($ID, $AutoSave = true) {
 		$this -> AutoSave = $AutoSave;
-		$Result = parent::loadModel($ID, '\app\models\Game', array(
+		$Result = parent::loadModel($ID, '\app\models\Game', [
 			'ColorMatrix',
 			'StartDate',
 			'FinishDate',
 			'Comment',
 			'LobbyID',
 			'WinnerID'
-		));
+		]);
 		$this -> ColorMatrix = unserialize($this -> ColorMatrix);
 		return $Result;
 	}
@@ -394,13 +395,13 @@ class Game extends LSD {
 	 *
 	 */
 	public function Save() {
-		return parent::saveModel('\app\models\Game', array(
+		return parent::saveModel('\app\models\Game', [
 			'ColorMatrix' => serialize($this -> ColorMatrix),
 			'FinishDate' => $this -> FinishDate,
 			'Comment' => $this -> Comment,
 			'LobbyID' => $this -> LobbyID,
 			'WinnerID' => $this -> WinnerID,
-		));
+		]);
 	}
 
 

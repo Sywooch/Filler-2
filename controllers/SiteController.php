@@ -24,6 +24,11 @@ use app\components\UserIdentity;
 use app\models\User as tableUser;
 use app\models\Lobby as tableLobby;
 
+
+
+use app\models\models\Lobby;
+use app\models\LobbyPlayer as tableLobbyPlayer;
+
 // use app\components\UserIdentity;
 
 /**
@@ -377,7 +382,7 @@ class SiteController extends ExtController {
 		// Запись в соответствующий журнал логов информационного сообщения.
 		// Yii::info('Выход пользователя [ ' . $Email . ' ].', 'info', 'user.logout');
 		// Перенаправление на домашнюю страницу.
-		$this -> redirect(Yii::$app -> homeUrl);
+		$this -> redirect(Yii::$app -> getHomeUrl());
 	}
 
 
@@ -749,32 +754,146 @@ class SiteController extends ExtController {
 
 
 
-		$Email = 'poluektovkv@gmail.com';
+		// $Email = 'poluektovkv@gmail.com';
 		// $Email = $request->post('Email'); 
-		$Password = 'dinsy2494';
+		// $Password = 'dinsy2494';
 		// Если тип запроса AJAX:
 
-			$Player = new UserIdentity($Email, $Password);
-			// Если авторизация пользователя пройдена успешно:
-			if ($Player -> authenticate()) {
-				// Начинается авторизованная сессия.
-				Yii::$app -> user -> login($Player);
-				// Запись в соответствующий журнал логов информационного сообщения.
-				Yii::info('Авторизация пользователя [ ' . $Email . ' ].', 'user.login');
-				// Возвращается код успешной авторизации.
-				echo(self::SUCCESS);
-			}
-			// Если авторизация не пройдена, возвращается информация об ошибке.
-			else {
-				// Запись в соответствующий журнал логов информационного сообщения.
-				Yii::info('Отклоненная авторизация пользователя [ ' . $Email . ' ].', 'user.login');
-				// Получение кода и описания ошибки.
-				$Result['ErrorCode'] = $Player -> errorCode;
-				$Result['ErrorMessage'] = $Player -> errorMessage;
-				// Возвращается информация об ошибке.
-				echo(json_encode($Result));
-			}
+		// $Player = new UserIdentity($Email, $Password);
+		// // Если авторизация пользователя пройдена успешно:
+		// if ($Player -> authenticate()) {
+		// 	// Начинается авторизованная сессия.
+		// 	Yii::$app -> user -> login($Player);
+		// 	// Запись в соответствующий журнал логов информационного сообщения.
+		// 	Yii::info('Авторизация пользователя [ ' . $Email . ' ].', 'user.login');
+		// 	// Возвращается код успешной авторизации.
+		// 	echo(self::SUCCESS);
+		// }
+		// // Если авторизация не пройдена, возвращается информация об ошибке.
+		// else {
+		// 	// Запись в соответствующий журнал логов информационного сообщения.
+		// 	Yii::info('Отклоненная авторизация пользователя [ ' . $Email . ' ].', 'user.login');
+		// 	// Получение кода и описания ошибки.
+		// 	$Result['ErrorCode'] = $Player -> errorCode;
+		// 	$Result['ErrorMessage'] = $Player -> errorMessage;
+		// 	// Возвращается информация об ошибке.
+		// 	echo(json_encode($Result));
+		// }
 
+		// echo Yii::$app -> getHomeUrl();
+
+
+		// $Lobby = new Lobby('Lobby', 7, 3, 1, 2, 1);
+		// // Если лобби успешно зарегистрировано в БД:
+		// if ($Lobby -> Save())
+		// 	// Добавление автора лобби в список игроков.
+		// 	$Lobby -> AddPlayer(1);
+
+		
+
+		// $dbModel = new tableLobbyPlayer();
+		// $dbModel -> attributes = [
+		// 	'LobbyID' => 1147,
+		// 	'PlayerID' => 1
+		// ];
+		// // Если указанный игрок успешно добавлен к списку игроков лобби в БД:
+		// if ($dbModel -> insert())
+		// 	echo('$dbModel -> insert()');
+
+
+
+		// echo tableLobbyPlayer::find()
+		// 	-> where(['LobbyID' => 1147])
+		// 	-> count();
+
+		// if (!tableLobbyPlayer::findOne([
+		// 	'LobbyID' => 1147,
+		// 	'PlayerID' => 1
+		// ]))
+		// 	echo('Нету');
+		// else
+		// 	echo('Есть');
+
+
+
+		// $Lobby = new Lobby();
+		// $Lobby -> Load(1148);
+		// print_r($Lobby -> getPlayersList());
+
+
+
+		// $dbModel = tableLobbyPlayer::find()
+		// 	-> where(['LobbyID' => 1148])
+		// 	-> orderBy('Date, PlayerID ASC')
+		// 	-> all();
+		// foreach ($dbModel as $LobbyPlayer) {
+		// 	echo($LobbyPlayer -> PlayerID);			
+		// }
+
+
+
+		// $Player = new Player();
+		// // Если указанный игрок найден:
+		// if ($Player -> Load(1))
+		// 	// Возвращается список действующих лобби.
+		// 	echo(json_encode($Player -> getLobbiesList(3600)));
+
+
+
+		// print_r(tableLobby::find()
+		// 	-> where('Status = 1 AND Date >= (NOW() - INTERVAL ' . 3600 . ' SECOND)')
+		// 	-> orderBy('ID DESC')
+		// 	-> all());
+
+
+
+		// print_r(tableUser::find()
+		// 	-> where(
+		// 		'Enable = 1 AND ID <> ' . 2 .
+		// 		' AND (ActivityMarker >= (NOW() - INTERVAL ' . 60 . 
+		// 		' SECOND) OR GameMarker >= (NOW() - INTERVAL ' . 60 . ' SECOND))'
+		// 	)
+		// 	-> orderBy('Name ASC')
+		// 	-> all());
+
+
+
+		// print_r(tableLobbyPlayer::find()
+		// 	-> joinWith('lobbygame')
+		// 	-> where(['PlayerID' => 5])
+		// 	-> all());
+
+		// print_r(tableLobbyPlayer::find()
+		// 	-> with('lobby.games') 
+		// 	-> where(['PlayerID' => 4])
+		// 	-> all());
+
+		// print_r(tableLobbyPlayer::find()
+		// 	-> joinWith(['lobby', 'player', 'games'])
+		// 	-> where(['PlayerID' => 5])
+		// 	-> all());
+
+		// $dbModel = tableLobbyPlayer::findAll(['PlayerID' => 1]);
+		// $dbModel -> find()
+		// 	-> with('lobby.games')
+		// 	-> where(['<>', 'WinnerID', NULL])
+		// 	-> all();
+
+		$dbModel = tableLobbyPlayer::find()
+			-> with('lobby.games')
+			-> where(['PlayerID' => 4])
+			// -> where(' PlayerID = 1 AND WinnerID = 1')
+			-> all();
+
+		print_r($dbModel);
+
+		foreach ($dbModel as $Game) {
+			if ($Game -> lobby -> games[0] -> WinnerID != null) {
+				$TotalGames++;
+			}
+		}
+
+		echo(' Размер = ' . $TotalGames);
 
 	}
 

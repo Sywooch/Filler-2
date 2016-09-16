@@ -193,13 +193,12 @@ class GameController extends ExtController {
 		// 
 		$Player = new Player();
 		// Если указанный игрок существует:
-		if ($Player -> Load(1)) // Yii::$app -> user -> getId()
+		if ($Player -> Load(Yii::$app -> user -> getId()))
 			// Получение основных данных игрока.
 			$PlayerPropertyList = $Player -> getPropertyList();
 		// Передача скрипту данных собственного игрока, диалогов и информации по загрузке игры.
 		Yii::$app -> view -> registerJs(
-			//  . Yii::$app -> user -> getId() . 
-			"var PlayerID = " . 1 . ";
+			"var PlayerID = " . Yii::$app -> user -> getId() . ";
 			var Player = " . json_encode($PlayerPropertyList) . ";
 			var BASE_URL = '" . Yii::$app -> request -> baseUrl . "';
 			var DIALOG = " . json_encode($this -> getDialogMessages()) . ";
@@ -270,10 +269,10 @@ class GameController extends ExtController {
 	 */
 	public function actionGamemarker() {
 		// Получение из запроса идентификатора игрока.
-		$PlayerID = Yii::app() -> request -> getPost('PlayerID');
+		$PlayerID = Yii::$app -> request -> post('PlayerID');
 		$Player = new Player();
 		// Если тип запроса AJAX:
-		if (Yii::app() -> request -> isAjaxRequest) {
+		if (Yii::$app -> request -> isAjax) {
 			// Если указанный игрок существует:
 			if ($Player -> Load($PlayerID)) {
 				// Если маркер указанного игрока успешно установлен:
@@ -310,7 +309,7 @@ class GameController extends ExtController {
 			// Если возникла ошибка:
 			else
 				echo(json_encode(array('Error' => self::DATA_ERROR)));
-			Yii::app() -> end();
+			Yii::$app -> end();
 		}
 		else {
 			// $this -> render();
@@ -330,13 +329,13 @@ class GameController extends ExtController {
 	 */
 	public function actionMoveset() {
 		// Получение из запроса идентификаторов игры и игрока, индекса цвета и количества ячеек.
-		$GameID = Yii::app() -> request -> getPost('GameID');
-		$PlayerID = Yii::app() -> request -> getPost('PlayerID');
-		$ColorIndex = Yii::app() -> request -> getPost('ColorIndex');
-		$CellNumber = Yii::app() -> request -> getPost('CellNumber');
+		$GameID = Yii::$app -> request -> post('GameID');
+		$PlayerID = Yii::$app -> request -> post('PlayerID');
+		$ColorIndex = Yii::$app -> request -> post('ColorIndex');
+		$CellNumber = Yii::$app -> request -> post('CellNumber');
 		$Game = new Game();
 		// Если тип запроса AJAX:
-		if (Yii::app() -> request -> isAjaxRequest) {
+		if (Yii::$app -> request -> isAjax) {
 			// Если указанная игра найдена и ход успешно зарегистрирован:
 			if ($Game -> Load($GameID) && $Game -> setMove($ColorIndex, $CellNumber, $PlayerID))
 				// Возвращает Error = false.
@@ -344,7 +343,7 @@ class GameController extends ExtController {
 			// Если возникла ошибка:
 			else
 				echo(json_encode(array('Error' => self::DATA_ERROR)));
-			Yii::app() -> end();
+			Yii::$app -> end();
 		}
 		else {
 			// $this -> render();
@@ -364,11 +363,11 @@ class GameController extends ExtController {
 	 */
 	public function actionMoveget() {
 		// Получение из запроса идентификаторов игры и игрока.
-		$GameID = Yii::app() -> request -> getPost('GameID');
-		$CompetitorID = Yii::app() -> request -> getPost('CompetitorID');
+		$GameID = Yii::$app -> request -> post('GameID');
+		$CompetitorID = Yii::$app -> request -> post('CompetitorID');
 		$Game = new Game();
 		// Если тип запроса AJAX:
-		if (Yii::app() -> request -> isAjaxRequest) {
+		if (Yii::$app -> request -> isAjax) {
 			// Если указанная игра найдена:
 			if ($Game -> Load($GameID, FALSE)) {
 				// Установка ограничения времени выполнения запроса.
@@ -376,7 +375,7 @@ class GameController extends ExtController {
 				// Установка количества циклов ожидания.
 				$Timeout = 30;
 				// Закрытие сессии, чтобы обрабатывались другие запросы.
-				Yii::app() -> session -> close();
+				Yii::$app -> session -> close();
 				// Ожидание хода соперника, пока не истекло время ожидания.
 				do {
 					$Timeout--;
@@ -386,7 +385,7 @@ class GameController extends ExtController {
 				}
 				while ($Timeout > 0 && ($GameMovesList === NULL || $GameMovesList[0]['PlayerID'] != $CompetitorID));
 				// Открытие сессии.
-				Yii::app() -> session -> open();
+				Yii::$app -> session -> open();
 				// Если время ожидания хода истекло:
 				if ($Timeout == 0)
 					// Возвращает код ошибки.
@@ -405,7 +404,7 @@ class GameController extends ExtController {
 			else
 				// Возвращает код ошибки.
 				echo(json_encode(array('Error' => self::DATA_ERROR)));
-			Yii::app() -> end();
+			Yii::$app -> end();
 		}
 		else {
 			// $this -> render();
