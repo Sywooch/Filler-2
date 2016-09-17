@@ -88,10 +88,13 @@ class ExtController extends Controller {
 	 *	Регистрация отклонения доступа пользователя и перенаправление на начальную страницу.
 	 *
 	 */
-	public function DeniedRedirect($Rule) {
-		$User = Yii::$app -> user -> isGuest ? 'Гость' : Yii::$app -> user -> getName();
-		Yii::log('Доступ пользователя [ ' . $User . ' ] отклонен.', 'info', 'user.access');
-		$this -> redirect(Yii::$app -> homeUrl);
+	public function DeniedRedirect($actionName) {
+		// Получение имени пользователя.
+		$User = Yii::$app -> user -> isGuest ? 'Гость' : Yii::$app -> user -> identity -> Email;
+		// Запись в соответствующий журнал логов информационного сообщения.
+		Yii::info('Доступ пользователя [ ' . $User . ' ] к действию [ ' . $actionName . ' ] отклонен.', 'user.access');
+		// Перенаправление на стартовую страницу.
+		return $this -> redirect(Yii::$app -> homeUrl);
 	}
 
 

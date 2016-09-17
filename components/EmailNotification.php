@@ -117,7 +117,7 @@ class EmailNotification {
 			"Reply-To: " . $Name . " <" . Yii::$app -> params['GameEmail'] . ">\r\n" .
 			"MIME-Version: 1.0\r\n" .
 			"Content-Type: text/plain; charset=UTF-8";
-		echo $this -> Message . $this -> Signature;
+		// echo $this -> Message . $this -> Signature;
 		// Отправка подготовленного письма пользователю.
 		return mail($this -> Email, $Subject, $this -> Message . $this -> Signature, $Headers);
 	}

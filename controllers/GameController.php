@@ -3,26 +3,27 @@
 namespace app\controllers;
 
 use Yii;
-use app\components\GameException;
+
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\helpers\Url;
-// use yii\web\View;
 use yii\filters\VerbFilter;
+
 use app\assets\IndexAsset;
 use app\assets\ThemesAsset;
+
 use app\components\ExtController;
+use app\components\EmailNotification;
+use app\components\UserIdentity;
+use app\components\GameException;
+
 use app\models\User;
+
 use app\models\models\Player;
 use app\models\models\Lobby;
 use app\models\models\Game;
 
-// use app\models\User;
-use app\components\EmailNotification;
-use app\components\UserIdentity;
-// use app\models\models\User;
-// use app\models\User;
-// use app\models\ContactForm;
+
 
 /**
  *	Игровой контроллер.
@@ -98,13 +99,24 @@ class GameController extends ExtController {
 
 
 
+	/**
+	 *	Устанавливает правила контроля доступа для авторизованных и не авторизованных пользователей.
+	 *	При отклонении доступа вызывается метод DeniedRedirect из родительского класса Controller.
+	 *
+	 */
 	public function behaviors() {
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
+				// Обработчик отклонения доступа к действию.
+				'denyCallback' => function ($rule, $action) {
+					$this -> DeniedRedirect($action -> actionMethod);
+				},
+				// Список действий, к которым относятся данные правила доступа.
 				'only' => ['game', 'lobbieslistget'],
+				// Описание правил доступа.
 				'rules' => [
-					// Список actions, доступных не авторизованным пользователям.
+					// Список действий, доступных не авторизованным пользователям.
 					[
 						'actions' => [
 							'game', 'lobbieslistget'
@@ -112,7 +124,7 @@ class GameController extends ExtController {
 						'allow' => false,
 						'roles' => ['?'],
 					],
-					// Список actions, доступных авторизованным пользователям.
+					// Список действий, доступных авторизованным пользователям.
 					[
 						'actions' => [
 							'game', 'lobbieslistget'
@@ -139,28 +151,6 @@ class GameController extends ExtController {
 	// 		'ajaxOnly + MoveGet',
 	// 		// Фильтр контроля доступа.
 	// 		'accessControl'
-	// 	);
-	// }
-
-
-
-	/**
-	 *	Устанавливает правила контроля доступа.
-	 *	Всем авторизованным пользователям разрешен доступ ко всем действиям.
-	 *	Неавторизованным пользователям доступ ко всем действиям запрещен.
-	 *
-	 */
-	// public function accessRules() {
-	// 	return array(
-	// 		// Разрешение доступа ко всем действиям всем авторизованным пользователям.
-	// 		array('allow',
-	// 			'users' => array('@'),
-	// 		),
-	// 		// Отклонение доступа всем остальным пользователям.
-	// 		array('deny',
-	// 			'users' => array('*'),
-	// 			'deniedCallback' => array($this, 'DeniedRedirect'),
-	// 		),
 	// 	);
 	// }
 

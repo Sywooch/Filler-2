@@ -3,7 +3,6 @@
 	use yii\helpers\Url;
 	use yii\helpers\Html;
 	use yii\web\View;
-	// use yii\base\Widget;
 	use app\components\FooterMenu\FooterMenuWidget;
 	use app\assets\IndexAsset;
 	use app\assets\ThemesAsset;
@@ -12,13 +11,6 @@
 	IndexAsset::register($this);
 	//
 	$bundle = ThemesAsset::register($this);
-
-	// use app\assets\IndexAsset;
-	// use app\assets\ThemesAsset;
-	// IndexAsset::register($this);
-	// ThemesAsset::register($this);
-
-	// Yii::$app -> request -> baseUrl
 
 	$this -> registerJs(
 		"var BASE_URL = '';
@@ -89,24 +81,24 @@
 	// Если пользователь не авторизован:
 	if (Yii::$app -> user -> isGuest) {
 		// Выводится меню "Вход | Регистрация".
-		echo FooterMenuWidget::widget(array(
-			'ItemList' => array(
+		echo FooterMenuWidget::widget([
+			'ItemList' => [
 				Yii::t('Dictionary', 'Login') => 'javascript:LoginWindow();',
-				Yii::t('Dictionary', 'Registration') => Url::to('site/registration')
-			),
+				Yii::t('Dictionary', 'Registration') => Url::to(['site/registration'])
+			],
 			'Style' => 2
-		));
+		]);
 	}
 	// Если пользователь авторизован:
 	else {
 		// Выводится меню "Играть | Выход".
-		echo FooterMenuWidget::widget(array(
-			'ItemList' => array(
-				Yii::t('Dictionary', 'Play') => Url::to('game/game'),
-				Yii::t('Dictionary', 'Logout') => Url::to('site/logout')
-			),
+		echo FooterMenuWidget::widget([
+			'ItemList' => [
+				Yii::t('Dictionary', 'Play') => Url::to(['game/game']),
+				Yii::t('Dictionary', 'Logout') => Url::to(['site/logout'])
+			],
 			'Style' => 2
-		));
+		]);
 	}
 
 ?>

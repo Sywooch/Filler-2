@@ -19,23 +19,23 @@
 			</div>
 
 			<div class="col-xs-24 indent-bottom-md color-gray">
-				<?php echo(Yii::t('Dictionary', 'You can change the personal data. If you don\'t want to edit the current password, just leave the corresponding fields empty.')); ?>
+				<?= Yii::t('Dictionary', 'You can change the personal data. If you don\'t want to edit the current password, just leave the corresponding fields empty.'); ?>
 			</div>
 
 			<?=
 
-				$this -> render('formUserData', array(
+				$this -> render('formUserData', [
 					'Model' => $Model,
-					'Field' => array(
+					'Field' => [
 						'Name' => true,
 						'Email' => true,
 						'Password' => true,
 						'ControlPassword' => true,
-					),
-					'Button' => array(
+					],
+					'Button' => [
 						'Name' => Yii::t('Dictionary', 'Save'),
-					),
-				));
+					],
+				]);
 
 			?>
 
@@ -48,13 +48,13 @@
 
 <?=
 	// Выводится меню "Играть | Выход".
-	FooterMenuWidget::widget(array(
-		'ItemList' => array(
-			Yii::t('Dictionary', 'Play') => Url::to('/game/game'),
-			Yii::t('Dictionary', 'Logout') => Url::to('/site/logout')
-		),
+	FooterMenuWidget::widget([
+		'ItemList' => [
+			Yii::t('Dictionary', 'Play') => Url::to(['/game/game']),
+			Yii::t('Dictionary', 'Logout') => Url::to(['/site/logout'])
+		],
 		'Style' => 2
-	));
+	]);
 ?>
 
 	</div>

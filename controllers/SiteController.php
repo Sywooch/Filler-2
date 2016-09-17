@@ -8,7 +8,6 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\helpers\Url;
-// use yii\web\View;
 
 use app\assets\IndexAsset;
 use app\assets\ThemesAsset;
@@ -17,19 +16,11 @@ use app\components\ExtController;
 use app\components\EmailNotification;
 use app\components\UserIdentity;
 
-// use app\models\models\User;
-// use app\models\User;
-// use app\models\ContactForm;
-
 use app\models\User as tableUser;
 use app\models\Lobby as tableLobby;
-
-
-
-use app\models\models\Lobby;
 use app\models\LobbyPlayer as tableLobbyPlayer;
 
-// use app\components\UserIdentity;
+
 
 /**
  *	Контроллер управляет регистрацией, авторизацией и восстановлением доступа пользователей.
@@ -48,7 +39,7 @@ class SiteController extends ExtController {
 	 *	Макет для представлений контроллера.
 	 *
 	 */
-	const STANDART_LAYOUT = '/standart'; // @webroot/themes/desktop/views
+	const STANDART_LAYOUT = '/standart';
 
 	/**
 	 *	Код успешного результата.
@@ -66,109 +57,56 @@ class SiteController extends ExtController {
 
 
 
-	// public function behaviors()
-	// {
-	// 	return [
-	// 		'access' => [
-	// 			'class' => AccessControl::className(),
-	// 			'only' => ['logout'],
-	// 			'rules' => [
-	// 				[
-	// 					'actions' => ['logout'],
-	// 					'allow' => true,
-	// 					'roles' => ['@'],
-	// 				],
-	// 			],
-	// 		],
-	// 		'verbs' => [
-	// 			'class' => VerbFilter::className(),
-	// 			'actions' => [
-	// 				'logout' => ['post'],
-	// 			],
-	// 		],
-	// 	];
-	// }
-
-	public function behaviors() {
-		return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'only' => [
-					'index', 'registration', 'login', 'logout', 
-					'forgot', 'recovery', 'personal', 'test', 'shorthelp', 'help'
-				],
-				'rules' => [
-					// deny all POST requests
-					// [
-					// 	'allow' => false,
-					// 	'verbs' => ['POST']
-					// ],
-
-					// Список actions, доступных не авторизованным пользователям.
-					[
-						'actions' => [
-							'registration', 'forgot', 'recovery', 'login', 'test', 
-							'index', 'help', 'captcha', 'shorthelp', 'personal'
-						],
-						'allow' => true,
-						'roles' => ['?'],
-					],
-					// Список actions, доступных авторизованным пользователям.
-					[
-						'actions' => [
-							'personal', 'logout', 'index', 
-							'help', 'test', 'captcha', 'shorthelp'
-						],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-					// everything else is denied
-				],
-			],
-		];
-	}
-
 	/**
 	 *	Устанавливает правила контроля доступа для авторизованных и не авторизованных пользователей.
 	 *	При отклонении доступа вызывается метод DeniedRedirect из родительского класса Controller.
 	 *
 	 */
-	// public function accessRules() {
-	// 	return array(
-	// 		// Список actions, доступных всем пользователям.
-	// 		array('allow',
-	// 			'actions' => array('Index', 'Help', 'Test', 'Captcha', 'ShortHelp'),
-	// 			'users' => array('*'),
-	// 		),
-	// 		// Список actions, доступных не авторизованным пользователям.
-	// 		array('allow',
-	// 			'actions' => array('Registration', 'Forgot', 'Recovery', 'Login'),
-	// 			'users' => array('?'),
-	// 		),
-	// 		// Список actions, доступных авторизованным пользователям.
-	// 		array('allow',
-	// 			'actions' => array('Personal', 'Logout'),
-	// 			'users' => array('@'),
-	// 		),
-	// 		// Отклонение доступа всем остальным пользователям.
-	// 		array('deny',
-	// 			'users' => array('*'),
-	// 			'deniedCallback' => array($this, 'DeniedRedirect'),
-	// 		),
-	// 	);
-	// }
+	public function behaviors() {
+		return [
+			'access' => [
+				'class' => AccessControl::className(),
+				// Обработчик отклонения доступа к действию.
+				'denyCallback' => function ($rule, $action) {
+					$this -> DeniedRedirect($action -> actionMethod);
+				},
+				// Список действий, к которым относятся данные правила доступа.
+				'only' => [
+					'index', 'registration', 'login', 'logout', 
+					'forgot', 'recovery', 'personal', 'test', 'shorthelp', 'help'
+				],
+				// Описание правил доступа.
+				'rules' => [
+					// Список действий, доступных не авторизованным пользователям.
+					[
+						'actions' => [
+							'registration', 'forgot', 'recovery', 'login', 
+							'index', 'help', 'captcha', 'shorthelp', 'test'
+						],
+						'allow' => true,
+						'roles' => ['?'],
+					],
+					// Список действий, доступных авторизованным пользователям.
+					[
+						'actions' => [
+							'personal', 'logout', 'index', 
+							'help', 'captcha', 'shorthelp', 'test'
+						],
+						'allow' => true,
+						'roles' => ['@'],
+					],
+				],
+			],
+		];
+	}
 
+
+
+	/**
+	 *	Настройка параметров капчи.
+	 *
+	 */
 	public function actions() {
-		// return [
-		//     'error' => [
-		//         'class' => 'yii\web\ErrorAction',
-		//     ],
-		//     'captcha' => [
-		//         'class' => 'yii\captcha\CaptchaAction',
-		//         'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-		//     ],
-		// ];
-
 		return [
 			'error' => [
 				'class' => 'yii\web\ErrorAction',
@@ -197,28 +135,6 @@ class SiteController extends ExtController {
 	// 		'ajaxOnly + ShortHelp',
 	// 		// Фильтр контроля доступа.
 	// 		'accessControl'
-	// 	);
-	// }
-
-
-
-
-
-
-
-	/**
-	 *	Настройка параметров капчи.
-	 *
-	 */
-	// public function actions() {
-	// 	return array(
-	// 		'captcha' => array(
-	// 			'class' => 'CCaptchaAction',
-	// 			'transparent' => true,
-	// 			'backColor' => 0x323232,
-	// 			'foreColor' => 0xAAAAAA, // 0x727272
-	// 			'testLimit' => 1,
-	// 		)
 	// 	);
 	// }
 
@@ -288,6 +204,7 @@ class SiteController extends ExtController {
 		// 	View::POS_HEAD, 
 		// 	'Authorization'
 		// );
+
 		// Вывод представления (главная страница).
 		$this -> layout = self::INDEX_LAYOUT;
 		return $this -> render('index');
@@ -377,10 +294,10 @@ class SiteController extends ExtController {
 	 *
 	 */
 	public function actionLogout() {
+		// Запись в соответствующий журнал логов информационного сообщения.
+		Yii::info('Выход пользователя [ ' . Yii::$app -> user -> identity -> Email . ' ].', 'user.logout');
 		// Завершение авторизованной сессии.
 		Yii::$app -> user -> logout();
-		// Запись в соответствующий журнал логов информационного сообщения.
-		// Yii::info('Выход пользователя [ ' . $Email . ' ].', 'info', 'user.logout');
 		// Перенаправление на домашнюю страницу.
 		$this -> redirect(Yii::$app -> getHomeUrl());
 	}
@@ -492,10 +409,10 @@ class SiteController extends ExtController {
 			// $this -> redirect($this -> createUrl('/site/forgot/'));
 			$this -> redirect(Url::to(['site/forgot']));
 		// Вывод представления:
-		return $this -> render('recovery', array(
+		return $this -> render('recovery', [
 			'Model' => $Model,
 			'Result' => $Result,
-		));
+		]);
 	}
 
 
@@ -544,13 +461,14 @@ class SiteController extends ExtController {
 				// Запись в соответствующий журнал логов информационного сообщения.
 				Yii::info('Регистрация нового пользователя [ ' . $Model -> Email . ' ].', 'user.registration');
 				// Автоматическая авторизация нового пользователя.
-				// $Player = new UserIdentity($Model -> Email, $Password);
-				// if ($Player -> authenticate()) {
-				// 	Yii::app() -> user -> login($Player);
-				// 	// Перенаправление на страницу игры.
-				// 	$this -> redirect($this -> createUrl('/game/game/'));
-				// }
-				// $this -> redirect($this -> createUrl('/site/index/'));
+				$Player = new UserIdentity($Model -> Email, $Password);
+				if ($Player -> authenticate()) {
+					Yii::$app -> user -> login($Player);
+					// Перенаправление на страницу игры.
+					return $this -> redirect(['game/game']);
+				}
+				// Перенаправление на стартовую страницу.
+				return $this -> redirect(Yii::$app -> homeUrl);
 			}
 		}
 		// Отображение страницы регистрации.
@@ -577,7 +495,7 @@ class SiteController extends ExtController {
 	 */
 	public function actionPersonal() {
 		// Поиск пользователя в БД по указанному идентификатору.
-		$Model = tableUser::findOne(1); // Yii::$app -> user -> getId()
+		$Model = tableUser::findOne(Yii::$app -> user -> getId());
 		// Если получены POST данные формы с личными данными:
 		if (isset($_POST['User'])) {
 			// Если в POST данных отсутствуют пароль и проверочный пароль:
@@ -648,8 +566,8 @@ class SiteController extends ExtController {
 		// 	// Yii::app() -> end();
 		// }
 
-		if (Yii::$app->request->isAjax && $Model->load(Yii::$app->request->post())) {
-			Yii::$app->response->format = Response::FORMAT_JSON;
+		if (Yii::$app -> request -> isAjax && $Model -> load(Yii::$app -> request -> post())) {
+			Yii::$app -> response -> format = Response::FORMAT_JSON;
 			return ActiveForm::validate($Model);
 		}
 	}
@@ -657,243 +575,6 @@ class SiteController extends ExtController {
 
 
 	public function actionTest() {
-		// if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-		// 	Yii::$app->response->format = Response::FORMAT_JSON;
-		// 	return ActiveForm::validate($model);
-		// }
-		// echo('actionTest()');
-		// $user = User::findOne(4);
-		// $user -> Name = 'Александр Поветкин';
-		//$user -> save();
-		// print_r($user);
-
-		// Yii::info('Тестирование.', 'user.login');
-
-		// `identity` текущего пользователя. `Null`, если пользователь не аутентифицирован.
-		// echo $identity = Yii::$app -> user -> identity;
-
-		// ID текущего пользователя. `Null`, если пользователь не аутентифицирован.
-		// echo $id = Yii::$app -> user -> id;
-
-		// проверка на то, что текущий пользователь гость (не аутентифицирован)
-		// echo $isGuest = Yii::$app -> user -> isGuest;
-
-		// найти identity с указанным username.
-		// замечание: также вы можете проверить и пароль, если это нужно
-		// $identity = \app\models\models\User::findOne(['Email' => 'poluektovkv@gmail.com']);
-
-		// логиним пользователя
-		// Yii::$app->user->login($identity);
-
-		// echo 'Адрес: ' . Yii::$app -> basePath;
-		// echo 'Адрес: ' . Url::base();
-
-		// echo Yii::$app->getSecurity()->generateRandomString();
-
-		// echo Yii::$app->getSecurity()->generatePasswordHash('dinsy2494');
-
-		// if (Yii::$app->getSecurity()->validatePassword('dinsy2494', '$2y$13$1fPWyAeuY1v8140pQndoOOYLJDGhHmenI6P8YXQcQlvxra4tXbcoa')) {
-		//     echo ('всё хорошо, пользователь может войти');
-		// } else {
-		//     echo ('неправильный пароль');
-		// }
-
-		// echo Yii::$app -> theme -> getName();
-
-		// echo Yii::$app->controller->route;
-
-		// echo Yii::$app -> request -> baseUrl;
-
-		// echo Yii::$app -> urlManager -> getHostInfo();
-
-		// $ModelName = '\app\models\User';
-		// $dbModel = $ModelName::find()
-		// 	-> where(['Email' => 'apple@apple.com'])
-		// 	-> one();
-		// print_r($dbModel);
-
-		// if (Yii::$app -> request -> isAjax) {
-		// 	echo 'Yii::$app -> request -> isAjax';
-		// }
-		// return $this -> renderPartial('shorthelp');
-		// return $this -> render('shorthelp');
-
-		
-		// $TimeInterval = 600000;
-		// $dbModel = tableLobby::find()
-		// 	-> where([
-		// 		'Status = 1 AND Date >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND)',
-		// 	])
-		// 	-> orderBy('ID DESC');
-		// print_r($dbModel);
-
-		// Yii::$app -> session -> close();
-		// Yii::$app -> session -> open();
-
-		// найти identity с указанным username.
-		// замечание: также вы можете проверить и пароль, если это нужно
-		// $identity = UserIdentity::findOne(['Email' => 'victoria@victoria.ru']);
-
-		// print_r($identity);
-
-		// // логиним пользователя
-		// Yii::$app->user->login($identity);
-
-		// // Yii::$app->user->logout();
-
-		// // `identity` текущего пользователя. `Null`, если пользователь не аутентифицирован.
-		// $identity = Yii::$app->user->identity;
-
-		// // ID текущего пользователя. `Null`, если пользователь не аутентифицирован.
-		// echo Yii::$app->user->id;
-
-		// // проверка на то, что текущий пользователь гость (не аутентифицирован)
-		// echo Yii::$app->user->isGuest;
-
-		// print_r($identity);
-
-
-
-		// $Email = 'poluektovkv@gmail.com';
-		// $Email = $request->post('Email'); 
-		// $Password = 'dinsy2494';
-		// Если тип запроса AJAX:
-
-		// $Player = new UserIdentity($Email, $Password);
-		// // Если авторизация пользователя пройдена успешно:
-		// if ($Player -> authenticate()) {
-		// 	// Начинается авторизованная сессия.
-		// 	Yii::$app -> user -> login($Player);
-		// 	// Запись в соответствующий журнал логов информационного сообщения.
-		// 	Yii::info('Авторизация пользователя [ ' . $Email . ' ].', 'user.login');
-		// 	// Возвращается код успешной авторизации.
-		// 	echo(self::SUCCESS);
-		// }
-		// // Если авторизация не пройдена, возвращается информация об ошибке.
-		// else {
-		// 	// Запись в соответствующий журнал логов информационного сообщения.
-		// 	Yii::info('Отклоненная авторизация пользователя [ ' . $Email . ' ].', 'user.login');
-		// 	// Получение кода и описания ошибки.
-		// 	$Result['ErrorCode'] = $Player -> errorCode;
-		// 	$Result['ErrorMessage'] = $Player -> errorMessage;
-		// 	// Возвращается информация об ошибке.
-		// 	echo(json_encode($Result));
-		// }
-
-		// echo Yii::$app -> getHomeUrl();
-
-
-		// $Lobby = new Lobby('Lobby', 7, 3, 1, 2, 1);
-		// // Если лобби успешно зарегистрировано в БД:
-		// if ($Lobby -> Save())
-		// 	// Добавление автора лобби в список игроков.
-		// 	$Lobby -> AddPlayer(1);
-
-		
-
-		// $dbModel = new tableLobbyPlayer();
-		// $dbModel -> attributes = [
-		// 	'LobbyID' => 1147,
-		// 	'PlayerID' => 1
-		// ];
-		// // Если указанный игрок успешно добавлен к списку игроков лобби в БД:
-		// if ($dbModel -> insert())
-		// 	echo('$dbModel -> insert()');
-
-
-
-		// echo tableLobbyPlayer::find()
-		// 	-> where(['LobbyID' => 1147])
-		// 	-> count();
-
-		// if (!tableLobbyPlayer::findOne([
-		// 	'LobbyID' => 1147,
-		// 	'PlayerID' => 1
-		// ]))
-		// 	echo('Нету');
-		// else
-		// 	echo('Есть');
-
-
-
-		// $Lobby = new Lobby();
-		// $Lobby -> Load(1148);
-		// print_r($Lobby -> getPlayersList());
-
-
-
-		// $dbModel = tableLobbyPlayer::find()
-		// 	-> where(['LobbyID' => 1148])
-		// 	-> orderBy('Date, PlayerID ASC')
-		// 	-> all();
-		// foreach ($dbModel as $LobbyPlayer) {
-		// 	echo($LobbyPlayer -> PlayerID);			
-		// }
-
-
-
-		// $Player = new Player();
-		// // Если указанный игрок найден:
-		// if ($Player -> Load(1))
-		// 	// Возвращается список действующих лобби.
-		// 	echo(json_encode($Player -> getLobbiesList(3600)));
-
-
-
-		// print_r(tableLobby::find()
-		// 	-> where('Status = 1 AND Date >= (NOW() - INTERVAL ' . 3600 . ' SECOND)')
-		// 	-> orderBy('ID DESC')
-		// 	-> all());
-
-
-
-		// print_r(tableUser::find()
-		// 	-> where(
-		// 		'Enable = 1 AND ID <> ' . 2 .
-		// 		' AND (ActivityMarker >= (NOW() - INTERVAL ' . 60 . 
-		// 		' SECOND) OR GameMarker >= (NOW() - INTERVAL ' . 60 . ' SECOND))'
-		// 	)
-		// 	-> orderBy('Name ASC')
-		// 	-> all());
-
-
-
-		// print_r(tableLobbyPlayer::find()
-		// 	-> joinWith('lobbygame')
-		// 	-> where(['PlayerID' => 5])
-		// 	-> all());
-
-		// print_r(tableLobbyPlayer::find()
-		// 	-> with('lobby.games') 
-		// 	-> where(['PlayerID' => 4])
-		// 	-> all());
-
-		// print_r(tableLobbyPlayer::find()
-		// 	-> joinWith(['lobby', 'player', 'games'])
-		// 	-> where(['PlayerID' => 5])
-		// 	-> all());
-
-		// $dbModel = tableLobbyPlayer::findAll(['PlayerID' => 1]);
-		// $dbModel -> find()
-		// 	-> with('lobby.games')
-		// 	-> where(['<>', 'WinnerID', NULL])
-		// 	-> all();
-
-		$dbModel = tableLobbyPlayer::find()
-			-> with('lobby.games')
-			-> where(['PlayerID' => 4])
-			// -> where(' PlayerID = 1 AND WinnerID = 1')
-			-> all();
-
-		print_r($dbModel);
-
-		foreach ($dbModel as $Game) {
-			if ($Game -> lobby -> games[0] -> WinnerID != null) {
-				$TotalGames++;
-			}
-		}
-
-		echo(' Размер = ' . $TotalGames);
 
 	}
 
