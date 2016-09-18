@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	// General
 	'Filler' => 'Филлер',
@@ -11,6 +11,7 @@ return array(
 	// Errors
 	'Unknown error' => 'Неизвестная ошибка',
 	'Sorry! Something went wrong...' => 'Сожалеем! Что-то пошло не так...',
+	'Something happened' => 'Что-то пошло не так',
 
 	// Authorization Errors
 	'Incorrect password' => 'Неверный пароль',
@@ -70,10 +71,8 @@ return array(
 	'Challenge from competitor' => 'Вызов от соперника',
 	'You challenged' => 'Вам брошен вызов',
 	'If you are beautiful and courageous player, accept the challenge and fight in a fair battle.' => 'Если Вы красивый и смелый игрок, примите вызов и сразитесь в честном поединке.',
-	'Competitor is challenged' => 'Вызов брошен сопернику',
 	'And You are not timid! Give the competitor some time to think before making a decision. Will he have the courage?' => 'А Вы не из робких! Дадим сопернику немного времени подумать, прежде, чем принять решение. Хватит ли у него смелости?',
 	'Personal score' => 'Счет личных встреч',
-	'Your challenged is accepted' => 'Ваш вызов принят',
 	'Good luck in the upcoming battle!' => 'Успехов Вам в предстоящем сражении!',
 	'The game is not over yet' => 'Игра еще не окончена',
 	'The last game is not over yet' => 'Последняя игра еще не окончена',
@@ -184,4 +183,4 @@ return array(
 	'Sound switcher' => 'Переключатель звука',
 	'Language switcher' => 'Переключатель языка',
 
-);
+];

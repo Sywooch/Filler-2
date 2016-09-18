@@ -1,16 +1,20 @@
 <?php
 
-	use yii\helpers\Url;
-	use yii\helpers\Html;
-	use app\components\FooterMenu\assets\FooterMenuAsset;
+use yii\helpers\Url;
+use yii\helpers\Html;
 
-	// Вычисление количества пунктов в меню.
-	$MenuSize = sizeof($ItemList);
+use app\components\FooterMenu\assets\FooterMenuAsset;
 
-	// Индекс первого пункта меню.
-	$ItemIndex = 1;
 
-	FooterMenuAsset::register($this);
+
+// Вычисление количества пунктов в меню.
+$MenuSize = sizeof($ItemList);
+
+// Индекс первого пункта меню.
+$ItemIndex = 1;
+
+FooterMenuAsset::register($this);
+
 ?>
 
 

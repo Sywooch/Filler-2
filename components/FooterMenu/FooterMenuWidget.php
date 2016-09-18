@@ -5,7 +5,8 @@ namespace app\components\FooterMenu;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\base\Widget;
-	
+
+
 
 /**
  *	Виджет нижнего меню пользователя.

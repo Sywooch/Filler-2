@@ -2,10 +2,12 @@
 
 	use yii\helpers\Url;
 	use yii\helpers\Html;
-	use app\components\FooterMenu\FooterMenuWidget;
-	use app\components\GameBoard\GameBoardWidget;
+	
 	use app\assets\ThemesAsset;
 	use app\assets\GameAsset;
+
+	use app\components\FooterMenu\FooterMenuWidget;
+	use app\components\GameBoard\GameBoardWidget;
 
 	// 
 	GameAsset::register($this);

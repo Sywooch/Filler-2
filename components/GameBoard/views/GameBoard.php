@@ -1,10 +1,15 @@
 <?php
 
-	use yii\helpers\Url;
-	use yii\helpers\Html;
-	use app\components\GameBoard\assets\GameBoardAsset;
+use yii\helpers\Url;
+use yii\helpers\Html;
 
-	GameBoardAsset::register($this);
+use app\components\GameBoard\assets\GameBoardAsset;
+
+
+
+//
+GameBoardAsset::register($this);
+
 ?>
 
 <div id="FieldContainer"></div>

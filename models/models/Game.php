@@ -3,8 +3,11 @@
 namespace app\models\models;
 
 use \DateTime;
+
 use app\models\Game as tableGame;
 use app\models\GameDetail as tableGameDetail;
+
+
 
 /**
  * Game class file.

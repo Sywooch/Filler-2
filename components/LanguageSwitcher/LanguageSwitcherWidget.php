@@ -3,9 +3,12 @@
 namespace app\components\LanguageSwitcher;
 
 use Yii;
+
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\base\Widget;
+
+
 
 /**
  *	Виджет переключателя языка интерфейса.
@@ -21,7 +24,7 @@ class LanguageSwitcherWidget extends Widget {
 	 *	Например, array('ru' => 'Ру', 'en' => 'En').
 	 *
 	 */
-	public $Languages = array();
+	public $Languages = [];
 
 	/**
 	 *	Код текущего языка. Например, 'en' или 'ru'.
@@ -97,10 +100,10 @@ class LanguageSwitcherWidget extends Widget {
 	 *
 	 */
 	public function run() {
-		return $this -> render('LanguageSwitcher', array(
+		return $this -> render('LanguageSwitcher', [
 			'LanguageLink' => $this -> LanguageLink,
 			'LanguageName' => $this -> LanguageName,
-		));
+		]);
 	}
 
 }

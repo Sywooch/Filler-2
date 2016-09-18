@@ -1,27 +1,27 @@
 <?php
 
-namespace app\controllers;
+	namespace app\controllers;
 
-use Yii;
+	use Yii;
 
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\helpers\Url;
-use yii\filters\VerbFilter;
+	use yii\filters\AccessControl;
+	use yii\web\Controller;
+	use yii\helpers\Url;
+	use yii\filters\VerbFilter;
 
-use app\assets\IndexAsset;
-use app\assets\ThemesAsset;
+	use app\assets\IndexAsset;
+	use app\assets\ThemesAsset;
 
-use app\components\ExtController;
-use app\components\EmailNotification;
-use app\components\UserIdentity;
-use app\components\GameException;
+	use app\components\ExtController;
+	use app\components\EmailNotification;
+	use app\components\UserIdentity;
+	use app\components\GameException;
 
-use app\models\User;
+	use app\models\User;
 
-use app\models\models\Player;
-use app\models\models\Lobby;
-use app\models\models\Game;
+	use app\models\models\Player;
+	use app\models\models\Lobby;
+	use app\models\models\Game;
 
 
 

@@ -3,9 +3,11 @@
 	use yii\helpers\Url;
 	use yii\helpers\Html;
 	use yii\web\View;
-	use app\components\FooterMenu\FooterMenuWidget;
+
 	use app\assets\IndexAsset;
 	use app\assets\ThemesAsset;
+
+	use app\components\FooterMenu\FooterMenuWidget;
 
 	//
 	IndexAsset::register($this);

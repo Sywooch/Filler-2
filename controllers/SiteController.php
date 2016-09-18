@@ -1,24 +1,24 @@
 <?php
 
-namespace app\controllers;
+	namespace app\controllers;
 
-use Yii;
+	use Yii;
 
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\helpers\Url;
+	use yii\filters\VerbFilter;
+	use yii\filters\AccessControl;
+	use yii\web\Controller;
+	use yii\helpers\Url;
 
-use app\assets\IndexAsset;
-use app\assets\ThemesAsset;
+	use app\assets\IndexAsset;
+	use app\assets\ThemesAsset;
 
-use app\components\ExtController;
-use app\components\EmailNotification;
-use app\components\UserIdentity;
+	use app\components\ExtController;
+	use app\components\EmailNotification;
+	use app\components\UserIdentity;
 
-use app\models\User as tableUser;
-use app\models\Lobby as tableLobby;
-use app\models\LobbyPlayer as tableLobbyPlayer;
+	use app\models\User as tableUser;
+	use app\models\Lobby as tableLobby;
+	use app\models\LobbyPlayer as tableLobbyPlayer;
 
 
 
@@ -145,11 +145,11 @@ class SiteController extends ExtController {
 	 *
 	 */
 	// public function actionError() {
-	// 	$this -> layout = self::INDEX_LAYOUT;
-	// 	// Если произошла ошибка:
-	// 	if ($error = Yii::$app -> errorHandler -> error)
-	// 		// Вывод представления (ошибка).
-	// 		return $this -> render('error', $error);
+		// $this -> layout = self::INDEX_LAYOUT;
+		// Если произошла ошибка:
+		// if ($error = Yii::$app -> errorHandler -> error)
+			// Вывод представления (ошибка).
+			// return $this -> render('error', $error);
 	// }
 
 
@@ -163,48 +163,6 @@ class SiteController extends ExtController {
 	 *
 	 */
 	public function actionIndex() {
-
-		// IndexAsset::register($this -> view);
-		// ThemesAsset::register($this -> view);
-
-		// Подключение и публикация библиотеки для валидации форм ввода данных.
-		// Yii::$app -> clientScript -> registerScriptFile(
-		// 	Yii::$app -> assetManager -> publish(
-		// 		Yii::getPathOfAlias('ext.JS') . '/jquery.validate.js'
-		// 	)
-		// );
-		// // Подключение и публикация библиотеки для работы с формами ввода данных.
-		// Yii::$app -> clientScript -> registerScriptFile(
-		// 	Yii::$app -> assetManager -> publish(
-		// 		Yii::getPathOfAlias('ext.JS') . '/jquery.form.js'
-		// 	)
-		// );
-		// // Подключение и публикация скрипта для валидации формы авторизации.
-		// Yii::$app -> clientScript -> registerScriptFile(
-		// 	Yii::$app -> assetManager -> publish(
-		// 		(YII_DEBUG ? './protected/js/site/index.js' : './protected/js/site/index.min.js')
-		// 	)
-		// );
-		// // Передача скрипту базового пути и массива сообщений об ошибке.
-		// Yii::$app -> clientScript -> registerScript(
-		// 	'Authorization',
-		// 	"var BASE_URL = '" . Yii::$app -> request -> baseUrl . "';
-		// 	var ERROR_MESSAGE = [];
-		// 	ERROR_MESSAGE[0] = '" . Yii::t('Dictionary', 'Enter a e-mail address') . "';
-		// 	ERROR_MESSAGE[1] = '" . Yii::t('Dictionary', 'Enter a password') . "';
-		// 	ERROR_MESSAGE[2] = '" . Yii::t('Dictionary', 'Incorrect e-mail address') . "';",		
-		// 	CClientScript::POS_HEAD
-		// );
-		// $this -> registerJs(
-		// 	"var BASE_URL = '" . Yii::$app -> request -> baseUrl . "';
-		// 	var ERROR_MESSAGE = [];
-		// 	ERROR_MESSAGE[0] = '" . Yii::t('Dictionary', 'Enter a e-mail address') . "';
-		// 	ERROR_MESSAGE[1] = '" . Yii::t('Dictionary', 'Enter a password') . "';
-		// 	ERROR_MESSAGE[2] = '" . Yii::t('Dictionary', 'Incorrect e-mail address') . "';", 
-		// 	View::POS_HEAD, 
-		// 	'Authorization'
-		// );
-
 		// Вывод представления (главная страница).
 		$this -> layout = self::INDEX_LAYOUT;
 		return $this -> render('index');

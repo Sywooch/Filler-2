@@ -4,10 +4,10 @@
  *	Шаблоны электронных писем.
  *
  */
-return array(
+return [
 
 	// Регистрация пользователя
-	'registration' => array(
+	'registration' => [
 		// 
 		'name' => Yii::t('Dictionary', 'Filler'),
 		// 
@@ -21,10 +21,10 @@ return array(
 		// 
 		'signature' => PHP_EOL . PHP_EOL . PHP_EOL . PHP_EOL . Yii::t('Dictionary', 'Good luck!') . PHP_EOL . PHP_EOL . '----------' . 
 			PHP_EOL . Yii::t('Dictionary', 'Filler - Multiplayer online game'),
-	),
+	],
 
 	// Изменение данных пользователя
-	'personal' => array(
+	'personal' => [
 		// 
 		'name' => Yii::t('Dictionary', 'Filler'),
 		// 
@@ -38,10 +38,10 @@ return array(
 		// 
 		'signature' => PHP_EOL . PHP_EOL . PHP_EOL . PHP_EOL . Yii::t('Dictionary', 'Good luck!') . PHP_EOL . PHP_EOL . '----------' . 
 			PHP_EOL . Yii::t('Dictionary', 'Filler - Multiplayer online game'),
-	),
+	],
 
 	// Восстановление доступа : Шаг 1 из 2
-	'forgot' => array(
+	'forgot' => [
 		// 
 		'name' => Yii::t('Dictionary', 'Filler'),
 		// 
@@ -54,10 +54,10 @@ return array(
 		// 
 		'signature' => PHP_EOL . PHP_EOL . PHP_EOL . PHP_EOL . Yii::t('Dictionary', 'Good luck!') . PHP_EOL . PHP_EOL . '----------' . 
 			PHP_EOL . Yii::t('Dictionary', 'Filler - Multiplayer online game'),
-	),
+	],
 
 	// Восстановление доступа : Шаг 2 из 2
-	'recovery' => array(
+	'recovery' => [
 		// 
 		'name' => Yii::t('Dictionary', 'Filler'),
 		// 
@@ -71,6 +71,6 @@ return array(
 		// 
 		'signature' => PHP_EOL . PHP_EOL . PHP_EOL . PHP_EOL . Yii::t('Dictionary', 'Good luck!') . PHP_EOL . PHP_EOL . '----------' . 
 			PHP_EOL . Yii::t('Dictionary', 'Filler - Multiplayer online game'),
-	),
+	],
 
-);
+];
