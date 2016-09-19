@@ -48,12 +48,6 @@ class UserIdentity extends ActiveRecord implements IdentityInterface {
 		$this -> Password = $Password;
 	}
 
-	/**
-	 *	Идентификатор авторизованного пользователя.
-	 *
-	 */
-	// public $id;
-
 
 
 	/**

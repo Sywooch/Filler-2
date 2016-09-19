@@ -6,7 +6,7 @@ body {
 	font: normal 10pt Arial,Helvetica,sans-serif;
 	background: white url(../images/background.gif) repeat;
 	min-width: 500px;
-	min-height: 600px;
+	min-height: 500px;
 	height: 100%;
 }
 
@@ -301,6 +301,9 @@ p {
 	color: #666666;
 	text-align: center;
 	border-top: 1px solid #555555;
+
+	/*position: fixed;
+	background: url(../images/background.gif);*/
 
 	-webkit-box-shadow: -1px -1px 0px rgba(0, 0, 0, 0.5);
 	-moz-box-shadow: -1px -1px 0px rgba(0, 0, 0, 0.5);

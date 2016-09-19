@@ -20,13 +20,13 @@ class FooterMenuWidget extends Widget {
 	 *	Список пунктов меню (Наименование => Ссылка).
 	 *
 	 */
-	public $ItemList = array();
+	public $ItemList = [];
 
 	/**
 	 *	Список размеров пунктов меню (измеряется в колонках).
 	 *
 	 */
-	public $SizeList = array();
+	public $SizeList = [];
 
 	/**
 	 *	Стиль меню (1 или 2).
@@ -82,13 +82,13 @@ class FooterMenuWidget extends Widget {
 	 *
 	 */
 	public function run() {
-		return $this -> render('FooterMenu', array(
+		return $this -> render('FooterMenu', [
 			'ItemList' => $this -> ItemList,
 			'ColumnCount' => $this -> ColumnCount,
 			'SizeList' => $this -> SizeList,
 			'Style' => $this -> Style,
 			'Delimiter' => $this -> Delimiter
-		));
+		]);
 	}
 
 
@@ -99,9 +99,9 @@ class FooterMenuWidget extends Widget {
 	 */
 	public function addLinkClass($String) {
 		if (strpos($String, ':') !== false)
-			return array('class' => 'dot');
+			return ['class' => 'dot'];
 		else
-			return array();
+			return [];
 	}
 
 }

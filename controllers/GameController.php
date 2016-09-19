@@ -196,9 +196,9 @@ class GameController extends ExtController {
 			yii\web\View::POS_HEAD
 		);
 		// Вывод представления.
-		return $this -> render('game', array(
+		return $this -> render('game', [
 			'PlayerID' => Yii::$app -> user -> getId()
-		));
+		]);
 	}
 
 
@@ -274,7 +274,7 @@ class GameController extends ExtController {
 					if ($Lobby -> Load($LobbyID)) {
 						// Получение списка игроков указанного лобби.
 						$PlayersPropertyList = $Lobby -> getPlayersList();
-						$PlayersList = array();
+						$PlayersList = [];
 						foreach ($PlayersPropertyList as $PlayerProperty) {
 							// Если текущий игрок найден:
 							if ($Player -> Load($PlayerProperty['ID'])) {
@@ -290,15 +290,15 @@ class GameController extends ExtController {
 					}
 					// Если возникла ошибка:
 					else
-						echo(json_encode(array('Error' => self::DATA_ERROR)));
+						echo(json_encode(['Error' => self::DATA_ERROR]));
 				}
 				// Если возникла ошибка:
 				else
-					echo(json_encode(array('Error' => self::DATA_ERROR)));
+					echo(json_encode(['Error' => self::DATA_ERROR]));
 			}
 			// Если возникла ошибка:
 			else
-				echo(json_encode(array('Error' => self::DATA_ERROR)));
+				echo(json_encode(['Error' => self::DATA_ERROR]));
 			Yii::$app -> end();
 		}
 		else {
@@ -329,10 +329,10 @@ class GameController extends ExtController {
 			// Если указанная игра найдена и ход успешно зарегистрирован:
 			if ($Game -> Load($GameID) && $Game -> setMove($ColorIndex, $CellNumber, $PlayerID))
 				// Возвращает Error = false.
-				echo(json_encode(array('Error' => false)));
+				echo(json_encode(['Error' => false]));
 			// Если возникла ошибка:
 			else
-				echo(json_encode(array('Error' => self::DATA_ERROR)));
+				echo(json_encode(['Error' => self::DATA_ERROR]));
 			Yii::$app -> end();
 		}
 		else {
@@ -379,21 +379,21 @@ class GameController extends ExtController {
 				// Если время ожидания хода истекло:
 				if ($Timeout == 0)
 					// Возвращает код ошибки.
-					echo(json_encode(array('Error' => self::EXPIRE_ERROR)));
+					echo(json_encode(['Error' => self::EXPIRE_ERROR]));
 				else
 					// Возвращает данные хода.
-					echo(json_encode(array(
+					echo(json_encode([
 						// Индекс цвета.
 						'ColorIndex' => $GameMovesList[0]['ColorIndex'],
 						// Комментарий к ходу.
 						'Comment' => 'None',
 						'Error' => false
-					)));
+					]));
 			}
 			// Если указанная игра не найдена:
 			else
 				// Возвращает код ошибки.
-				echo(json_encode(array('Error' => self::DATA_ERROR)));
+				echo(json_encode(['Error' => self::DATA_ERROR]));
 			Yii::$app -> end();
 		}
 		else {
@@ -443,11 +443,11 @@ class GameController extends ExtController {
 				}
 				// Если возникла ошибка:
 				else
-					echo(json_encode(array('Error' => self::DATA_ERROR)));
+					echo(json_encode(['Error' => self::DATA_ERROR]));
 			}
 			// Если возникла ошибка:
 			else
-				echo(json_encode(array('Error' => self::DATA_ERROR)));
+				echo(json_encode(['Error' => self::DATA_ERROR]));
 			Yii::$app -> end();
 		}
 		else {
@@ -488,7 +488,7 @@ class GameController extends ExtController {
 			// Если время ожидания начала новой игры истекло:
 			if ($Timeout == 0)
 				// Возвращает код ошибки.
-				echo(json_encode(array('Error' => self::EXPIRE_ERROR)));
+				echo(json_encode(['Error' => self::EXPIRE_ERROR]));
 			else {
 				// Если указанное лобби найдено:
 				if ($Lobby -> Load($LobbyID)) {
@@ -499,7 +499,7 @@ class GameController extends ExtController {
 				}
 				else
 					// Возвращает код ошибки.
-					echo(json_encode(array('Error' => self::DATA_ERROR)));
+					echo(json_encode(['Error' => self::DATA_ERROR]));
 			}
 			Yii::$app -> end();
 		}
@@ -562,7 +562,7 @@ class GameController extends ExtController {
 		if (!$Game instanceof Game)
 			throw new GameException('Второй аргумент не является объектом класса Game.');
 		// Возвращает массив данных указанного лобби и игры.
-		return array(
+		return [
 			'LobbyID' => $Lobby -> getID(),
 			'GameID' => $Game -> getID(),
 			'ColorMatrix' => $Game -> getColorMatrix(),
@@ -576,7 +576,7 @@ class GameController extends ExtController {
 			'MovesList' => $Game -> getMovesList('ASC'),
 			'GameTimer' => $Game -> getGameTimer(),
 			'MoveTimer' => $Game -> getMoveTimer()
-		);
+		];
 	}
 
 
@@ -619,7 +619,7 @@ class GameController extends ExtController {
 			// Если возникла ошибка:
 			else
 				// Возвращает код ошибки.
-				echo(json_encode(array('Error' => self::DATA_ERROR)));
+				echo(json_encode(['Error' => self::DATA_ERROR]));
 			Yii::$app -> end();
 		}
 		else {
@@ -662,7 +662,7 @@ class GameController extends ExtController {
 			// Если возникла ошибка:
 			else
 				// Возвращает код ошибки.
-				echo(json_encode(array('Error' => self::DATA_ERROR)));
+				echo(json_encode(['Error' => self::DATA_ERROR]));
 			Yii::$app -> end();
 		}
 		else {
@@ -696,12 +696,12 @@ class GameController extends ExtController {
 				// Если возникла ошибка:
 				else
 					// Возвращает код ошибки.
-					echo(json_encode(array('Error' => self::DATA_ERROR)));
+					echo(json_encode(['Error' => self::DATA_ERROR]));
 			}
 			// Если возникла ошибка:
 			else
 				// Возвращает код ошибки.
-				echo(json_encode(array('Error' => self::DATA_ERROR)));
+				echo(json_encode(['Error' => self::DATA_ERROR]));
 			Yii::$app -> end();
 		}
 		else {
@@ -731,7 +731,7 @@ class GameController extends ExtController {
 			// Если возникла ошибка:
 			else
 				// Возвращает код ошибки.
-				echo(json_encode(array('Error' => self::DATA_ERROR)));
+				echo(json_encode(['Error' => self::DATA_ERROR]));
 			Yii::$app -> end();
 		}
 		else {
@@ -763,7 +763,7 @@ class GameController extends ExtController {
 			// Если игрок не найден:
 			else
 				// Возвращает код ошибки.
-				echo(json_encode(array('Error' => self::DATA_ERROR)));
+				echo(json_encode(['Error' => self::DATA_ERROR]));
 			Yii::$app -> end();
 		}
 		else {
@@ -797,7 +797,7 @@ class GameController extends ExtController {
 			// Если игрок не найден:
 			else
 				// Возвращается код ошибки.
-				echo(json_encode(array('Error' => self::DATA_ERROR)));
+				echo(json_encode(['Error' => self::DATA_ERROR]));
 			Yii::$app -> end();
 		}
 		else {

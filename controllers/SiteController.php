@@ -283,10 +283,10 @@ class SiteController extends ExtController {
 				// Генерирование идентификационного кода.
 				$Code = $User -> setPasswordRecovery();
 				// Отправка пользователю письма для восстановления доступа.
-				$EmailNotification = new EmailNotification($Email, 'forgot', array(
+				$EmailNotification = new EmailNotification($Email, 'forgot', [
 					'Link' => Yii::$app -> urlManager -> getHostInfo() . '/site/recovery?code=' . $Code,
 					'PlayerEmail' => $Email,
-				));
+				]);
 				// Если письмо не отправлено:
 				if (!$EmailNotification -> Send())
 					// Запись в соответствующий журнал логов сообщения об ошибке.
@@ -300,14 +300,14 @@ class SiteController extends ExtController {
 			else {
 				// Возвращается ошибка.
 				$Model -> addError('Email', Yii::t('Dictionary', 'Unknown e-mail address'));
-				$Model -> setAttributes(array('Email' => $Email));
+				$Model -> setAttributes(['Email' => $Email]);
 			}
 		}
 		// Вывод представления (Восстановление пароля).
-		return $this -> render('forgot', array(
+		return $this -> render('forgot', [
 			'Model' => $Model,
 			'Result' => $Result,
-		));
+		]);
 	}
 
 
@@ -346,11 +346,11 @@ class SiteController extends ExtController {
 					// Результат для представления: успешное восстановление доступа.
 					$Result = TRUE;
 					// Отправка пользователю письма об успешной смене пароля и восстановлении доступа.
-					$EmailNotification = new EmailNotification($Model -> Email, 'recovery', array(
+					$EmailNotification = new EmailNotification($Model -> Email, 'recovery', [
 						'PlayerName' => $Model -> Name,
 						'PlayerEmail' => $Model -> Email,
 						'PlayerPassword' => $Password,
-					));
+					]);
 					// Если письмо не отправлено:
 					if (!$EmailNotification -> Send())
 						// Запись в соответствующий журнал логов сообщения об ошибке.
@@ -407,11 +407,11 @@ class SiteController extends ExtController {
 			// Если новый пользователь успешно сохранен в БД:
 			if ($Model -> save()) {
 				// Отправка игроку письма об успешной регистрации.
-				$EmailNotification = new EmailNotification($Model -> Email, 'registration', array(
+				$EmailNotification = new EmailNotification($Model -> Email, 'registration', [
 					'PlayerName' => $Model -> Name,
 					'PlayerEmail' => $Model -> Email,
 					'PlayerPassword' => $Password,
-				));
+				]);
 				// Если письмо не отправлено:
 				if (!$EmailNotification -> Send())
 					// Запись в соответствующий журнал логов сообщения об ошибке.
@@ -430,9 +430,9 @@ class SiteController extends ExtController {
 			}
 		}
 		// Отображение страницы регистрации.
-		return $this -> render('registration', array(
+		return $this -> render('registration', [
 			'Model' => $Model
-		));
+		]);
 	}
 
 
@@ -480,11 +480,11 @@ class SiteController extends ExtController {
 			if ($Model -> save()) {
 				$Result = TRUE;
 				// Отправка игроку письма об успешном изменении персональных данных.
-				$EmailNotification = new EmailNotification($Model -> Email, 'personal', array(
+				$EmailNotification = new EmailNotification($Model -> Email, 'personal', [
 					'PlayerName' => $Model -> Name,
 					'PlayerEmail' => $Model -> Email,
 					'PlayerPassword' => $Password,
-				));
+				]);
 				// Если письмо не отправлено:
 				if (!$EmailNotification -> Send())
 					// Запись в соответствующий журнал логов сообщения об ошибке.
@@ -498,10 +498,10 @@ class SiteController extends ExtController {
 		$Model -> Password = NULL;
 		$Model -> ControlPassword = NULL;
 		// Отображение страницы.
-		return $this -> render('personal', array(
+		return $this -> render('personal', [
 			'Model' => $Model,
 			'Result' => $Result
-		));
+		]);
 	}
 
 

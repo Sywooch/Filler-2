@@ -253,7 +253,6 @@ class Player extends \app\models\models\User {
 	 */
 	public function getLastLobbyID() {
 		// Поиск в БД последнего лобби, в котором участвовал игрок.
-		// $dbModel = LobbyPlayer::findOne(['PlayerID' => 1]) -> orderBy('LobbyID DESC');
 		$dbModel = tableLobbyPlayer::find()
 			-> where(['PlayerID' => 1])
 			-> orderBy('LobbyID DESC')
@@ -269,19 +268,11 @@ class Player extends \app\models\models\User {
 	 */
 	public function getAvailableCompetitors($TimeInterval = 60) {
 		// Поиск активных игроков за указанный интервал времени.
-		// $dbModel = tableUser::model() -> findAllByAttributes(
-		// 	array('Enable' => 1),
-		// 	array(
-		// 		'condition' => 'ID <> ' . $this -> ID . 
-		// 		' AND (ActivityMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND) OR GameMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND))',
-		// 		'order' => 'Name ASC'
-		// 	)
-		// );
 		$dbModel = tableUser::find()
 			-> where(
 				'Enable = 1 AND ID <> ' . $this -> ID .
-				' AND (ActivityMarker >= (NOW() - INTERVAL ' . $TimeInterval . 
-				' SECOND) OR GameMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND))'
+				' AND (ActivityMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND)' .
+				' OR GameMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND))'
 			)
 			-> orderBy('Name ASC')
 			-> all();
@@ -309,13 +300,6 @@ class Player extends \app\models\models\User {
 	 */
 	public function getLobbiesList($TimeInterval = 60) {
 		// Поиск в БД активных лобби за указанный интервал времени.
-		// $dbModel = tableLobby::model() -> findAllByAttributes(
-		// 	array('Status' => 1),
-		// 	array(
-		// 		'condition' => 'Date >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND)',
-		// 		'order' => 'ID DESC'
-		// 	)
-		// );
 		$dbModel = tableLobby::find()
 			-> where('Status = 1 AND Date >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND)')
 			-> orderBy('ID DESC')
@@ -395,13 +379,6 @@ class Player extends \app\models\models\User {
 	 */
 	public function setGameMarker() {
 		$Date = date("Y-m-d H:i:s");
-		// if (tableUser::model() -> updateByPk(
-		// 	$this -> ID, 
-		// 	array('GameMarker' => $Date)
-		// )) {
-		// 	$this -> GameMarker = $Date;
-		// 	return true;
-		// }
 		$dbModel = tableUser::findOne($this -> ID);
 		$dbModel -> GameMarker = $Date;
 		if ($dbModel -> update()) {
@@ -425,11 +402,11 @@ class Player extends \app\models\models\User {
 		if (parent::Load($ID)) {
 			// Загрузка игровых показателей игрока.
 			$this -> loadStatistics($ID);
-			return parent::loadModel($ID, '\app\models\User', array(
+			return parent::loadModel($ID, '\app\models\User', [
 				'Rating',
 				'ActivityMarker',
 				'GameMarker'
-			));
+			]);
 		}
 		return false;
 	}
@@ -448,12 +425,6 @@ class Player extends \app\models\models\User {
 		$this -> TotalGames = 0;
 		$this -> WinningStreak = 0;
 		// Получение из БД всех игр для указанного игрока.
-		// $dbModel = LobbyPlayer::model() -> with(array(
-		// 	'lobby.games' => array(
-		// 		'select' => 'ID, StartDate, WinnerID', 
-		// 		'condition' => 'WinnerID'
-		// 	)
-		// )) -> findAllByAttributes(array('PlayerID' => $ID));
 
 		// SELECT lobby_player.*, game.*, lobby.*
 		// FROM lobby_player 
@@ -492,13 +463,13 @@ class Player extends \app\models\models\User {
 	 *
 	 */
 	public function Save() {
-		return parent::saveModel('\app\models\User', array(
+		return parent::saveModel('\app\models\User', [
 			'Name' => $this -> Name,
 			'Email' => $this -> Email,
 			'Password' => $this -> Password,
 			'Enable' => $this -> Enable,
 			'Rating' => $this -> Rating,
-		));
+		]);
 	}
 
 }

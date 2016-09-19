@@ -21,7 +21,7 @@ class LanguageSwitcherWidget extends Widget {
 
 	/**
 	 *	Список всех языков (Код => Наименование).
-	 *	Например, array('ru' => 'Ру', 'en' => 'En').
+	 *	Например, ['ru' => 'Ру', 'en' => 'En'].
 	 *
 	 */
 	public $Languages = [];

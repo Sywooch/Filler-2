@@ -211,7 +211,7 @@ class Lobby extends LSD {
 	 *
 	 */
 	public function getPropertyList() {
-		return array(
+		return [
 			'ID' => $this -> ID,
 			'Name' => $this -> Name,
 			'SizeX' => $this -> SizeX,
@@ -223,7 +223,7 @@ class Lobby extends LSD {
 			'PlayersList' => $this -> getPlayersList(),
 			'Timer' => $this -> getTimer(),
 			'Active' => $this -> isActive(),
-		);
+		];
 	}
 
 
@@ -246,7 +246,7 @@ class Lobby extends LSD {
 	 */
 	public function getPlayersStartingPosition() {
 		// Список стартовых позиций игроков.
-		$PlayersPosition = array();
+		$PlayersPosition = [];
 		// Позиция игрока #1.
 		$PlayersPosition[] = 1;
 		// Если участвует 2 игрока.
@@ -411,7 +411,7 @@ class Lobby extends LSD {
 	 *
 	 */
 	public function Load($ID) {
-		return parent::loadModel($ID, '\app\models\Lobby', array(
+		return parent::loadModel($ID, '\app\models\Lobby', [
 			'Name',
 			'SizeX',
 			'SizeY',
@@ -420,7 +420,7 @@ class Lobby extends LSD {
 			'Date',
 			'CreatorID',
 			'Status'
-		));
+		]);
 	}
 
 
@@ -432,7 +432,7 @@ class Lobby extends LSD {
 	 *
 	 */
 	public function Save() {
-		return parent::saveModel('\app\models\Lobby', array(
+		return parent::saveModel('\app\models\Lobby', [
 			'Name' => $this -> Name,
 			'SizeX' => $this -> SizeX,
 			'SizeY' => $this -> SizeY,
@@ -440,7 +440,7 @@ class Lobby extends LSD {
 			'PlayersNumber' => $this -> PlayersNumber,
 			'CreatorID' => $this -> CreatorID,
 			'Status' => $this -> Status,
-		));
+		]);
 	}
 
 

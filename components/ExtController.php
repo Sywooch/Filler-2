@@ -3,9 +3,12 @@
 namespace app\components;
 
 use Yii;
+
 use yii\web\Controller;
 use yii\web\Request;
 use yii\web\Cookie;
+
+
 
 /**
  * Controller is the customized base controller class.
@@ -25,7 +28,7 @@ class ExtController extends Controller {
 	 * @var array context menu items. This property will be assigned to {@link CMenu::items}.
 	 *
 	 */
-	public $menu = array();
+	public $menu = [];
 
 	/**
 	 * @var array the breadcrumbs of the current page. The value of this property will
@@ -33,7 +36,7 @@ class ExtController extends Controller {
 	 * for more details on how to specify this property.
 	 *
 	 */
-	public $breadcrumbs = array();
+	public $breadcrumbs = [];
 
 	/**
 	 *	Устройство пользователя.
