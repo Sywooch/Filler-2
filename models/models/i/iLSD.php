@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\models\interface2;
+namespace app\models\models\i;
 
 /**
  *	iLSD - интерфейс Load (Загрузка) / Save (Сохранение) / Delete (Удаление).

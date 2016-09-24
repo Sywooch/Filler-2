@@ -99,7 +99,8 @@ class Lobby extends LSD {
 	 *	
 	 *
 	 */
-	function __construct($Name = null, $SizeX = null, $SizeY = null, $ColorsNumber = null, $PlayersNumber = null, $CreatorID = null) {
+	function __construct(
+		$Name = null, $SizeX = null, $SizeY = null, $ColorsNumber = null, $PlayersNumber = null, $CreatorID = null) {
 		$this -> Name = $Name;
 		$this -> SizeX = $SizeX;
 		$this -> SizeY = $SizeY;
@@ -297,6 +298,19 @@ class Lobby extends LSD {
 
 
 	/**
+	 *	Установка свойств лобби.
+	 *
+	 */
+	public function set($lobby) {
+		foreach ($lobby as $propertyName => $propertyValue) {
+			if (property_exists($this, $propertyName))
+				$this -> $propertyName = $propertyValue;
+		}
+	}
+
+
+
+	/**
 	 *	Обновляет в БД статус лобби.
 	 *	Если статус лобби успешно обновлен в БД, возвращает true.
 	 *	Иначе возвращает false.
@@ -304,14 +318,6 @@ class Lobby extends LSD {
 	 */
 	public function setStatus($Status) {
 		// Если статус лобби успешно обновлен:
-		// if (tableLobby::model() -> updateByPk(
-		// 		$this -> ID, 
-		// 		array('Status' => $Status)
-		// 	)) {
-		// 	$this -> Status = $Status;
-		// 	return true;
-		// }
-
 		$dbModel = tableLobby::findOne($this -> ID);
 		$dbModel -> Status = $Status;
 		if ($dbModel -> update()) {

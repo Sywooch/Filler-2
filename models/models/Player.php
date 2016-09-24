@@ -3,14 +3,16 @@
 namespace app\models\models;
 
 use \DateTime;
-use app\models\models\User;
-use app\models\models\Player;
-use app\models\models\Lobby;
-use app\models\models\LobbyPlayer;
 
+use app\models\Bot as tableBot;
 use app\models\User as tableUser;
 use app\models\Lobby as tableLobby;
 use app\models\LobbyPlayer as tableLobbyPlayer;
+
+use app\models\models\User as User;
+use app\models\models\Player;
+use app\models\models\Lobby;
+use app\models\models\LobbyPlayer;
 
 
 
@@ -39,7 +41,7 @@ use app\models\LobbyPlayer as tableLobbyPlayer;
  * @author Konstantin Poluektov <poluektovkv@gmail.com>
  *
  */
-class Player extends \app\models\models\User {
+class Player extends User {
 
 	/**
 	 *	Количество игр, после которого ведется рейтинг.
@@ -258,6 +260,34 @@ class Player extends \app\models\models\User {
 			-> orderBy('LobbyID DESC')
 			-> one();
 		return $dbModel -> LobbyID;
+	}
+
+
+
+	/**
+	 *	Возвращает список свободных соперников и соперников в процессе игры.
+	 *
+	 */
+	public function getBots($conditions = []) {
+		// Поиск ботов, соответствующих условиям.
+		$dbModel = tableBot::find()
+			-> with('player')
+			-> where(['Level' => 1, 'Secret' => 0])
+			-> all();
+		// Если активные игроки найдены:
+		if ($dbModel !== null) {
+			$Players = [];
+			$Player = new Player();
+			// Формирование массива активных игроков.
+			foreach ($dbModel as $PlayerData) {
+				if ($Player -> Load($PlayerData -> player -> id)) {
+					$Players[] = array_merge(['bot' => true], $Player -> getPropertyList());
+				}
+			}
+			return $Players;
+		}
+		else
+			return false;
 	}
 
 

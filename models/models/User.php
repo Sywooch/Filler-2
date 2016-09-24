@@ -6,6 +6,8 @@ use app\models\User as UserDB;
 use app\models\Recovery as RecoveryDB;
 use yii\web\IdentityInterface;
 
+
+
 /**
  * User class file.
  *
@@ -135,11 +137,11 @@ class User extends LSD {
 			// Генерация идентификационного кода для ссылки.
 			$Code = md5($this -> ID . date("Y-m-d H:i:s"));
 			// Копирование свойств (идентификационный код, идентификатор пользователя, статус) в модель.
-			$dbModel -> attributes = array(
+			$dbModel -> attributes = [
 				'Code' => $Code,
 				'UserID' => $this -> ID,
 				'Status' => '1'
-			);
+			];
 			// Сохранение модели в БД.
 			if ($dbModel -> save())
 				return $Code;
@@ -168,8 +170,8 @@ class User extends LSD {
 	public function SearchByRecoveryCode($Code, $TimeInterval = self::RECOVERY_TIME_INTERVAL) {
 		return $this -> Search(
 			'\app\models\Recovery',
-			array('Code' => $Code),
-			array('condition' => 'Date >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND)'),
+			['Code' => $Code],
+			['condition' => 'Date >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND)'],
 			'UserID'
 		);
 	}
@@ -209,13 +211,13 @@ class User extends LSD {
 	 *
 	 */
 	public function Load($ID) {
-		return parent::loadModel($ID, '\app\models\User', array(
+		return parent::loadModel($ID, '\app\models\User', [
 			'Name', 
 			'Email', 
 			'Password', 
 			'RegistrationDate', 
 			'Enable'
-		));
+		]);
 	}
 
 
@@ -227,12 +229,12 @@ class User extends LSD {
 	 *
 	 */
 	public function Save() {
-		return parent::saveModel('\app\models\User', array(
+		return parent::saveModel('\app\models\User', [
 			'Name' => $this -> Name,
 			'Email' => $this -> Email,
 			'Password' => $this -> Password,
 			'Enable' => $this -> Enable,
-		));
+		]);
 	}
 
 

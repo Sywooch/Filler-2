@@ -420,9 +420,9 @@ class GameController extends ExtController {
 			// Если указанное лобби найдено:
 			if ($Lobby -> Load($LobbyID)) {
 				$Game = new Game(
-					$LobbyID, 
-					$Lobby -> getSizeX(), 
-					$Lobby -> getSizeY(), 
+					$LobbyID,
+					$Lobby -> getSizeX(),
+					$Lobby -> getSizeY(),
 					$Lobby -> getColorsNumber(),
 					$Lobby -> getPlayersStartingPosition()
 				);
@@ -605,6 +605,9 @@ class GameController extends ExtController {
 		$SizeY = Yii::$app -> request -> post('SizeY');
 		$ColorsNumber = Yii::$app -> request -> post('ColorsNumber');
 		$PlayersNumber = Yii::$app -> request -> post('PlayersNumber');
+		//
+		$botsNumber = Yii::$app -> request -> post('botsNumber');
+		$botsLevel = Yii::$app -> request -> post('botsLevel');
 		// Создание нового лобби с указанными параметрами.
 		$Lobby = new Lobby($Name, $SizeX, $SizeY, $ColorsNumber, $PlayersNumber, $PlayerID);
 		// Если тип запроса AJAX:
@@ -792,7 +795,10 @@ class GameController extends ExtController {
 				// Регистрация маркера активности игрока.
 				$Player -> setActivityMarker();
 				// Возвращается список активных соперников.
-				echo(json_encode($Player -> getAvailableCompetitors(self::ACTIVE_PLAYER_TIME_INTERVAL)));
+				// echo(json_encode($Player -> getAvailableCompetitors(self::ACTIVE_PLAYER_TIME_INTERVAL)));
+				$players = $Player -> getAvailableCompetitors(self::ACTIVE_PLAYER_TIME_INTERVAL);
+				$bots = $Player -> getBots();
+				echo(json_encode(array_merge($players, $bots)));
 			}
 			// Если игрок не найден:
 			else

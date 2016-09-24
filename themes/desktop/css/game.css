@@ -71,14 +71,45 @@
 	border-radius: 4px;
 }
 
+.Bot {
+	padding: 10px 10px 10px 10px;
+	margin-bottom: 5px;
+	position: relative;
+	overflow: auto;
+	text-align: left;
+	color: #bb5555;
+	/*color: #5555bb;*/
+	cursor: pointer;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	/*background-color: rgba(60, 40, 40, 0.8) !important;
+	border: 1px solid #884444 !important;*/
+	/*color: #bb5555 !important;*/
+}
+
 .Player-Active {
 	background-color: rgba(255, 255, 255, 0.1);
 	border: 1px solid #666666;
 }
 
+.Bot-Active {
+	background-color: rgba(60, 40, 40, 0.8) !important;
+	border: 1px solid #884444 !important;
+	/*background-color: rgba(40, 40, 60, 0.8) !important;
+	border: 1px solid #444488 !important;*/
+}
+
 .Player-Active:hover {
 	background-color: rgba(255, 255, 255, 0.15);
 	border: 1px solid #888888;
+}
+
+.Bot-Active:hover {
+	background-color: rgba(70, 50, 50, 0.85) !important;
+	border: 1px solid #aa5555 !important;
+	/*background-color: rgba(50, 50, 70, 0.85) !important;
+	border: 1px solid #5555aa !important;*/
 }
 
 .Player-NotActive {
@@ -122,6 +153,11 @@
 
 .Player-Status-Active {
 	color: #888888;
+}
+
+.Bot-Status-Active {
+	color: #aa6666;
+	/*color: #6666aa;*/
 }
 
 .Lobby-Name {

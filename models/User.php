@@ -197,4 +197,12 @@ class User extends \yii\db\ActiveRecord
 	{
 		return $this->hasMany(Recovery::className(), ['UserID' => 'ID']);
 	}
+
+	/**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPlayer()
+    {
+        return $this->hasOne(Bot::className(), ['PlayerID' => 'id']);
+    }
 }

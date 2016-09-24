@@ -75,23 +75,30 @@ viewScoreboard.prototype.CompetitorsListRefresh = function (CompetitorsList, Han
 	var CompetitorBlockCSS;
 	// Название статуса соперника (свободен / в игре).
 	var PlayerStatus;
+	//
+	var bot;
 	// Форматирование полученного списка соперников.
 	for (PlayerIndex = 0; PlayerIndex < CompetitorsList.length; PlayerIndex++) {
+		bot = CompetitorsList[PlayerIndex].bot;
 		// Если соперник свободен:
 		if (CompetitorsList[PlayerIndex].Status) {
-			CompetitorBlockCSS = 'Player-Active';
+			CompetitorBlockCSS = bot ? 'Bot Bot-Active' : 'Player Player-Active';
 			PlayerStatus = this.TextLable.Free;
-			PlayerStatusCSS = 'Player-Status-Active';
+			PlayerStatusCSS = bot ? 'Bot-Status-Active' : 'Player-Status-Active';
 		}
 		// Если соперник занят:
 		else {
-			CompetitorBlockCSS = 'Player-NotActive';
+			CompetitorBlockCSS = bot ? 'Bot Bot-Active' : 'Player Player-NotActive';
 			PlayerStatus = this.TextLable.Busy;
 			PlayerStatusCSS = '';
 		}
+
+		// if (CompetitorsList[PlayerIndex].bot)
+			// CompetitorBlockCSS = bot ? 'Bot' : 'Player';
+
 		// Формирование представления списка соперников.
 		CompetitorsBlocks = CompetitorsBlocks + 
-		'<div class="Player ' + CompetitorBlockCSS + '" id="' + CompetitorsList[PlayerIndex].ID + '" onClick="' + Handler + '(' + CompetitorsList[PlayerIndex].ID + ')"> \
+		'<div class="' + CompetitorBlockCSS + '" id="' + CompetitorsList[PlayerIndex].ID + '" onClick="' + Handler + '(' + CompetitorsList[PlayerIndex].ID + ')"> \
 			 <div class="Player-Name" title="' + this.TextLable.PlayerName + '">' + CompetitorsList[PlayerIndex].Name + '</div> \
 			 <div class="Player-WinningStreak" title="' + this.TextLable.WinningStreak + '">&#9733; ' + CompetitorsList[PlayerIndex].WinningStreak + '</div> \
 			 <div class="Player-Rating" title="' + this.TextLable.Rating + '">' + CompetitorsList[PlayerIndex].Rating + '</div> \

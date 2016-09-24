@@ -16,6 +16,7 @@
 	use app\components\EmailNotification;
 	use app\components\UserIdentity;
 
+	use app\models\Bot as tableBot;
 	use app\models\User as tableUser;
 	use app\models\Lobby as tableLobby;
 	use app\models\LobbyPlayer as tableLobbyPlayer;
@@ -533,6 +534,55 @@ class SiteController extends ExtController {
 
 
 	public function actionTest() {
+
+		// $bot = new \app\models\models\User('Bot4', 'bot@bot.com4', '12345', 1);
+		// print_r($bot);
+		// $bot -> Save();
+
+
+		// $dbModel = tableUser::find()
+		// 	-> where(
+		// 		'Enable = 1 AND ID <> ' . $this -> ID .
+		// 		' AND (ActivityMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND)' .
+		// 		' OR GameMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND))'
+		// 	)
+		// 	-> orderBy('Name ASC')
+		// 	-> all();
+
+		// $bot = tableUser::find()
+		// 	-> where(['id' => 129])
+		// 	-> one();
+
+		// $orders = $bot -> getPlayer()
+		// 	-> where(['Level' => 1])
+		// 	-> all();
+
+		// $bot = tableBot::find()
+		// 	-> with('player')
+		// 	-> where(['Level' => 1, 'Secret' => 0])
+		// 	-> all();
+
+		// $orders = $bot -> getPlayer()
+		// 	-> where(['Level' => 1])
+		// 	-> all();
+
+		// print_r($bot);
+
+		// echo $bot[0] -> player -> id;
+
+		// $bot = new \app\models\models\Bot();
+		// $bot -> Load(132);
+		// print_r($bot);
+
+		// echo $bot -> getID() . ' ' . $bot -> getActivityMarker() . ' ' . $bot -> getLevel();
+
+		$lobby = new \app\models\models\Lobby();
+		$lobby -> set([
+			'Name' => 'Лобби', 
+			'ColorsNumber' => 7, 
+			'some' => 'none'
+		]);
+		print_r($lobby);
 
 	}
 

@@ -2,7 +2,7 @@
 
 namespace app\models\models;
 
-use app\models\models\interface2\iLSD;
+use app\models\models\i\iLSD;
 
 /**
  * LSD (Load, Save, Delete) class file.
