@@ -95,6 +95,7 @@ modelLobby.prototype.Create = function (Callback) {
 			ColorsNumber: this.ColorsNumber,
 			PlayersNumber: this.PlayersNumber,
 			botsNumber: 2,
+			botsLevel: 3
 		},
 		function(Lobby) {
 			// Установка параметров лобби.

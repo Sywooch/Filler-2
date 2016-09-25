@@ -4,6 +4,8 @@ namespace app\models\models;
 
 use app\models\models\i\iLSD;
 
+
+
 /**
  * LSD (Load, Save, Delete) class file.
  *
@@ -59,9 +61,7 @@ abstract class LSD implements iLSD {
 	 */
 	protected function loadModel($ID, $ModelName, $ModelAttributes) {
 		// Поиск модели в БД по указанному идентификатору.
-		//$dbModel = $ModelName::model() -> findByPk($ID);
 		$dbModel = $ModelName::findOne($ID);
-
 		// Если модель найдена:
 		if ($dbModel !== null) {
 			// Копирование свойств из модели.
@@ -80,16 +80,19 @@ abstract class LSD implements iLSD {
 	 *
 	 */
 	protected function saveModel($ModelName, $ModelAttributes) {
-		// Если модель сохраняется в БД впервые:
-		if ($this -> ID == null)
+		// // Если модель сохраняется в БД впервые:
+		// if ($this -> ID == null)
+		// 	// Создание новой модели.
+		// 	$dbModel = new $ModelName;
+		// // Если модель уже сохранялась в БД:
+		// else
+		// 	// Поиск модели в БД по указанному идентификатору.
+		// 	$dbModel = $ModelName::findOne($this -> ID);
+
+		// Если модель не найдена в БД по указанному идентификатору:
+		if (!$dbModel = $ModelName::findOne($this -> ID))
 			// Создание новой модели.
 			$dbModel = new $ModelName;
-		// Если модель уже сохранялась в БД:
-		else
-			// Поиск модели в БД по указанному идентификатору.
-			//$dbModel = $ModelName::model() -> findByPk($this -> ID);
-			$dbModel = $ModelName::findOne($this -> ID);
-
 		// Если модель создана:
 		if ($dbModel !== null) {
 			// Копирование свойств в модель.
@@ -111,9 +114,7 @@ abstract class LSD implements iLSD {
 	 */
 	protected function deleteModel($ModelName) {
 		// Загрузка модели из БД по указанному идентификатору.
-		// $dbModel = $ModelName::model() -> findByPk($this -> ID);
 		$dbModel = $ModelName::findOne($this -> ID);
-		
 		// Если модель загрузилась:
 		if ($dbModel !== null) {
 			// Удаление модели из БД.

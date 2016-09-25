@@ -1,25 +1,25 @@
 <?php
 
-	namespace app\controllers;
+namespace app\controllers;
 
-	use Yii;
+use Yii;
 
-	use yii\filters\VerbFilter;
-	use yii\filters\AccessControl;
-	use yii\web\Controller;
-	use yii\helpers\Url;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use yii\web\Controller;
+use yii\helpers\Url;
 
-	use app\assets\IndexAsset;
-	use app\assets\ThemesAsset;
+use app\assets\IndexAsset;
+use app\assets\ThemesAsset;
 
-	use app\components\ExtController;
-	use app\components\EmailNotification;
-	use app\components\UserIdentity;
+use app\components\ExtController;
+use app\components\EmailNotification;
+use app\components\UserIdentity;
 
-	use app\models\Bot as tableBot;
-	use app\models\User as tableUser;
-	use app\models\Lobby as tableLobby;
-	use app\models\LobbyPlayer as tableLobbyPlayer;
+use app\models\Bot as tableBot;
+use app\models\User as tableUser;
+use app\models\Lobby as tableLobby;
+use app\models\LobbyPlayer as tableLobbyPlayer;
 
 
 
@@ -578,12 +578,26 @@ class SiteController extends ExtController {
 
 		$lobby = new \app\models\models\Lobby();
 		$lobby -> set([
-			'Name' => 'Лобби', 
-			'ColorsNumber' => 7, 
-			'some' => 'none'
+			'Name' => 'Тестище!', 
+			'SizeX' => 50, 
+			'SizeY' => 37, 
+			'ColorsNumber' => 4, 
+			'PlayersNumber' => 7, 
+			'CreatorID' => 1,
+			'botsNumber' => 5,
+			'botsLevel' => 9
 		]);
+		$lobby -> Save();
+		// $lobby -> Load(1153);
+		// $lobby -> set([
+		// 	'level' => 3, 
+		// 	'botsNumber' => 1
+		// ]);
+		// $lobby -> Save();
 		print_r($lobby);
 
+		// $dbModel = \app\models\LobbyBot::findOne(null);
+		// print_r($dbModel);
 	}
 
 }

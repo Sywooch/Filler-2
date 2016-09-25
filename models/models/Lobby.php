@@ -93,14 +93,25 @@ class Lobby extends LSD {
 	 */
 	protected $Status = 1;
 
+	/**
+	 *	Уровень сложности ботов.
+	 *
+	 */
+	protected $botsLevel;
+
+	/**
+	 *	Количество ботов.
+	 *
+	 */
+	protected $botsNumber;
+
 
 
 	/**
 	 *	
 	 *
 	 */
-	function __construct(
-		$Name = null, $SizeX = null, $SizeY = null, $ColorsNumber = null, $PlayersNumber = null, $CreatorID = null) {
+	function __construct($Name = null, $SizeX = null, $SizeY = null, $ColorsNumber = null, $PlayersNumber = null, $CreatorID = null) {
 		$this -> Name = $Name;
 		$this -> SizeX = $SizeX;
 		$this -> SizeY = $SizeY;
@@ -417,6 +428,12 @@ class Lobby extends LSD {
 	 *
 	 */
 	public function Load($ID) {
+		//
+		parent::loadModel($ID, '\app\models\LobbyBot', [
+			'level',
+			'botsNumber'
+		]);
+		//
 		return parent::loadModel($ID, '\app\models\Lobby', [
 			'Name',
 			'SizeX',
@@ -438,7 +455,8 @@ class Lobby extends LSD {
 	 *
 	 */
 	public function Save() {
-		return parent::saveModel('\app\models\Lobby', [
+		//
+		$lobby = parent::saveModel('\app\models\Lobby', [
 			'Name' => $this -> Name,
 			'SizeX' => $this -> SizeX,
 			'SizeY' => $this -> SizeY,
@@ -447,6 +465,17 @@ class Lobby extends LSD {
 			'CreatorID' => $this -> CreatorID,
 			'Status' => $this -> Status,
 		]);
+		//
+		if ($this -> botsLevel && $this -> botsNumber) {
+			$lobbyBot = parent::saveModel('\app\models\LobbyBot', [
+				'lobbyID' => $this -> ID,
+				'level' => $this -> botsLevel,
+				'botsNumber' => $this -> botsNumber,
+			]);
+		}
+		else
+			$lobbyBot = true;
+		return $lobby && $lobbyBot;
 	}
 
 

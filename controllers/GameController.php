@@ -1,27 +1,28 @@
 <?php
 
-	namespace app\controllers;
+namespace app\controllers;
 
-	use Yii;
+use Yii;
 
-	use yii\filters\AccessControl;
-	use yii\web\Controller;
-	use yii\helpers\Url;
-	use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use yii\web\Controller;
+use yii\helpers\Url;
+use yii\filters\VerbFilter;
 
-	use app\assets\IndexAsset;
-	use app\assets\ThemesAsset;
+use app\assets\IndexAsset;
+use app\assets\ThemesAsset;
 
-	use app\components\ExtController;
-	use app\components\EmailNotification;
-	use app\components\UserIdentity;
-	use app\components\GameException;
+use app\components\ExtController;
+use app\components\EmailNotification;
+use app\components\UserIdentity;
+use app\components\GameException;
 
-	use app\models\User;
+// use app\models\User;
 
-	use app\models\models\Player;
-	use app\models\models\Lobby;
-	use app\models\models\Game;
+use app\models\models\Player;
+use app\models\models\Bot;
+use app\models\models\Lobby;
+use app\models\models\Game;
 
 
 
@@ -609,7 +610,19 @@ class GameController extends ExtController {
 		$botsNumber = Yii::$app -> request -> post('botsNumber');
 		$botsLevel = Yii::$app -> request -> post('botsLevel');
 		// Создание нового лобби с указанными параметрами.
-		$Lobby = new Lobby($Name, $SizeX, $SizeY, $ColorsNumber, $PlayersNumber, $PlayerID);
+		// $Lobby = new Lobby($Name, $SizeX, $SizeY, $ColorsNumber, $PlayersNumber, $PlayerID);
+
+		$Lobby = new Lobby();
+		$Lobby -> set([
+			'Name' => $Name, 
+			'SizeX' => $SizeX, 
+			'SizeY' => $SizeY, 
+			'ColorsNumber' => $ColorsNumber, 
+			'PlayersNumber' => $PlayersNumber, 
+			'CreatorID' => $PlayerID,
+			'botsNumber' => $botsNumber,
+			'botsLevel' => $botsLevel
+		]);
 		// Если тип запроса AJAX:
 		if (Yii::$app -> request -> isAjax) {
 			// Если лобби успешно зарегистрировано в БД:

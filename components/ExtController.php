@@ -121,11 +121,9 @@ class ExtController extends Controller {
 		// echo 'CookieLanguage=' . $CookieLanguage;
 		$Cookie = Yii::$app -> response -> cookies;
 		// // Если язык указан в запросе:
-		if (!empty($_GET['language'])) {
+		if (!empty($_GET['language']))
 			// Текущий язык устанавливается из запроса.
 			Yii::$app -> language = Yii::$app -> request -> get('language');
-			// echo 'language=' . Yii::$app -> language;
-		}
 		// Если язык не указан в запросе, но указан в куке:
 		else if (!empty($CookieLanguage))
 			// Текущий язык устанавливается из куки.
@@ -136,6 +134,7 @@ class ExtController extends Controller {
 			$Cookie -> add(new \yii\web\Cookie([
 				'name' => 'language',
 				'value' => Yii::$app -> language,
+				// Установка срока действия куки 1 год.
 				'expire' => time() + (365 * 24 * 60 * 60)
 			]));
 			// Установка срока действия куки 1 год.
