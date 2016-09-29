@@ -614,21 +614,36 @@ class GameController extends ExtController {
 
 		$Lobby = new Lobby();
 		$Lobby -> set([
-			'Name' => $Name, 
-			'SizeX' => $SizeX, 
-			'SizeY' => $SizeY, 
-			'ColorsNumber' => $ColorsNumber, 
-			'PlayersNumber' => $PlayersNumber, 
+			'Name' => $Name,
+			'SizeX' => $SizeX,
+			'SizeY' => $SizeY,
+			'ColorsNumber' => $ColorsNumber,
+			'PlayersNumber' => $PlayersNumber,
 			'CreatorID' => $PlayerID,
 			'botsNumber' => $botsNumber,
 			'botsLevel' => $botsLevel
 		]);
+		//
+		$bot = new Bot();
 		// Если тип запроса AJAX:
 		if (Yii::$app -> request -> isAjax) {
 			// Если лобби успешно зарегистрировано в БД:
 			if ($Lobby -> Save()) {
 				// Добавление автора лобби в список игроков.
 				$Lobby -> AddPlayer($PlayerID);
+				// Список уже подключенных к лобби ботов.
+				$botsList = [];
+				// Подключение ботов к лобби.
+				while ($botsNumber--) {
+					// Поиск бота по заданным условиям в БД.
+					if ($bot -> search(['Level' => $botsLevel, 'Secret' => 0], $botsList)) {
+						// Добавление бота в список игроков.
+						$Lobby -> AddPlayer($bot -> getID());
+						// Добавление идентификатора бота 
+						// в список уже подключенных к лобби ботов.
+						$botsList[] = $bot -> getID();
+					}
+				}
 				// Возвращает информацию о зарегистрированном лобби.
 				echo(json_encode($Lobby -> getPropertyList()));
 			}

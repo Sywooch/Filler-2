@@ -47,7 +47,7 @@ class Bot extends Player {
 	 *	Скрытый бот.
 	 *
 	 */
-	const SECRET = 1;
+	const SECRET = true;
 
 
 
@@ -60,11 +60,58 @@ class Bot extends Player {
 
 
 	/**
+	 *	Режим секретности.
+	 *
+	 */
+	protected $secret = self::SECRET;
+
+
+
+	/**
 	 *	Возвращает уровень мастерства.
 	 *
 	 */
 	public function getLevel() {
 		return $this -> level;
+	}
+
+
+
+	/**
+	 *	Поиск бота по заданным условиям в БД.
+	 *	В качестве условий можно задать уровень сложности, скрытость 
+	 *	и список исключений.
+	 *	Если бот найден, модель загужается из БД и возвращается true, 
+	 *	иначе возвращается false.
+	 *
+	 */
+	public function search($condition, $excludedList = []) {
+		// Поиск бота в БД.
+		$dbModel = tableBot::find()
+			-> where($condition)
+			-> all();
+		// Если боты найдены:
+		if ($dbModel !== null) {
+			// Проверка всех ботов на соответствие условиям.
+			foreach ($dbModel as $botData) {
+				// Если бота нет в списке исключений и модель бота загрузилась из БД:
+				if (!in_array($botData -> PlayerID, $excludedList) && 
+					$this -> Load($botData -> PlayerID)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+
+
+	/**
+	 *	Возвращает уровень мастерства.
+	 *
+	 */
+	public function setMove() {
+		return 0;
 	}
 
 }

@@ -21,6 +21,8 @@ use app\models\User as tableUser;
 use app\models\Lobby as tableLobby;
 use app\models\LobbyPlayer as tableLobbyPlayer;
 
+use app\models\models\Bot;
+
 
 
 /**
@@ -535,7 +537,7 @@ class SiteController extends ExtController {
 
 	public function actionTest() {
 
-		// $bot = new \app\models\models\User('Bot4', 'bot@bot.com4', '12345', 1);
+		// $bot = new \app\models\models\User('Bot: Опытный', 'bot9@bot.bot', '12345', 1);
 		// print_r($bot);
 		// $bot -> Save();
 
@@ -576,28 +578,43 @@ class SiteController extends ExtController {
 
 		// echo $bot -> getID() . ' ' . $bot -> getActivityMarker() . ' ' . $bot -> getLevel();
 
-		$lobby = new \app\models\models\Lobby();
-		$lobby -> set([
-			'Name' => 'Тестище!', 
-			'SizeX' => 50, 
-			'SizeY' => 37, 
-			'ColorsNumber' => 4, 
-			'PlayersNumber' => 7, 
-			'CreatorID' => 1,
-			'botsNumber' => 5,
-			'botsLevel' => 9
-		]);
-		$lobby -> Save();
+		// $lobby = new \app\models\models\Lobby();
+		// $lobby -> set([
+		// 	'Name' => 'Тестище!', 
+		// 	'SizeX' => 50, 
+		// 	'SizeY' => 37, 
+		// 	'ColorsNumber' => 4, 
+		// 	'PlayersNumber' => 7, 
+		// 	'CreatorID' => 1,
+		// 	'botsNumber' => 5,
+		// 	'botsLevel' => 9
+		// ]);
+		// $lobby -> Save();
 		// $lobby -> Load(1153);
 		// $lobby -> set([
 		// 	'level' => 3, 
 		// 	'botsNumber' => 1
 		// ]);
 		// $lobby -> Save();
-		print_r($lobby);
+		// print_r($lobby);
 
 		// $dbModel = \app\models\LobbyBot::findOne(null);
 		// print_r($dbModel);
+
+		// $dbModel = \app\models\Bot::find()
+		// 	-> where(['Level' => 1])
+		// 	-> all();
+		// print_r($dbModel);
+
+		// $bot = new Bot();
+		// $bot -> search(['Level' => 1, 'Secret' => 1]);
+		// print_r($bot);
+
+		$botsNumber = 2;
+		do {
+			echo $botsNumber . ' ';
+		}
+		while ($botsNumber--);
 	}
 
 }

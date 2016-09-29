@@ -185,7 +185,6 @@ class User extends LSD {
 	 */
 	protected function Search($ModelName, $ModelAttributes, $Condition = '', $ID = 'id') {
 		// Поиск пользователя в БД.
-		//$dbModel = $ModelName::model() -> findByAttributes($ModelAttributes, $Condition);
 		$dbModel = $ModelName::find()
 			-> where($ModelAttributes)
 			-> one();
@@ -199,7 +198,6 @@ class User extends LSD {
 			}
 		}
 		return false;
-		// return true;
 	}
 
 
