@@ -94,7 +94,7 @@ modelLobby.prototype.Create = function (Callback) {
 			SizeY: this.SizeY,
 			ColorsNumber: this.ColorsNumber,
 			PlayersNumber: this.PlayersNumber,
-			botsNumber: 2,
+			botsNumber: 1,
 			botsLevel: 3
 		},
 		function(Lobby) {

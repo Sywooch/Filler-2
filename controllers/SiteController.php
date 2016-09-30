@@ -610,11 +610,6 @@ class SiteController extends ExtController {
 		// $bot -> search(['Level' => 1, 'Secret' => 1]);
 		// print_r($bot);
 
-		$botsNumber = 2;
-		do {
-			echo $botsNumber . ' ';
-		}
-		while ($botsNumber--);
 	}
 
 }

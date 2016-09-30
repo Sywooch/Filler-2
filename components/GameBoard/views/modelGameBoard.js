@@ -178,6 +178,7 @@ $(document).ready(function () {
 			this.URL.Base + this.URL.MoveGet,
 			{
 				GameID: this.GameID,
+				PlayerID: this.PlayerID,
 				CompetitorID: CompetitorID
 			},
 			function(Result) {

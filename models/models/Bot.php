@@ -57,7 +57,11 @@ class Bot extends Player {
 	 */
 	protected $level = 1;
 
-
+	/**
+	 *	Время хода.
+	 *
+	 */
+	protected $moveTime = 1;
 
 	/**
 	 *	Режим секретности.
@@ -73,6 +77,34 @@ class Bot extends Player {
 	 */
 	public function getLevel() {
 		return $this -> level;
+	}
+
+
+
+	/**
+	 *	Возвращает время хода.
+	 *
+	 */
+	public function getMoveTime() {
+		return $this -> moveTime;
+	}
+
+
+
+	/**
+	 *	Проверка является ли указанный игрок ботом.
+	 *	Если игрок является ботом, загрузка бота из БД 
+	 *	и возвращается true, иначе false.
+	 *
+	 */
+	public function isBot($id) {
+		$dbModel = tableBot::findOne($id);
+		if ($dbModel) {
+			$this -> Load($id);
+			return true;
+		}
+		else
+			return false;
 	}
 
 
@@ -107,11 +139,13 @@ class Bot extends Player {
 
 
 	/**
-	 *	Возвращает уровень мастерства.
+	 *	Возвращает данные по сделанному ходу.
 	 *
 	 */
-	public function setMove() {
-		return 0;
+	public function getMove() {
+		$move['colorIndex'] = rand(1, 8);
+		$move['points'] = 1;
+		return $move;
 	}
 
 }

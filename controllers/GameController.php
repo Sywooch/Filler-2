@@ -67,6 +67,12 @@ class GameController extends ExtController {
 	const SLEEP_INTERVAL = 2;
 
 	/**
+	 *	Количество циклов ожидания хода.
+	 *
+	 */
+	const TIMEOUT = 30;
+
+	/**
 	 *	Код успешного результата.
 	 *
 	 */
@@ -283,7 +289,7 @@ class GameController extends ExtController {
 								if ($Player -> getGameTimeout() < self::MAXIMUM_PLAYER_TIMEOUT && $Player -> getLastLobbyID() == $LobbyID)
 									$PlayersList[$Player -> getID()] = true;
 								else
-									$PlayersList[$Player -> getID()] = false;
+									$PlayersList[$Player -> getID()] = true; // false
 							}
 						}
 						// Возвращается список игроков с текущими статусами.
@@ -353,22 +359,41 @@ class GameController extends ExtController {
 	 *
 	 */
 	public function actionMoveget() {
-		// Получение из запроса идентификаторов игры и игрока.
+		// Получение из запроса идентификаторов игры, игрока и соперника.
 		$GameID = Yii::$app -> request -> post('GameID');
+		$playerID = Yii::$app -> request -> post('PlayerID');
 		$CompetitorID = Yii::$app -> request -> post('CompetitorID');
 		$Game = new Game();
+		$lobby = new Lobby();
 		// Если тип запроса AJAX:
 		if (Yii::$app -> request -> isAjax) {
 			// Если указанная игра найдена:
 			if ($Game -> Load($GameID, FALSE)) {
+				//
+				$lobby -> Load($Game -> getLobbyID());
+				//
+				$bot = new Bot();
+				// Если указанный соперник является ботом, загрузка бота из БД.
+				$isBot = $bot -> isBot($CompetitorID);
 				// Установка ограничения времени выполнения запроса.
 				set_time_limit(100);
 				// Установка количества циклов ожидания.
-				$Timeout = 30;
+				$Timeout = self::TIMEOUT;
 				// Закрытие сессии, чтобы обрабатывались другие запросы.
 				Yii::$app -> session -> close();
 				// Ожидание хода соперника, пока не истекло время ожидания.
 				do {
+					// Если текущий игрок является автором лобби 
+					// и указанный соперник является ботом:
+					if ($playerID == $lobby -> getCreatorID() && $isBot) {
+						// Если выдержана достаточная пауза перед ходом бота:
+						if ((self::TIMEOUT - $Timeout) * 2 > $bot -> getMoveTime()) {
+							// Регистрация хода бота.
+							$move = $bot -> getMove();
+							$Game -> setMove($move['colorIndex'], $move['points'], $CompetitorID);
+						}
+					}
+					//
 					$Timeout--;
 					sleep(self::SLEEP_INTERVAL);
 					// Получение списка ходов для данной игры.
