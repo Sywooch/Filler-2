@@ -220,31 +220,51 @@ class Game extends LSD {
 	 *	Возвращает список всех сделанных в игре ходов.
 	 *
 	 */
-	public function getMovesList($Order = 'DESC') {
+	public function getMovesList($order = 'DESC', $limit = 1000) {
 		// Загрузка из БД всех сделанных ходов для указанной игры.
-		// $dbModel = tableGameDetail::model() -> findAllByAttributes(
-		// 	array('GameID' => $this -> ID),
-		// 	array('order' => 'ID ' . $Order)
-		// );
 		$dbModel = tableGameDetail::find()
 			-> where(['GameID' => $this -> ID])
-			-> orderBy('ID ' . $Order)
-			-> all();;
+			-> orderBy('ID ' . $order)
+			-> limit($limit)
+			-> all();
 		// Формирование массива ходов.
-		foreach ($dbModel as $Move) {
-			$MovesList[] = [
+		foreach ($dbModel as $move) {
+			$movesList[] = [
 				// Индекс цвета.
-				'ColorIndex' => $Move -> ColorIndex,
+				'ColorIndex' => $move -> ColorIndex,
 				// Количество захваченных ячеек.
-				'CellNumber' => $Move -> Points,
+				'CellNumber' => $move -> Points,
 				// Время регистрации хода.
-				'Date' => $Move -> Date,
+				'Date' => $move -> Date,
 				// Идентификатор игрока.
-				'PlayerID' => $Move -> PlayerID,
+				'PlayerID' => $move -> PlayerID,
 			];
 		}
 		// Возвращается список ходов.
-		return $MovesList;
+		return $movesList;
+	}
+
+
+
+	/**
+	 *	Возвращается последний сделанный ход указанным соперником.
+	 *	Если ход еще не сделан, возвращается false.
+	 *
+	 */
+	public function getMove($playerID, $competitorID) {
+		// Получение последних 4-х ходов игры.
+		$movesList = $this -> getMovesList('DESC', 4);
+		// Поиск хода указанного соперника.
+		foreach ($movesList as $move) {
+			// Если ход не найден:
+			if ($move['PlayerID'] == $playerID)
+				return false;
+			// Если ход найден:
+			else if ($move['PlayerID'] == $competitorID)
+				// Возвращается найденный ход.
+				return $move;
+		}
+		return false;
 	}
 
 

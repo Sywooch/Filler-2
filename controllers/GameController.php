@@ -360,25 +360,25 @@ class GameController extends ExtController {
 	 */
 	public function actionMoveget() {
 		// Получение из запроса идентификаторов игры, игрока и соперника.
-		$GameID = Yii::$app -> request -> post('GameID');
+		$gameID = Yii::$app -> request -> post('GameID');
 		$playerID = Yii::$app -> request -> post('PlayerID');
-		$CompetitorID = Yii::$app -> request -> post('CompetitorID');
-		$Game = new Game();
+		$competitorID = Yii::$app -> request -> post('CompetitorID');
+		$game = new Game();
 		$lobby = new Lobby();
 		// Если тип запроса AJAX:
 		if (Yii::$app -> request -> isAjax) {
 			// Если указанная игра найдена:
-			if ($Game -> Load($GameID, FALSE)) {
+			if ($game -> Load($gameID, FALSE)) {
 				//
-				$lobby -> Load($Game -> getLobbyID());
+				$lobby -> Load($game -> getLobbyID());
 				//
 				$bot = new Bot();
 				// Если указанный соперник является ботом, загрузка бота из БД.
-				$isBot = $bot -> isBot($CompetitorID);
+				$isBot = $bot -> isBot($competitorID);
 				// Установка ограничения времени выполнения запроса.
 				set_time_limit(100);
 				// Установка количества циклов ожидания.
-				$Timeout = self::TIMEOUT;
+				$timeout = self::TIMEOUT;
 				// Закрытие сессии, чтобы обрабатывались другие запросы.
 				Yii::$app -> session -> close();
 				// Ожидание хода соперника, пока не истекло время ожидания.
@@ -387,30 +387,34 @@ class GameController extends ExtController {
 					// и указанный соперник является ботом:
 					if ($playerID == $lobby -> getCreatorID() && $isBot) {
 						// Если выдержана достаточная пауза перед ходом бота:
-						if ((self::TIMEOUT - $Timeout) * 2 > $bot -> getMoveTime()) {
+						if ((self::TIMEOUT - $timeout) * 2 >= $bot -> getMoveTime()) {
 							// Регистрация хода бота.
 							$move = $bot -> getMove();
-							$Game -> setMove($move['colorIndex'], $move['points'], $CompetitorID);
+							$game -> setMove($move['colorIndex'], $move['points'], $competitorID);
 						}
 					}
 					//
-					$Timeout--;
+					$timeout--;
 					sleep(self::SLEEP_INTERVAL);
 					// Получение списка ходов для данной игры.
-					$GameMovesList = $Game -> getMovesList();
+					// $GameMovesList = $game -> getMovesList();
+					// Получение последнего хода для указанного соперника.
+					$competitorMove = $game -> getMove($playerID, $competitorID);
 				}
-				while ($Timeout > 0 && ($GameMovesList === NULL || $GameMovesList[0]['PlayerID'] != $CompetitorID));
+				// while ($timeout > 0 && ($GameMovesList === NULL || $GameMovesList[0]['PlayerID'] != $competitorID));
+				while ($timeout > 0 && !$competitorMove);
 				// Открытие сессии.
 				Yii::$app -> session -> open();
 				// Если время ожидания хода истекло:
-				if ($Timeout == 0)
+				if ($timeout == 0)
 					// Возвращает код ошибки.
 					echo(json_encode(['Error' => self::EXPIRE_ERROR]));
 				else
 					// Возвращает данные хода.
 					echo(json_encode([
 						// Индекс цвета.
-						'ColorIndex' => $GameMovesList[0]['ColorIndex'],
+						// 'ColorIndex' => $GameMovesList[0]['ColorIndex'],
+						'ColorIndex' => $competitorMove['ColorIndex'],
 						// Комментарий к ходу.
 						'Comment' => 'None',
 						'Error' => false

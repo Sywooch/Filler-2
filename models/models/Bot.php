@@ -61,7 +61,7 @@ class Bot extends Player {
 	 *	Время хода.
 	 *
 	 */
-	protected $moveTime = 1;
+	protected $moveTime = 0;
 
 	/**
 	 *	Режим секретности.
@@ -143,7 +143,7 @@ class Bot extends Player {
 	 *
 	 */
 	public function getMove() {
-		$move['colorIndex'] = rand(1, 8);
+		$move['colorIndex'] = rand(1, 10);
 		$move['points'] = 1;
 		return $move;
 	}

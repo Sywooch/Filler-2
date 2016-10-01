@@ -610,6 +610,24 @@ class SiteController extends ExtController {
 		// $bot -> search(['Level' => 1, 'Secret' => 1]);
 		// print_r($bot);
 
+		// $dbModel = \app\models\GameDetail::find()
+		// 	-> where(['GameID' => 638])
+		// 	-> orderBy('ID DESC')
+		// 	-> limit(3)
+		// 	-> all();
+
+		// $dbModel = \app\models\GameDetail::find()
+		// 	-> where(['GameID' => 638])
+		// 	-> orderBy('ID DESC')
+		// 	-> limit(4)
+		// 	-> all();
+
+		// print_r($dbModel);
+
+		$Game = new \app\models\models\Game();
+		$Game -> Load(638, FALSE);
+		print_r($Game -> getMove(133, 1));
+
 	}
 
 }
