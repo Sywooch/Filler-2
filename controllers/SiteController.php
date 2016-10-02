@@ -624,9 +624,15 @@ class SiteController extends ExtController {
 
 		// print_r($dbModel);
 
-		$Game = new \app\models\models\Game();
-		$Game -> Load(638, FALSE);
-		print_r($Game -> getMove(133, 1));
+		$game = new \app\models\models\Game();
+		$game -> Load(642, FALSE);
+		// echo $game -> getMovesNumber() . '   ';
+		// print_r($game-> getMovesList('ASC'));
+		$game -> movesLoad($game -> getMovesList('ASC'));
+		print_r($game);
+		// $lobby = new \app\models\models\Lobby();
+		// $lobby -> Load(1189);
+		// print_r($lobby -> getPlayersList());
 
 	}
 

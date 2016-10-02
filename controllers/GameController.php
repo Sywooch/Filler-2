@@ -389,19 +389,16 @@ class GameController extends ExtController {
 						// Если выдержана достаточная пауза перед ходом бота:
 						if ((self::TIMEOUT - $timeout) * 2 >= $bot -> getMoveTime()) {
 							// Регистрация хода бота.
-							$move = $bot -> getMove();
+							$move = $bot -> getMove($game);
 							$game -> setMove($move['colorIndex'], $move['points'], $competitorID);
 						}
 					}
 					//
 					$timeout--;
 					sleep(self::SLEEP_INTERVAL);
-					// Получение списка ходов для данной игры.
-					// $GameMovesList = $game -> getMovesList();
 					// Получение последнего хода для указанного соперника.
 					$competitorMove = $game -> getMove($playerID, $competitorID);
 				}
-				// while ($timeout > 0 && ($GameMovesList === NULL || $GameMovesList[0]['PlayerID'] != $competitorID));
 				while ($timeout > 0 && !$competitorMove);
 				// Открытие сессии.
 				Yii::$app -> session -> open();
@@ -413,7 +410,6 @@ class GameController extends ExtController {
 					// Возвращает данные хода.
 					echo(json_encode([
 						// Индекс цвета.
-						// 'ColorIndex' => $GameMovesList[0]['ColorIndex'],
 						'ColorIndex' => $competitorMove['ColorIndex'],
 						// Комментарий к ходу.
 						'Comment' => 'None',

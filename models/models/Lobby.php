@@ -177,9 +177,6 @@ class Lobby extends LSD {
 	 *
 	 */
 	public function getCurrentPlayersNumber() {
-		// return tableLobbyPlayer::model() -> countByAttributes(
-		// 	array('LobbyID' => $this -> ID)
-		// );
 		return tableLobbyPlayer::find()
 			-> where(['LobbyID' => $this -> ID])
 			-> count();
@@ -314,7 +311,9 @@ class Lobby extends LSD {
 	 */
 	public function set($lobby) {
 		foreach ($lobby as $propertyName => $propertyValue) {
+			// Если текущее свойство существует:
 			if (property_exists($this, $propertyName))
+				// Установка значения текущего свойства.
 				$this -> $propertyName = $propertyValue;
 		}
 	}

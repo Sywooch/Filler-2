@@ -142,9 +142,25 @@ class Bot extends Player {
 	 *	Возвращает данные по сделанному ходу.
 	 *
 	 */
-	public function getMove() {
-		$move['colorIndex'] = rand(1, 10);
-		$move['points'] = 1;
+	public function getMove($game) {
+		// Проверка соответствия типа объекта:
+		if (!$game instanceof Game)
+			throw new GameException('Аргумент не является объектом класса Game.');
+		// Загрузка текущего состояния игрового поля из списка ходов.
+		$game -> movesLoad($game -> getMovesList('ASC'));
+		// Получение списка занятых цветов.
+		$disabledColors = $game -> disabledColorsGet();
+		// Получение эффективности хода для каждого цвета.
+		$progressByColorsList = $game -> progressByColorsListGet($this -> ID);
+		arsort($progressByColorsList);
+		//
+		foreach ($progressByColorsList as $colorIndex => $points) {
+			if (!in_array($colorIndex, $disabledColors)) {
+				$move['colorIndex'] = $colorIndex; // rand(1, 10);
+				$move['points'] = $points;
+				break;
+			}
+		}
 		return $move;
 	}
 
