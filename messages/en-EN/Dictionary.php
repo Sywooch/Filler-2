@@ -39,6 +39,7 @@ return [
 	'4 players' => '4 players',
 	'Lobby' => 'Lobby',
 	'Players' => 'Players',
+	'Bot' => 'Bot',
 	'Colors' => 'Colors',
 	'Size' => 'Size',
 	'Features' => 'Features',

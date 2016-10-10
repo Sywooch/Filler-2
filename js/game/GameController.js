@@ -238,6 +238,8 @@ GameController.LobbyCreate = function() {
 		var LobbyName = LobbyCreateDialog.LobbyNameGet();
 		var ColorsNumber = LobbyCreateDialog.ColorsNumberGet();
 		var Size = LobbyCreateDialog.SizeGet();
+		var botsNumber = LobbyCreateDialog.botsNumberGet();
+		var botsLevel = LobbyCreateDialog.botsLevelGet();
 		// Установка параметров в модели лобби.
 		window.LobbyModel.Set({
 			Name: LobbyName,
@@ -245,6 +247,8 @@ GameController.LobbyCreate = function() {
 			SizeY: Size.Y,
 			ColorsNumber: ColorsNumber,
 			PlayersNumber: PlayersNumber,
+			botsNumber: botsNumber,
+			botsLevel: botsLevel,
 			CreatorID: Player.ID,
 			Active: true
 		});

@@ -805,6 +805,38 @@ $(document).ready(function () {
 		this.ColorsNumberSet(ColorsNumber);
 	}
 	/**
+	 *	Установка количества ботов.
+	 *
+	 */
+	LobbyCreateDialog.botsNumberSet = function (playersNumber) {
+		if (playersNumber == 2) {
+			$(".bot-mode-button").addClass('bot-off');
+			$(".bot-mode-button:first").removeClass('bot-off');
+			$(".bot-mode-button:hidden").removeClass('selected-check-button');
+			return true;
+		}
+		else if (playersNumber == 4) {
+			$(".bot-mode-button").removeClass('bot-off');
+			return true;
+		}
+		else
+			return false;
+	}
+	/**
+	 *	Получения количества ботов.
+	 *
+	 */
+	LobbyCreateDialog.botsNumberGet = function () {
+		return $(".bot-mode-button.selected-check-button:not(.bot-off)").length;
+	}
+	/**
+	 *	Получения количества ботов.
+	 *
+	 */
+	LobbyCreateDialog.botsLevelGet = function () {
+		return $('#botLevel').val();
+	}
+	/**
 	 *	Получение выбранного пользователем количества цветов.
 	 *
 	 */
@@ -830,10 +862,15 @@ $(document).ready(function () {
 	 *
 	 */
 	LobbyCreateDialog.PlayersNumberGet = function () {
-		var PlayersNumber = 2;
-		if ($('#x4Players').is(':checked'))
-			PlayersNumber = 4;
-		return PlayersNumber;
+		// var PlayersNumber = 2;
+		// if ($('#x4Players').is(':checked'))
+		// 	PlayersNumber = 4;
+		// return PlayersNumber;
+		if ($('#x2Players.selected-radio-button').length)
+			return 2;
+		else if ($('#x4Players.selected-radio-button').length)
+			return 4;
+		return false;
 	}
 	/**
 	 *	Получение выбранного пользователем размера игрового поля.
@@ -841,13 +878,16 @@ $(document).ready(function () {
 	 */
 	LobbyCreateDialog.SizeGet = function () {
 		// Если выбран минимальный размер игрового поля:
-		if ($('#SizeA').is(':checked'))
+		//if ($('#SizeA').is(':checked'))
+		if ($('#SizeA.selected-radio-button').length)
 			return this.Options.SizeList.A;
 		// Если выбран средний размер игрового поля:
-		if ($('#SizeB').is(':checked'))
+		// if ($('#SizeB').is(':checked'))
+		if ($('#SizeB.selected-radio-button').length)
 			return this.Options.SizeList.B;
 		// Если выбран максимальный размер игрового поля:
-		if ($('#SizeC').is(':checked'))
+		// if ($('#SizeC').is(':checked'))
+		if ($('#SizeC.selected-radio-button').length)
 			return this.Options.SizeList.C;
 	}
 	/**
@@ -874,16 +914,18 @@ $(document).ready(function () {
 
 	// Инициализация соответствующего списка количества цветов при выборе
 	// пользователем количества игроков.
-	$('#x2PlayersLable').click(function() {
+	$('#x2Players').click(function() {
 		// Количество игроков: 2.
 		LobbyCreateDialog.ColorsNumberListSet(2);
+		LobbyCreateDialog.botsNumberSet(2);
 	});
 
 	// Инициализация соответствующего списка количества цветов при выборе
 	// пользователем количества игроков.
-	$('#x4PlayersLable').click(function() {
+	$('#x4Players').click(function() {
 		// Количество игроков: 4.
 		LobbyCreateDialog.ColorsNumberListSet(4);
+		LobbyCreateDialog.botsNumberSet(4);
 	});
 
 	// Диалоговое окно создания лобби закрыто.
@@ -917,6 +959,35 @@ $(document).ready(function () {
 	// Нажатие кнопки "Нет".
 	$('#MessageDialog-NoButton').click(function() {
 		MessageDialog.NoButtonClick();
+	});
+
+	//
+	// $('#x2Players').click(function() {
+	// 	$('.player-mode-button').removeClass('selected-check-button');
+	// 	$(this).addClass('selected-check-button');
+	// });
+
+	// //
+	// $('#x4Players').click(function() {
+	// 	$('.player-mode-button').removeClass('selected-check-button');
+	// 	$(this).addClass('selected-check-button');
+	// });
+
+	//
+	// $('.bot-mode-button').click(function() {
+	// 	$(this).toggleClass('selected-check-button');
+	// });
+
+	//
+	$('.check-button').click(function() {
+		$(this).toggleClass('selected-check-button');
+	});
+
+	//
+	$('.radio-button').click(function() {
+		var name = $(this).attr('name');
+		$(".radio-button[name='" + name + "']").removeClass('selected-radio-button');
+		$(this).addClass('selected-radio-button');
 	});
 
 });

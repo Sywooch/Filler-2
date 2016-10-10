@@ -40,6 +40,10 @@ modelLobby.prototype.Set = function (Lobby) {
 	this.ColorsNumber = Lobby.ColorsNumber;
 	// Количество игроков лобби.
 	this.PlayersNumber = Lobby.PlayersNumber;
+	// Количество ботов.
+	this.botsNumber = Lobby.botsNumber;
+	// Уровень мастерства ботов.
+	this.botsLevel = Lobby.botsLevel;
 	// Автор лобби.
 	this.CreatorID = Lobby.CreatorID;
 	// Активность лобби.
@@ -94,8 +98,8 @@ modelLobby.prototype.Create = function (Callback) {
 			SizeY: this.SizeY,
 			ColorsNumber: this.ColorsNumber,
 			PlayersNumber: this.PlayersNumber,
-			botsNumber: 3,
-			botsLevel: 3
+			botsNumber: this.botsNumber,
+			botsLevel: this.botsLevel
 		},
 		function(Lobby) {
 			// Установка параметров лобби.

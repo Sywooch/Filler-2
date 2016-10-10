@@ -109,27 +109,48 @@
 						<select class="form-control" id="ColorsNumber"></select>
 					</div>
 					
-					<div class="col-xs-24 btn-group btn-group-justified" data-toggle="buttons">
-						<label class="btn btn-lg btn-default" for="SizeA" id="SizeALable">
-							<input type="radio" name="PlayingFieldSizeSelect" id="SizeA"><?= Yii::t('Dictionary', 'Simple'); ?><br><span style="font-size: 12px;">18 x 12</span>
-						</label>
-						<label class="btn btn-lg btn-default active" for="SizeB" id="SizeBLable">
-							<input type="radio" name="PlayingFieldSizeSelect" id="SizeB" checked><?= Yii::t('Dictionary', 'Medium'); ?><br><span class="text-12">24 x 16</span>
-						</label>
-						<label class="btn btn-lg btn-default" for="SizeC" id="SizeCLable">
-							<input type="radio" name="PlayingFieldSizeSelect" id="SizeC"><?= Yii::t('Dictionary', 'Difficult'); ?><br><span class="text-12">30 x 20</span>
-						</label>
+					<div class="col-xs-24 btn-group" style="display: inline-flex !important;">
+						<div class="radio-button selected-radio-button size-mode-button" name="fieldSize" id="SizeA" checked>
+							<?= Yii::t('Dictionary', 'Simple'); ?>
+							<br><span class="text-12 text-normal">18 x 12</span>
+						</div>
+						<div class="radio-button size-mode-button" name="fieldSize" id="SizeB">
+							<?= Yii::t('Dictionary', 'Medium'); ?>
+							<br><span class="text-12 text-normal">24 x 16</span>
+						</div>
+						<div class="radio-button size-mode-button" name="fieldSize" id="SizeC">
+							<?= Yii::t('Dictionary', 'Difficult'); ?>
+							<br><span class="text-12 text-normal">30 x 20</span>
+						</div>
 					</div>
 
-					<div class="col-xs-24 btn-group btn-group-justified indent-top-sm" data-toggle="buttons">
-						<label class="btn btn-lg btn-default active" for="x2Players" id="x2PlayersLable">
-							<input type="radio" name="PlayersNumberSelect" id="x2Players" checked><?= Yii::t('Dictionary', '2 players'); ?>
-						</label>
-						<label class="btn btn-lg btn-default" for="x4Players" id="x4PlayersLable">
-							<input type="radio" name="PlayersNumberSelect" id="x4Players"><?= Yii::t('Dictionary', '4 players'); ?>
-						</label>
+					<div class="col-xs-10 btn-group indent-top-sm" style="display: inline-flex !important;">
+						<div class="radio-button selected-radio-button player-mode-button" name="playersNumber" id="x2Players" checked>
+							<?= Yii::t('Dictionary', '2 players'); ?>
+						</div>
+						<div class="radio-button player-mode-button" name="playersNumber" id="x4Players">
+							<?= Yii::t('Dictionary', '4 players'); ?>
+						</div>
 					</div>
-					
+
+					<div class="col-sm-14 form-group" id="botSettings">
+						<div class="check-button bot-mode-button">
+							<?= Yii::t('Dictionary', 'Bot'); ?>
+						</div>
+						<div class="check-button bot-mode-button bot-off">
+							<?= Yii::t('Dictionary', 'Bot'); ?>
+						</div>
+						<div class="check-button bot-mode-button bot-off">
+							<?= Yii::t('Dictionary', 'Bot'); ?>
+						</div>
+						<div>
+							<select class="form-control" id="botLevel" style="cursor: pointer; height: 50px">
+								<option style="padding: 7px 7px;" value="1"><?= Yii::t('Dictionary', 'Simple'); ?></option>
+								<option style="padding: 7px 7px;" value="2" selected><?= Yii::t('Dictionary', 'Medium'); ?></option>
+								<option style="padding: 7px 7px;" value="3"><?= Yii::t('Dictionary', 'Difficult'); ?></option>
+							</select>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
