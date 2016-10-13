@@ -78,9 +78,9 @@ class ExtController extends Controller {
 		// Устройство пользователя.
 		$this -> ClientDevice = Yii::$app -> mobileDetect;
 
-		// // Если устройство пользователя мобильное, устанавливается мобильная тема приложения.
-		// if ($this -> ClientDevice -> isMobile() && !$this -> ClientDevice -> isTablet())
-		// 	Yii::$app -> setTheme('mobile');
+		// Если устройство пользователя мобильное, устанавливается мобильная тема приложения.
+		if ($this -> ClientDevice -> isMobile() && !$this -> ClientDevice -> isTablet())
+			$this -> view -> theme -> pathMap['@app/views'] = '@app/themes/mobile/views';
 
 		parent::init();
 	}

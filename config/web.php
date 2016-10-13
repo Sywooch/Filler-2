@@ -112,32 +112,16 @@ $config = [
 		
 		'view' => [
 			'theme' => [
-				// 'basePath' => '@webroot/themes/desktop/views',
-				// 'baseUrl' => '@web/themes/desktop/views',
-				// 'pathMap' => [
-				// 	'@app/views' => '@webroot/themes/desktop/views',
-				// ],
 				'basePath' => '@app/themes/desktop',
 				'baseUrl' => '@web/themes/desktop',
 				'pathMap' => [
-					'@app/views' => '@app/themes/desktop/views',
+					'@app/views' => '@app/themes/desktop/views'
+					// '@app/views' => [
+					// 	'@app/themes/mobile/views',
+					// 	'@app/themes/desktop/views'
+					// ],
 				],
 			],
-
-			// 'theme' => [
-			// 	// 'class'=>'app\components\Theme',
-			// 	'basePath' => '@app/themes/desktop/views',
-			// 	'baseUrl' => '@web/themes/desktop/views',
-			// 	// 'active'=>'desktop',
-			// 	'pathMap' => [
-			// 		'desktop' => [
-			// 			'@app/views' => ['@app/themes/desktop/views']
-			// 		],
-			// 		'mobile' => [
-			// 			'@app/views' => ['@app/themes/mobile/views']
-			// 		],
-			// 	],
-			// ],
 		],
 	],
 	'params' => $params,

@@ -638,7 +638,11 @@ class SiteController extends ExtController {
 		//echo !$this -> ClientDevice -> isMobile();
 		//echo !$this -> ClientDevice -> isTablet();
 
-		echo $this -> ClientDevice -> isMobile() ? 'мобильный' : 'настольный';
+		//echo $this -> ClientDevice -> isMobile() ? 'мобильный' : 'настольный';
+
+		$this -> view -> theme -> pathMap['@app/views'] = '@app/themes/mobile/views';
+
+		print_r($this -> view -> theme);
 
 	}
 
