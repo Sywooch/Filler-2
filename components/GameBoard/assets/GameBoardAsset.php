@@ -2,6 +2,7 @@
 
 namespace app\components\GameBoard\assets;
 
+use Yii;
 use yii\web\AssetBundle;
 
 
@@ -26,4 +27,13 @@ class GameBoardAsset extends AssetBundle {
 	public $depends = [
 		'yii\web\YiiAsset',
 	];
+	//
+	public function getTheme() {
+		return !Yii::$app -> mobileDetect -> isMobile() ? (YII_DEBUG ? 'GameBoard-mobile.css' : 'GameBoard-mobile.min.css') : (YII_DEBUG ? 'GameBoard.css' : 'GameBoard.min.css');
+	}
+	//
+	public function init() {
+		parent::init();
+		$this -> css = [$this -> getTheme()];
+	}
 }

@@ -40,6 +40,9 @@ $config = [
 			// for the mailer to send real emails.
 			'useFileTransport' => true,
 		],
+		'mobileDetect' => [
+			'class' => '\skeeks\yii2\mobiledetect\MobileDetect'
+		],
 		'log' => [
 			'traceLevel' => YII_DEBUG ? 3 : 0,
 			'targets' => [

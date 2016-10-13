@@ -12,7 +12,7 @@
 	//
 	IndexAsset::register($this);
 	//
-	$bundle = ThemesAsset::register($this);
+	// $bundle = ThemesAsset::register($this);
 
 	$this -> registerJs(
 		"var BASE_URL = '';

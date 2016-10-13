@@ -1,5 +1,13 @@
 <?php
-	$this -> beginContent('//layouts/main');
+	use yii\helpers\Url;
+	use yii\helpers\Html;
+	use yii\base\Widget;
+	use app\components\LanguageSwitcher\LanguageSwitcherWidget;
+	use app\assets\ThemesAsset;
+
+	$bundle = ThemesAsset::register($this);
+
+	$this -> beginContent('@app/themes/mobile/views/layouts/main.php');
 ?>
 
 <div class="row">

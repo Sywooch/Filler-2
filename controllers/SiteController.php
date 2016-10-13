@@ -624,15 +624,21 @@ class SiteController extends ExtController {
 
 		// print_r($dbModel);
 
-		$game = new \app\models\models\Game();
-		$game -> Load(642, FALSE);
+		// $game = new \app\models\models\Game();
+		// $game -> Load(642, FALSE);
 		// echo $game -> getMovesNumber() . '   ';
 		// print_r($game-> getMovesList('ASC'));
-		$game -> movesLoad($game -> getMovesList('ASC'));
-		print_r($game);
+		// $game -> movesLoad($game -> getMovesList('ASC'));
+		// print_r($game);
 		// $lobby = new \app\models\models\Lobby();
 		// $lobby -> Load(1189);
 		// print_r($lobby -> getPlayersList());
+
+		//print_r($this -> ClientDevice);
+		//echo !$this -> ClientDevice -> isMobile();
+		//echo !$this -> ClientDevice -> isTablet();
+
+		echo $this -> ClientDevice -> isMobile() ? 'мобильный' : 'настольный';
 
 	}
 

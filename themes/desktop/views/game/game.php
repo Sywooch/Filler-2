@@ -102,11 +102,11 @@
 				<div class="row">
 					<div class="col-sm-16 form-group" id="DivLobbyName">
 						<label class="control-label" for="LobbyName"><?= Yii::t('Dictionary', 'Name'); ?></label>
-						<input type="text" class="form-control" id="LobbyName" placeholder="<?= Yii::t('Dictionary', 'Enter a name'); ?>">
+						<input type="text" class="form-control" id="LobbyName" style="height: 50px" placeholder="<?= Yii::t('Dictionary', 'Enter a name'); ?>">
 					</div>
 					<div class="col-sm-8 form-group">
 						<label for="ColorsNumber"><?= Yii::t('Dictionary', 'Colors number'); ?></label>
-						<select class="form-control" id="ColorsNumber"></select>
+						<select class="form-control" id="ColorsNumber" style="cursor: pointer; height: 50px"></select>
 					</div>
 					
 					<div class="col-xs-24 btn-group" style="display: inline-flex !important;">

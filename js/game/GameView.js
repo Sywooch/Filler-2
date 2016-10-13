@@ -800,7 +800,7 @@ $(document).ready(function () {
 		if (PlayersNumber == 4)
 			ColorsNumberList = this.Options.ColorsNumberList.x4players;
 		$.each(ColorsNumberList, function(key, value) {
-			$("#ColorsNumber").append('<option value="' + key + '">' + value + '</option>');
+			$("#ColorsNumber").append('<option style="padding: 7px 7px;" value="' + key + '">' + value + '</option>');
 		});
 		this.ColorsNumberSet(ColorsNumber);
 	}

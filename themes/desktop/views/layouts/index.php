@@ -6,9 +6,9 @@
 	use app\components\LanguageSwitcher\LanguageSwitcherWidget;
 
 	// use app\assets\IndexAsset;
-	// use app\assets\ThemesAsset;
+	use app\assets\ThemesAsset;
 	// IndexAsset::register($this);
-	// ThemesAsset::register($this);
+	ThemesAsset::register($this);
 	
 	$this -> beginContent('@app/themes/desktop/views/layouts/main.php');
 ?>

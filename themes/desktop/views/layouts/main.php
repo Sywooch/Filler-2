@@ -3,10 +3,12 @@
 	use yii\helpers\Url;
 	use yii\helpers\Html;
 	use app\assets\ThemesAsset;
+	use app\assets\MobileAsset;
 	use app\assets\BootstrapAsset;
 
-	ThemesAsset::register($this);
-	// BootstrapAsset::register($this);
+	//Yii::$app -> mobileDetect -> isMobile() ? MobileAsset::register($this) : ThemesAsset::register($this);
+	// ThemesAsset::setTheme();
+	// ThemesAsset::register($this);
 
 ?>
 <?php $this -> beginPage() ?>

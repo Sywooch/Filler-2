@@ -75,8 +75,8 @@ class ExtController extends Controller {
 		// Установка текущего языка.
 		$this -> LanguageInit();
 
-		// // Устройство пользователя.
-		// $this -> ClientDevice = Yii::$app -> mobileDetect;
+		// Устройство пользователя.
+		$this -> ClientDevice = Yii::$app -> mobileDetect;
 
 		// // Если устройство пользователя мобильное, устанавливается мобильная тема приложения.
 		// if ($this -> ClientDevice -> isMobile() && !$this -> ClientDevice -> isTablet())

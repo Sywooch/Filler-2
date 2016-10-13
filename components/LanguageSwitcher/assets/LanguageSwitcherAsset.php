@@ -2,6 +2,7 @@
 
 namespace app\components\LanguageSwitcher\assets;
 
+use Yii;
 use yii\web\AssetBundle;
 
 
@@ -16,7 +17,6 @@ class LanguageSwitcherAsset extends AssetBundle {
 	//
 	public $css = [
 		'LanguageSwitcher.css',
-		// 'LanguageSwitcher-mobile.css',
 	];
 	//
 	public $js = [
@@ -25,4 +25,13 @@ class LanguageSwitcherAsset extends AssetBundle {
 	public $depends = [
 		'yii\web\YiiAsset',
 	];
+	//
+	public function getTheme() {
+		return !Yii::$app -> mobileDetect -> isMobile() ? 'LanguageSwitcher-mobile.css' : 'LanguageSwitcher.css';
+	}
+	//
+	public function init() {
+		parent::init();
+		$this -> css = [$this -> getTheme()];
+	}
 }
