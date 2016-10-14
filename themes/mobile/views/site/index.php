@@ -1,3 +1,30 @@
+<?php
+
+	use yii\helpers\Url;
+	use yii\helpers\Html;
+	use yii\web\View;
+
+	use app\assets\IndexAsset;
+	use app\assets\ThemesAsset;
+
+	use app\components\FooterMenu\FooterMenuWidget;
+
+	//
+	IndexAsset::register($this);
+	//
+	$bundle = ThemesAsset::register($this);
+
+	$this -> registerJs(
+		"var BASE_URL = '';
+		var ERROR_MESSAGE = [];
+		ERROR_MESSAGE[0] = '" . Yii::t('Dictionary', 'Enter a e-mail address') . "';
+		ERROR_MESSAGE[1] = '" . Yii::t('Dictionary', 'Enter a password') . "';
+		ERROR_MESSAGE[2] = '" . Yii::t('Dictionary', 'Incorrect e-mail address') . "';", 
+		View::POS_HEAD, 
+		'Authorization'
+	);
+
+?>
 
 <div class="row">
 	<div class="col-xs-24" id="IndexShadowHeader">
@@ -16,29 +43,30 @@
 
 <div class="modal fade" id="PlayerAuthorization" tabindex="-1" role="dialog" aria-labelledby="Authorization" data-backdrop="static" aria-hidden="true">
 	<div id="Loading">
-		<img src="<?php echo(Yii::app() -> theme -> baseUrl . '/images/ajax-loader.gif'); ?>" alt=""></img>
+		<img src="<?= $bundle -> baseUrl . '/images/ajax-loader.gif'; ?>" alt=""></img>
 	</div>
 	<div class="modal-dialog modal-lg" style="width:96%;">
 		<div class="modal-content modal-background">
 			<div class="modal-header" style="padding:30px;">
 				<button type="button" class="close text-48" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title text-48" id="PlayerAuthorizationTitle"><?php echo(Yii::t('Dictionary', 'Player authorization')); ?></h4>
+				<h4 class="modal-title text-48" id="PlayerAuthorizationTitle"><?= Yii::t('Dictionary', 'Player authorization'); ?></h4>
 			</div>
-			<form id="EmailForm" action="<?php echo($this -> createUrl("/site/login")); ?>" method="post">
+			<form id="EmailForm" action="<?= Url::to(['site/login']); ?>" method="post">
+				<input type="hidden" name="_csrf" value="<?= Yii::$app -> request -> getCsrfToken(); ?>" />
 				<div class="modal-body" style="padding:30px;">
 					<div class="form-group">
 						<div class="text-36 error-message text-left" id="AuthorizationError"></div>
-						<input type="email" class="form-control text-48" style="height:100px; margin-bottom:40px; padding:0 30px;" maxlength="50" name="Email" id="Email" placeholder="<?php echo(Yii::t('Dictionary', 'E-mail')); ?>">
+						<input type="email" class="form-control text-48" style="height:100px; margin-bottom:40px; padding:0 30px;" maxlength="50" name="Email" id="Email" placeholder="<?= Yii::t('Dictionary', 'E-mail'); ?>">
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control text-48" style="height:100px; margin-bottom:40px; padding:0 30px;" maxlength="50" name="Password" id="Password" placeholder="<?php echo(Yii::t('Dictionary', 'Password')); ?>">
+						<input type="password" class="form-control text-48" style="height:100px; margin-bottom:40px; padding:0 30px;" maxlength="50" name="Password" id="Password" placeholder="<?= Yii::t('Dictionary', 'Password'); ?>">
 					</div>
 					<div class="text-right standart-link">
-						<?php echo CHtml::link(Yii::t('Dictionary', 'Forgot your password?'), $this -> createUrl("/site/forgot")); ?>
+						<?= Html::a(Yii::t('Dictionary', 'Forgot your password?'), Url::to('forgot')); ?>
 					</div>
 				</div>
 				<div class="modal-footer" style="padding:30px;">
-					<button type="submit" class="btn btn-primary btn-block btn-lg col-xs-24 text-48" style="height:120px;" id="LoginButton"><?php echo(Yii::t('Dictionary', 'Login')); ?></button>
+					<button type="submit" class="btn btn-primary btn-block btn-lg col-xs-24 text-48" style="height:120px;" id="LoginButton"><?= Yii::t('Dictionary', 'Login'); ?></button>
 				</div>
 			</form>
 		</div>
@@ -51,28 +79,28 @@
 	<div class="col-xs-24 IndexFooterMenuBlock ">
 
 <?php
-
+	
 	// Если пользователь не авторизован:
-	if (Yii::app() -> user -> isGuest) {
+	if (Yii::$app -> user -> isGuest) {
 		// Выводится меню "Вход | Регистрация".
-		$this -> widget('ext.FooterMenu.FooterMenuWidget', array(
-			'ItemList' => array(
+		echo FooterMenuWidget::widget([
+			'ItemList' => [
 				Yii::t('Dictionary', 'Login') => 'javascript:LoginWindow();',
-				Yii::t('Dictionary', 'Registration') => $this -> createUrl("/site/registration")
-			),
+				Yii::t('Dictionary', 'Registration') => Url::to(['site/registration'])
+			],
 			'Style' => 2
-		));
+		]);
 	}
 	// Если пользователь авторизован:
 	else {
 		// Выводится меню "Играть | Выход".
-		$this -> widget('ext.FooterMenu.FooterMenuWidget', array(
-			'ItemList' => array(
-				Yii::t('Dictionary', 'Play') => $this -> createUrl("/game/game"),
-				Yii::t('Dictionary', 'Logout') => $this -> createUrl("/site/logout")
-			),
+		echo FooterMenuWidget::widget([
+			'ItemList' => [
+				Yii::t('Dictionary', 'Play') => Url::to(['game/game']),
+				Yii::t('Dictionary', 'Logout') => Url::to(['site/logout'])
+			],
 			'Style' => 2
-		));
+		]);
 	}
 
 ?>

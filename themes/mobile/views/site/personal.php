@@ -1,3 +1,10 @@
+<?php
+
+	use yii\helpers\Url;
+	use yii\helpers\Html;
+	use app\components\FooterMenu\FooterMenuWidget;
+
+?>
 
 <div class="row">
 	<div class="col-xs-24 text-center">
@@ -12,45 +19,37 @@
 			</div>
 
 			<div class="col-xs-24 indent-bottom-md color-gray">
-				<?php echo(Yii::t('Dictionary', 'You can change the personal data. If you don\'t want to edit the current password, just leave the corresponding fields empty.')); ?>
+				<?= Yii::t('Dictionary', 'You can change the personal data. If you don\'t want to edit the current password, just leave the corresponding fields empty.'); ?>
 			</div>
-
-			<?php
-
-				$this -> renderPartial('formUserData', array(
+			<?=
+				$this -> render('formUserData', [
 					'Model' => $Model,
-					'Field' => array(
+					'Field' => [
 						'Name' => true,
 						'Email' => true,
 						'Password' => true,
 						'ControlPassword' => true,
-					),
-					'Button' => array(
+					],
+					'Button' => [
 						'Name' => Yii::t('Dictionary', 'Save'),
-					),
-				));
-
+					],
+				]);
 			?>
-
 		</div>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-xs-24 IndexFooterMenuBlock ">
-
-<?php
-
+<?=
 	// Выводится меню "Играть | Выход".
-	$this -> widget('ext.FooterMenu.FooterMenuWidget', array(
-		'ItemList' => array(
-			Yii::t('Dictionary', 'Play') => $this -> createUrl("/game/game"),
-			Yii::t('Dictionary', 'Logout') => $this -> createUrl("/site/logout")
-		),
+	FooterMenuWidget::widget([
+		'ItemList' => [
+			Yii::t('Dictionary', 'Play') => Url::to(['/game/game']),
+			Yii::t('Dictionary', 'Logout') => Url::to(['/site/logout'])
+		],
 		'Style' => 2
-	));
-
+	]);
 ?>
-
 	</div>
 </div>

@@ -1,3 +1,8 @@
+<?php
+
+	use yii\helpers\Html;
+
+?>
 
 <span class="title-2">СОЗДАНИЕ ЛОББИ</span>
 <p>
@@ -58,5 +63,5 @@
 рейтинг, непрерывная победная серия.
 </p>
 <div class="indent-top-sm text-right standart-link">
-	<?php echo CHtml::link('Полная версия справки', $this -> createUrl("/site/help")); ?>
+	<?= Html::a('Detailed help', Yii::$app -> urlManager -> createUrl("/site/help")); ?>
 </div>

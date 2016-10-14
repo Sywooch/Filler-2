@@ -116,6 +116,8 @@ class SiteController extends ExtController {
 			],
 			'captcha' => [
 				'class' => 'yii\captcha\CaptchaAction',
+				'width' => '300px',
+				'height' => '100px',
 				'transparent' => true,
 				'backColor' => 0x323232,
 				'foreColor' => 0xAAAAAA, // 0x727272

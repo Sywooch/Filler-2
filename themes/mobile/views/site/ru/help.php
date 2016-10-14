@@ -1,3 +1,10 @@
+<?php
+
+	use yii\helpers\Url;
+	use yii\helpers\Html;
+	use app\components\FooterMenu\FooterMenuWidget;
+
+?>
 
 <div class="row">
 	<div class="col-xs-24">
@@ -120,24 +127,24 @@
 <?php
 
 	// Если пользователь не авторизован:
-	if (Yii::app() -> user -> isGuest) {
+	if (Yii::$app -> user -> isGuest) {
 		// Выводится меню "В начало".
-		$this -> widget('ext.FooterMenu.FooterMenuWidget', array(
-			'ItemList' => array(
-				Yii::t('Dictionary', 'Start') => $this -> createUrl("/site/index")
-			)
-		));
+		echo FooterMenuWidget::widget([
+			'ItemList' => [
+				Yii::t('Dictionary', 'Start') => Url::to(['site/index'])
+			]
+		]);
 	}
 	// Если пользователь авторизован:
 	else {
 		// Выводится меню "Играть | Выход".
-		$this -> widget('ext.FooterMenu.FooterMenuWidget', array(
-			'ItemList' => array(
-				Yii::t('Dictionary', 'Play') => $this -> createUrl("/game/game"),
-				Yii::t('Dictionary', 'Logout') => $this -> createUrl("/site/logout")
-			),
+		echo FooterMenuWidget::widget([
+			'ItemList' => [
+				Yii::t('Dictionary', 'Play') => Url::to(['game/game']),
+				Yii::t('Dictionary', 'Logout') => Url::to(['site/logout'])
+			],
 			'Style' => 2
-		));
+		]);
 	}
 
 ?>
