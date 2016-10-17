@@ -80,15 +80,6 @@ abstract class LSD implements iLSD {
 	 *
 	 */
 	protected function saveModel($ModelName, $ModelAttributes) {
-		// // Если модель сохраняется в БД впервые:
-		// if ($this -> ID == null)
-		// 	// Создание новой модели.
-		// 	$dbModel = new $ModelName;
-		// // Если модель уже сохранялась в БД:
-		// else
-		// 	// Поиск модели в БД по указанному идентификатору.
-		// 	$dbModel = $ModelName::findOne($this -> ID);
-
 		// Если модель не найдена в БД по указанному идентификатору:
 		if (!$dbModel = $ModelName::findOne($this -> ID))
 			// Создание новой модели.

@@ -96,16 +96,6 @@ class UserIdentity extends ActiveRecord implements IdentityInterface {
 
 
 
-	/**
-	 *	Возвращает идентификатор авторизованного пользователя.
-	 *
-	 */
-	// public function getId() {
-	// 	return $this -> ID;
-	// }
-
-
-
 	public static function tableName() {
         return 'user';
     }
@@ -130,9 +120,10 @@ class UserIdentity extends ActiveRecord implements IdentityInterface {
         return static::findOne(['access_token' => $token]);
     }
 
-    /**
-     * @return int|string current user ID
-     */
+	/**
+	 *	Возвращает идентификатор авторизованного пользователя.
+	 *
+	 */
     public function getId() {
         return $this -> id;
     }
