@@ -392,21 +392,15 @@
 	width: 50%;
 	height: 94px;
 
-	padding-top: 32px;
-	/*margin-bottom: 10px;*/
+	padding-top: 28px;
 	margin-right: 15px;
 	
 	-moz-border-radius: 9px;
 	-webkit-border-radius: 9px;
 	border-radius: 9px;
 
-	font-size: 24px;
+	font-size: 28px;
 }
-
-/*.player-mode-button:hover {
-	color: #ccc;
-	border: 1px solid #bbb;
-}*/
 
 .bot-mode-button {
 	display: inline-block;
