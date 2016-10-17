@@ -51,27 +51,6 @@ class ExtController extends Controller {
 	 *
 	 */
 	public function init() {
-
-		// // Подключение и публикация стиля.
-		// Yii::app() -> clientScript -> registerCssFile(
-		// 	Yii::app() -> assetManager -> publish(
-		// 		Yii::getPathOfAlias('ext.bootstrap.css') . '/bootstrap.css'
-		// 	)
-		// );
-
-		// // Подключение и публикация общей библиотеки.
-		// Yii::app() -> clientScript -> registerCoreScript('jquery');
-		// // Yii::app() -> ClientScript -> registerScriptFile(
-		// // 	"https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"
-		// // );
-
-		// // Подключение и публикация общей библиотеки.
-		// Yii::app() -> clientScript -> registerScriptFile(
-		// 	Yii::app() -> assetManager -> publish(
-		// 		Yii::getPathOfAlias('ext.bootstrap.js') . (YII_DEBUG ? '/bootstrap.js' : '/bootstrap.min.js')
-		// 	)
-		// );
-
 		// Установка текущего языка.
 		$this -> LanguageInit();
 
@@ -79,7 +58,7 @@ class ExtController extends Controller {
 		$this -> ClientDevice = Yii::$app -> mobileDetect;
 
 		// Если устройство пользователя мобильное, устанавливается мобильная тема приложения.
-		if (!$this -> ClientDevice -> isMobile() && !$this -> ClientDevice -> isTablet())
+		if ($this -> ClientDevice -> isMobile() && !$this -> ClientDevice -> isTablet())
 			$this -> view -> theme -> pathMap['@app/views'] = '@app/themes/mobile/views';
 
 		parent::init();
@@ -137,8 +116,6 @@ class ExtController extends Controller {
 				// Установка срока действия куки 1 год.
 				'expire' => time() + (365 * 24 * 60 * 60)
 			]));
-			// Установка срока действия куки 1 год.
-			// $Cookie -> expire = time() + (365 * 24 * 60 * 60);
 			// Обновление значения куки.
 			// Yii::$app -> request -> cookies['language'] = $Cookie;
 		}
