@@ -29,7 +29,7 @@ class GameBoardAsset extends AssetBundle {
 	];
 	//
 	public function getTheme() {
-		return !Yii::$app -> mobileDetect -> isMobile() ? (YII_DEBUG ? 'GameBoard-mobile.css' : 'GameBoard-mobile.min.css') : (YII_DEBUG ? 'GameBoard.css' : 'GameBoard.min.css');
+		return Yii::$app -> mobileDetect -> isMobile() ? (YII_DEBUG ? 'GameBoard-mobile.css' : 'GameBoard-mobile.min.css') : (YII_DEBUG ? 'GameBoard.css' : 'GameBoard.min.css');
 	}
 	//
 	public function init() {

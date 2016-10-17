@@ -26,3 +26,6 @@ phpunit.phar
 # local phpunit config
 /phpunit.xml
 /yii
+
+/composer.json
+/composer.loc

@@ -27,7 +27,7 @@ class LanguageSwitcherAsset extends AssetBundle {
 	];
 	//
 	public function getTheme() {
-		return !Yii::$app -> mobileDetect -> isMobile() ? 'LanguageSwitcher-mobile.css' : 'LanguageSwitcher.css';
+		return Yii::$app -> mobileDetect -> isMobile() ? 'LanguageSwitcher-mobile.css' : 'LanguageSwitcher.css';
 	}
 	//
 	public function init() {
