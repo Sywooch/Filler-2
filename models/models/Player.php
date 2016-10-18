@@ -221,7 +221,7 @@ class Player extends User {
 	public function getPropertyList() {
 		return array_merge(
 			[
-				'id' => $this -> id,
+				'ID' => $this -> id,
 				'Name' => $this -> Name
 			],
 			$this -> getStatistics()

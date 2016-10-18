@@ -139,7 +139,7 @@ class User extends LSD {
 			// Копирование свойств (идентификационный код, идентификатор пользователя, статус) в модель.
 			$dbModel -> attributes = [
 				'Code' => $Code,
-				'UserID' => $this -> ID,
+				'UserID' => $this -> id,
 				'Status' => '1'
 			];
 			// Сохранение модели в БД.
