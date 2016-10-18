@@ -37,7 +37,7 @@ abstract class LSD implements iLSD {
 	 *	Идентификатор модели.
 	 *
 	 */
-	protected $ID;
+	protected $id;
 
 
 
@@ -59,15 +59,15 @@ abstract class LSD implements iLSD {
 	 *	Загрузка модели с указанным идентификатором из БД.
 	 *
 	 */
-	protected function loadModel($ID, $ModelName, $ModelAttributes) {
+	protected function loadModel($id, $ModelName, $ModelAttributes) {
 		// Поиск модели в БД по указанному идентификатору.
-		$dbModel = $ModelName::findOne($ID);
+		$dbModel = $ModelName::findOne($id);
 		// Если модель найдена:
 		if ($dbModel !== null) {
 			// Копирование свойств из модели.
 			foreach ($ModelAttributes as $Attribute)
 				$this -> $Attribute = $dbModel -> $Attribute;
-			$this -> ID = $ID;
+			$this -> id = $id;
 			return true;
 		}
 		return false;
@@ -81,7 +81,7 @@ abstract class LSD implements iLSD {
 	 */
 	protected function saveModel($ModelName, $ModelAttributes) {
 		// Если модель не найдена в БД по указанному идентификатору:
-		if (!$dbModel = $ModelName::findOne($this -> ID))
+		if (!$dbModel = $ModelName::findOne($this -> id))
 			// Создание новой модели.
 			$dbModel = new $ModelName;
 		// Если модель создана:
@@ -91,7 +91,7 @@ abstract class LSD implements iLSD {
 			// Сохранение модели в БД.
 			$Result = $dbModel -> save();
 			// Получение идентификатора модели в БД.
-			$this -> ID = $dbModel -> getPrimaryKey();
+			$this -> id = $dbModel -> getPrimaryKey();
 			return $Result;
 		}
 		return false;
@@ -105,13 +105,13 @@ abstract class LSD implements iLSD {
 	 */
 	protected function deleteModel($ModelName) {
 		// Загрузка модели из БД по указанному идентификатору.
-		$dbModel = $ModelName::findOne($this -> ID);
+		$dbModel = $ModelName::findOne($this -> id);
 		// Если модель загрузилась:
 		if ($dbModel !== null) {
 			// Удаление модели из БД.
 			if ($dbModel -> delete()) {
 				$this -> AutoSave = false;
-				$this -> ID = null;
+				$this -> id = null;
 				return true;
 			}
 		}
@@ -125,7 +125,7 @@ abstract class LSD implements iLSD {
 	 *
 	 */
 	public function getID() {
-		return $this -> ID;
+		return $this -> id;
 	}
 
 }

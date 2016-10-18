@@ -135,7 +135,7 @@ class User extends LSD {
 		// Если модель создана:
 		if ($dbModel !== null) {
 			// Генерация идентификационного кода для ссылки.
-			$Code = md5($this -> ID . date("Y-m-d H:i:s"));
+			$Code = md5($this -> id . date("Y-m-d H:i:s"));
 			// Копирование свойств (идентификационный код, идентификатор пользователя, статус) в модель.
 			$dbModel -> attributes = [
 				'Code' => $Code,
@@ -183,7 +183,7 @@ class User extends LSD {
 	 *	Если пользователь найден, возвращает true, иначе false.
 	 *
 	 */
-	protected function Search($ModelName, $ModelAttributes, $Condition = '', $ID = 'id') {
+	protected function Search($ModelName, $ModelAttributes, $Condition = '', $id = 'id') {
 		// Поиск пользователя в БД.
 		$dbModel = $ModelName::find()
 			-> where($ModelAttributes)
@@ -191,9 +191,9 @@ class User extends LSD {
 		// Если пользователь найден:
 		if ($dbModel !== null) {
 			// Если модель пользователя загрузилась из БД:
-			if ($this -> Load($dbModel -> $ID)) {
+			if ($this -> Load($dbModel -> $id)) {
 				// Инициализация идентификатора пользователя.
-				$this -> ID = $dbModel -> $ID;
+				$this -> id = $dbModel -> $id;
 				return true;
 			}
 		}
@@ -208,8 +208,8 @@ class User extends LSD {
 	 *	Если модель не загрузилась, возвращает false.
 	 *
 	 */
-	public function Load($ID) {
-		return parent::loadModel($ID, '\app\models\User', [
+	public function Load($id) {
+		return parent::loadModel($id, '\app\models\User', [
 			'Name', 
 			'Email', 
 			'Password', 

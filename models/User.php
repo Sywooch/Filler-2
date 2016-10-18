@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "user".
  *
- * @property integer $ID
+ * @property integer $id
  * @property string $Name
  * @property string $Password
  * @property string $Email
@@ -97,15 +97,10 @@ class User extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			// [['Name', 'Password', 'Email'], 'required'],
 			['Name', 'required', 'on' => ['registration', 'registration-ajax', 'update', 'update-password']],
 			['Email', 'required', 'on' => ['registration', 'registration-ajax', 'update', 'update-password', self::FORGOT]],
 			[['Password', 'ControlPassword'], 'required', 'on' => ['registration', 'registration-ajax', 'update-password', 'recovery']],
-			
-			// [['RegistrationDate', 'ActivityMarker', 'GameMarker'], 'safe'],
-			// [['Enable', 'Rating'], 'integer'],
-			// [['Name', 'Email'], 'string', 'max' => 50],
-			// [['Password'], 'string', 'max' => 60],
+
 			[['Enable', 'Rating'], 'number', 'integerOnly' => true],
 			['Name', 'string', 'min' => 2, 'max' => 20, 'tooShort' => Yii::t('Dictionary', 'Field «{attribute}» must contain at least {min} characters')],
 			[['Password', 'Email'], 'string', 'min' => 5, 'max' => 60, 'tooShort' => Yii::t('Dictionary', 'Field «{attribute}» must contain at least {min} characters')],
@@ -127,16 +122,6 @@ class User extends \yii\db\ActiveRecord
 	public function attributeLabels()
 	{
 		return [
-			// 'ID' => Yii::t('app', 'ID'),
-			// 'Name' => Yii::t('app', 'User Name'),
-			// 'Password' => Yii::t('app', 'User Password'),
-			// 'Email' => Yii::t('app', 'E-mail'),
-			// 'RegistrationDate' => Yii::t('app', 'RegistrationDate'),
-			// 'Enable' => Yii::t('app', 'Enable'),
-			// 'ActivityMarker' => Yii::t('app', 'ActivityMarker'),
-			// 'GameMarker' => Yii::t('app', 'GameMarker'),
-			// 'Rating' => Yii::t('app', 'Rating'),
-
 			'id' => Yii::t('Dictionary', 'id'),
 			'Name' => Yii::t('Dictionary', 'Player name'),
 			'Password' => Yii::t('Dictionary', 'Password'),
@@ -155,7 +140,7 @@ class User extends \yii\db\ActiveRecord
 	 */
 	public function getGames()
 	{
-		return $this->hasMany(Game::className(), ['WinnerID' => 'ID']);
+		return $this->hasMany(Game::className(), ['WinnerID' => 'id']);
 	}
 
 	/**
@@ -163,7 +148,7 @@ class User extends \yii\db\ActiveRecord
 	 */
 	public function getGameDetails()
 	{
-		return $this->hasMany(GameDetail::className(), ['PlayerID' => 'ID']);
+		return $this->hasMany(GameDetail::className(), ['PlayerID' => 'id']);
 	}
 
 	/**
@@ -171,7 +156,7 @@ class User extends \yii\db\ActiveRecord
 	 */
 	public function getLobbies()
 	{
-		return $this->hasMany(Lobby::className(), ['CreatorID' => 'ID']);
+		return $this->hasMany(Lobby::className(), ['CreatorID' => 'id']);
 	}
 
 	/**
@@ -179,7 +164,7 @@ class User extends \yii\db\ActiveRecord
 	 */
 	public function getLobbyPlayers()
 	{
-		return $this->hasMany(LobbyPlayer::className(), ['PlayerID' => 'ID']);
+		return $this->hasMany(LobbyPlayer::className(), ['PlayerID' => 'id']);
 	}
 
 	/**
@@ -187,7 +172,7 @@ class User extends \yii\db\ActiveRecord
 	 */
 	public function getLobbies0()
 	{
-		return $this->hasMany(Lobby::className(), ['ID' => 'LobbyID'])->viaTable('lobby_player', ['PlayerID' => 'ID']);
+		return $this->hasMany(Lobby::className(), ['id' => 'LobbyID'])->viaTable('lobby_player', ['PlayerID' => 'id']);
 	}
 
 	/**
@@ -195,7 +180,7 @@ class User extends \yii\db\ActiveRecord
 	 */
 	public function getRecoveries()
 	{
-		return $this->hasMany(Recovery::className(), ['UserID' => 'ID']);
+		return $this->hasMany(Recovery::className(), ['UserID' => 'id']);
 	}
 
 	/**
