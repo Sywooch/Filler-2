@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "{{%game_detail}}".
  *
- * @property string $ID
+ * @property string $id
  * @property integer $ColorIndex
  * @property integer $Points
  * @property string $Date
@@ -36,8 +36,8 @@ class GameDetail extends \yii\db\ActiveRecord
             [['ColorIndex', 'Points', 'PlayerID', 'GameID'], 'required'],
             [['ColorIndex', 'Points', 'PlayerID', 'GameID'], 'integer'],
             [['Date'], 'safe'],
-            [['GameID'], 'exist', 'skipOnError' => true, 'targetClass' => Game::className(), 'targetAttribute' => ['GameID' => 'ID']],
-            [['PlayerID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['PlayerID' => 'ID']],
+            [['GameID'], 'exist', 'skipOnError' => true, 'targetClass' => Game::className(), 'targetAttribute' => ['GameID' => 'id']],
+            [['PlayerID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['PlayerID' => 'id']],
         ];
     }
 
@@ -47,7 +47,7 @@ class GameDetail extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ID' => Yii::t('app', 'ID'),
+            'id' => Yii::t('app', 'id'),
             'ColorIndex' => Yii::t('app', 'ColorIndex'),
             'Points' => Yii::t('app', 'Points'),
             'Date' => Yii::t('app', 'Date'),
@@ -61,7 +61,7 @@ class GameDetail extends \yii\db\ActiveRecord
      */
     public function getGame()
     {
-        return $this->hasOne(Game::className(), ['ID' => 'GameID']);
+        return $this->hasOne(Game::className(), ['id' => 'GameID']);
     }
 
     /**
@@ -69,6 +69,6 @@ class GameDetail extends \yii\db\ActiveRecord
      */
     public function getPlayer()
     {
-        return $this->hasOne(User::className(), ['ID' => 'PlayerID']);
+        return $this->hasOne(User::className(), ['id' => 'PlayerID']);
     }
 }

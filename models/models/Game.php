@@ -429,7 +429,7 @@ class Game extends LSD {
 	 */
 	public function getPropertyList() {
 		return [
-			'ID' => $this -> ID,
+			'ID' => $this -> id,
 			'ColorMatrix' => $this -> ColorMatrix,
 			'StartDate' => $this -> StartDate,
 			'FinishDate' => $this -> FinishDate,
@@ -497,7 +497,7 @@ class Game extends LSD {
 	public function getMovesNumber() {
 		//
 		return tableGameDetail::find()
-			-> where(['GameID' => $this -> ID])
+			-> where(['GameID' => $this -> id])
 			-> count();
 	}
 
@@ -510,7 +510,7 @@ class Game extends LSD {
 	public function getMovesList($order = 'DESC', $limit = 1000) {
 		// Загрузка из БД всех сделанных ходов для указанной игры.
 		$dbModel = tableGameDetail::find()
-			-> where(['GameID' => $this -> ID])
+			-> where(['GameID' => $this -> id])
 			-> orderBy('ID ' . $order)
 			-> limit($limit)
 			-> all();
@@ -570,7 +570,7 @@ class Game extends LSD {
 			$dbModel -> attributes = [
 				'ColorIndex' => $ColorIndex,
 				'Points' => $Points,
-				'GameID' => $this -> ID,
+				'GameID' => $this -> id,
 				'PlayerID' => $PlayerID
 			];
 			// Сохранение модели в БД.
@@ -622,9 +622,9 @@ class Game extends LSD {
 		// Если игра найдена:
 		if ($dbModel !== null) {
 			// Если модель загрузилась:
-			if ($this -> Load($dbModel -> ID)) {
+			if ($this -> Load($dbModel -> id)) {
 				// Инициализация идентификатора игры.
-				$this -> ID = $dbModel -> ID;
+				$this -> id = $dbModel -> id;
 				return true;
 			}
 		}

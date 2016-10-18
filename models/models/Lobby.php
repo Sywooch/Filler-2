@@ -178,7 +178,7 @@ class Lobby extends LSD {
 	 */
 	public function getCurrentPlayersNumber() {
 		return tableLobbyPlayer::find()
-			-> where(['LobbyID' => $this -> ID])
+			-> where(['LobbyID' => $this -> id])
 			-> count();
 	}
 
@@ -221,7 +221,7 @@ class Lobby extends LSD {
 	 */
 	public function getPropertyList() {
 		return [
-			'ID' => $this -> ID,
+			'ID' => $this -> id,
 			'Name' => $this -> Name,
 			'SizeX' => $this -> SizeX,
 			'SizeY' => $this -> SizeY,
@@ -289,7 +289,7 @@ class Lobby extends LSD {
 		$PlayersList = [];
 		// Поиск в БД всех подключившихся к лобби игроков.
 		$dbModel = tableLobbyPlayer::find()
-			-> where(['LobbyID' => $this -> ID])
+			-> where(['LobbyID' => $this -> id])
 			-> orderBy('Date, PlayerID ASC')
 			-> all();
 		// Формирование списка подключившихся к лобби игроков.
@@ -328,7 +328,7 @@ class Lobby extends LSD {
 	 */
 	public function setStatus($Status) {
 		// Если статус лобби успешно обновлен:
-		$dbModel = tableLobby::findOne($this -> ID);
+		$dbModel = tableLobby::findOne($this -> id);
 		$dbModel -> Status = $Status;
 		if ($dbModel -> update()) {
 			$this -> Status = $Status;
@@ -358,7 +358,7 @@ class Lobby extends LSD {
 		// Подключение указанного игрока к лобби.
 		$dbModel = new tableLobbyPlayer();
 		$dbModel -> attributes = [
-			'LobbyID' => $this -> ID,
+			'LobbyID' => $this -> id,
 			'PlayerID' => $PlayerID
 		];
 		// Если указанный игрок успешно добавлен к списку игроков лобби в БД:
@@ -378,7 +378,7 @@ class Lobby extends LSD {
 	public function isPlayerIncluded($PlayerID) {
 		// Если указанный игрок не найден в списке игроков лобби в БД:
 		if (!tableLobbyPlayer::findOne([
-			'LobbyID' => $this -> ID, 
+			'LobbyID' => $this -> id,
 			'PlayerID' => $PlayerID
 		]))
 			return false;
@@ -467,7 +467,7 @@ class Lobby extends LSD {
 		//
 		if ($this -> botsLevel && $this -> botsNumber) {
 			$lobbyBot = parent::saveModel('\app\models\LobbyBot', [
-				'lobbyID' => $this -> ID,
+				'lobbyID' => $this -> id,
 				'level' => $this -> botsLevel,
 				'botsNumber' => $this -> botsNumber,
 			]);

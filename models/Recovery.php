@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "recovery".
  *
- * @property string $ID
+ * @property string $id
  * @property string $Code
  * @property string $Date
  * @property integer $UserID
@@ -35,7 +35,7 @@ class Recovery extends \yii\db\ActiveRecord
             [['Date'], 'safe'],
             [['UserID', 'Status'], 'integer'],
             [['Code'], 'string', 'max' => 36],
-            [['UserID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['UserID' => 'ID']],
+            [['UserID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['UserID' => 'id']],
         ];
     }
 
@@ -45,7 +45,7 @@ class Recovery extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ID' => Yii::t('app', 'ID'),
+            'id' => Yii::t('app', 'id'),
             'Code' => Yii::t('app', 'Code'),
             'Date' => Yii::t('app', 'Date'),
             'UserID' => Yii::t('app', 'UserID'),
@@ -58,6 +58,6 @@ class Recovery extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['ID' => 'UserID']);
+        return $this->hasOne(User::className(), ['id' => 'UserID']);
     }
 }

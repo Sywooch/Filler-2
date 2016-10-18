@@ -31,7 +31,7 @@ class LobbyBot extends \yii\db\ActiveRecord
         return [
             [['lobbyID'], 'required'],
             [['lobbyID', 'level', 'botsNumber'], 'integer'],
-            [['lobbyID'], 'exist', 'skipOnError' => true, 'targetClass' => Lobby::className(), 'targetAttribute' => ['lobbyID' => 'ID']],
+            [['lobbyID'], 'exist', 'skipOnError' => true, 'targetClass' => Lobby::className(), 'targetAttribute' => ['lobbyID' => 'id']],
         ];
     }
 
@@ -52,6 +52,6 @@ class LobbyBot extends \yii\db\ActiveRecord
      */
     public function getLobby()
     {
-        return $this->hasOne(Lobby::className(), ['ID' => 'lobbyID']);
+        return $this->hasOne(Lobby::className(), ['id' => 'lobbyID']);
     }
 }

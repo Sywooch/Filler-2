@@ -340,7 +340,7 @@ class Player extends User {
 			$Lobby = new Lobby();
 			// Формирование списка активных лобби.
 			foreach ($dbModel as $LobbyData) {
-				if ($Lobby -> Load($LobbyData -> ID) && $Lobby -> isActive()) {
+				if ($Lobby -> Load($LobbyData -> id) && $Lobby -> isActive()) {
 					$LobbiesList[] = $Lobby -> getPropertyList();
 				}
 			}

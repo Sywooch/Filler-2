@@ -151,7 +151,7 @@ class Bot extends Player {
 		// Получение списка занятых цветов.
 		$disabledColors = $game -> disabledColorsGet();
 		// Получение эффективности хода для каждого цвета.
-		$progressByColorsList = $game -> progressByColorsListGet($this -> ID);
+		$progressByColorsList = $game -> progressByColorsListGet($this -> id);
 		arsort($progressByColorsList);
 		//
 		foreach ($progressByColorsList as $colorIndex => $points) {

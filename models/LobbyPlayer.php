@@ -33,8 +33,8 @@ class LobbyPlayer extends \yii\db\ActiveRecord
             [['LobbyID', 'PlayerID'], 'required'],
             [['LobbyID', 'PlayerID'], 'integer'],
             [['Date'], 'safe'],
-            [['LobbyID'], 'exist', 'skipOnError' => true, 'targetClass' => Lobby::className(), 'targetAttribute' => ['LobbyID' => 'ID']],
-            [['PlayerID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['PlayerID' => 'ID']],
+            [['LobbyID'], 'exist', 'skipOnError' => true, 'targetClass' => Lobby::className(), 'targetAttribute' => ['LobbyID' => 'id']],
+            [['PlayerID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['PlayerID' => 'id']],
         ];
     }
 
@@ -55,7 +55,7 @@ class LobbyPlayer extends \yii\db\ActiveRecord
      */
     public function getLobby()
     {
-        return $this->hasOne(Lobby::className(), ['ID' => 'LobbyID']);
+        return $this->hasOne(Lobby::className(), ['id' => 'LobbyID']);
     }
 
     /**
@@ -65,11 +65,4 @@ class LobbyPlayer extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'PlayerID']);
     }
-
-    // public function getLobbygame()
-    // {
-    //     return $this -> hasOne(Lobby::className(), ['ID' => 'LobbyID'])
-    //                  -> viaTable('user', ['id' => 'PlayerID']);
-    //                  // -> viaTable('game', ['LobbyID' => 'ID']);
-    // }
 }

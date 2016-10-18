@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "{{%game}}".
  *
- * @property string $ID
+ * @property string id
  * @property string $ColorMatrix
  * @property string $Comment
  * @property string $StartDate
@@ -40,8 +40,8 @@ class Game extends \yii\db\ActiveRecord
             [['LobbyID'], 'required'],
             [['LobbyID', 'WinnerID'], 'integer'],
             [['Comment'], 'string', 'max' => 100],
-            [['LobbyID'], 'exist', 'skipOnError' => true, 'targetClass' => Lobby::className(), 'targetAttribute' => ['LobbyID' => 'ID']],
-            [['WinnerID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['WinnerID' => 'ID']],
+            [['LobbyID'], 'exist', 'skipOnError' => true, 'targetClass' => Lobby::className(), 'targetAttribute' => ['LobbyID' => 'id']],
+            [['WinnerID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['WinnerID' => 'id']],
         ];
     }
 
@@ -51,7 +51,7 @@ class Game extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ID' => Yii::t('app', 'ID'),
+            'id' => Yii::t('app', 'id'),
             'ColorMatrix' => Yii::t('app', 'ColorMatrix'),
             'Comment' => Yii::t('app', 'Comment'),
             'StartDate' => Yii::t('app', 'StartDate'),
@@ -66,7 +66,7 @@ class Game extends \yii\db\ActiveRecord
      */
     public function getLobby()
     {
-        return $this->hasOne(Lobby::className(), ['ID' => 'LobbyID']);
+        return $this->hasOne(Lobby::className(), ['id' => 'LobbyID']);
     }
 
     /**
@@ -74,7 +74,7 @@ class Game extends \yii\db\ActiveRecord
      */
     public function getWinner()
     {
-        return $this->hasOne(User::className(), ['ID' => 'WinnerID']);
+        return $this->hasOne(User::className(), ['id' => 'WinnerID']);
     }
 
     /**
@@ -82,6 +82,6 @@ class Game extends \yii\db\ActiveRecord
      */
     public function getGameDetails()
     {
-        return $this->hasMany(GameDetail::className(), ['GameID' => 'ID']);
+        return $this->hasMany(GameDetail::className(), ['GameID' => 'id']);
     }
 }

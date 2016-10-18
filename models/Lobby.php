@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "lobby".
  *
- * @property string $ID
+ * @property string $id
  * @property string $Name
  * @property integer $SizeX
  * @property integer $SizeY
@@ -42,7 +42,7 @@ class Lobby extends \yii\db\ActiveRecord
             [['ColorsNumber', 'PlayersNumber', 'CreatorID'], 'required'],
             [['Date'], 'safe'],
             [['Name'], 'string', 'max' => 100],
-            [['CreatorID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['CreatorID' => 'ID']],
+            [['CreatorID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['CreatorID' => 'id']],
         ];
     }
 
@@ -52,7 +52,7 @@ class Lobby extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ID' => Yii::t('app', 'ID'),
+            'id' => Yii::t('app', 'id'),
             'Name' => Yii::t('app', 'Name'),
             'SizeX' => Yii::t('app', 'SizeX'),
             'SizeY' => Yii::t('app', 'SizeY'),
@@ -69,7 +69,7 @@ class Lobby extends \yii\db\ActiveRecord
      */
     public function getGames()
     {
-        return $this->hasMany(Game::className(), ['LobbyID' => 'ID']);
+        return $this->hasMany(Game::className(), ['LobbyID' => 'id']);
     }
 
     /**
@@ -77,7 +77,7 @@ class Lobby extends \yii\db\ActiveRecord
      */
     public function getCreator()
     {
-        return $this->hasOne(User::className(), ['ID' => 'CreatorID']);
+        return $this->hasOne(User::className(), ['id' => 'CreatorID']);
     }
 
     /**
@@ -85,7 +85,7 @@ class Lobby extends \yii\db\ActiveRecord
      */
     public function getLobbyPlayers()
     {
-        return $this->hasMany(LobbyPlayer::className(), ['LobbyID' => 'ID']);
+        return $this->hasMany(LobbyPlayer::className(), ['LobbyID' => 'id']);
     }
 
     /**
@@ -93,6 +93,6 @@ class Lobby extends \yii\db\ActiveRecord
      */
     public function getPlayers()
     {
-        return $this->hasMany(User::className(), ['ID' => 'PlayerID'])->viaTable('lobby_player', ['LobbyID' => 'ID']);
+        return $this->hasMany(User::className(), ['id' => 'PlayerID'])->viaTable('lobby_player', ['LobbyID' => 'id']);
     }
 }
