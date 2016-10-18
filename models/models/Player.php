@@ -221,7 +221,7 @@ class Player extends User {
 	public function getPropertyList() {
 		return array_merge(
 			[
-				'ID' => $this -> ID,
+				'id' => $this -> id,
 				'Name' => $this -> Name
 			],
 			$this -> getStatistics()
@@ -300,7 +300,7 @@ class Player extends User {
 		// Поиск активных игроков за указанный интервал времени.
 		$dbModel = tableUser::find()
 			-> where(
-				'Enable = 1 AND ID <> ' . $this -> ID .
+				'Enable = 1 AND ID <> ' . $this -> id .
 				' AND (ActivityMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND)' .
 				' OR GameMarker >= (NOW() - INTERVAL ' . $TimeInterval . ' SECOND))'
 			)
@@ -389,7 +389,7 @@ class Player extends User {
 	 */
 	public function setActivityMarker() {
 		$Date = date("Y-m-d H:i:s");
-		$dbModel = tableUser::findOne($this -> ID);
+		$dbModel = tableUser::findOne($this -> id);
 		$dbModel -> ActivityMarker = $Date;
 		if ($dbModel -> update()) {
 			$this -> ActivityMarker = $Date;
@@ -409,7 +409,7 @@ class Player extends User {
 	 */
 	public function setGameMarker() {
 		$Date = date("Y-m-d H:i:s");
-		$dbModel = tableUser::findOne($this -> ID);
+		$dbModel = tableUser::findOne($this -> id);
 		$dbModel -> GameMarker = $Date;
 		if ($dbModel -> update()) {
 			$this -> GameMarker = $Date;
@@ -427,12 +427,12 @@ class Player extends User {
 	 *	Если модель не загрузилась, возвращает false.
 	 *
 	 */
-	public function Load($ID) {
+	public function Load($id) {
 		// Если модель игрока загружена:
-		if (parent::Load($ID)) {
+		if (parent::Load($id)) {
 			// Загрузка игровых показателей игрока.
-			$this -> loadStatistics($ID);
-			return parent::loadModel($ID, '\app\models\User', [
+			$this -> loadStatistics($id);
+			return parent::loadModel($id, '\app\models\User', [
 				'Rating',
 				'ActivityMarker',
 				'GameMarker'
@@ -448,7 +448,7 @@ class Player extends User {
 	 *	и текущей победной серии игрока.
 	 *
 	 */
-	protected function loadStatistics($ID) {
+	protected function loadStatistics($id) {
 		$this -> WinGames = 0;
 		$this -> LoseGames = 0;
 		$this -> DrawGames = 0;
@@ -465,14 +465,14 @@ class Player extends User {
 		// Получение из БД всех игр для указанного игрока.
 		$dbModel = tableLobbyPlayer::find()
 			-> with('lobby.games') 
-			-> where(['PlayerID' => $ID])
+			-> where(['PlayerID' => $id])
 			-> all();
 
 		// Подсчет общего количества побед и текущей победной серии игрока.
 		foreach ($dbModel as $Game) {
 			if ($Game -> lobby -> games[0] -> WinnerID != null)
 				$this -> TotalGames++;
-			if ($Game -> lobby -> games[0] -> WinnerID == $ID) {
+			if ($Game -> lobby -> games[0] -> WinnerID == $id) {
 				$this -> WinGames++;
 				$this -> WinningStreak++;
 			}
