@@ -29,7 +29,7 @@
 			));
 		?>
 		<div class="Help-Label BlueLight-Box" title="<?php echo(Yii::t('Dictionary', 'Help')); ?>"  id="Button-Help">
-			<?= Html::a('?', Url::to('help')); ?>
+			<?= Html::a('?', Url::to(['site/help'])); ?>
 		</div>
 	</div>
 </div>

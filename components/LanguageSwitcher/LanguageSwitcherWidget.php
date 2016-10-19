@@ -70,6 +70,7 @@ class LanguageSwitcherWidget extends Widget {
 		// echo Html::cssFile(Yii::getAlias('@app') . $fileCSS);
 		// print_r($this -> Languages);
 		// echo '$this -> language = ' . Yii::$app -> language . ' ';
+		
 		// Формирование списка наименований языков (Ру, En, De).
 		$LanguageKeys = array_keys($this -> Languages);
 		// Формирование списка кодов языков (ru, en, de).
@@ -83,13 +84,14 @@ class LanguageSwitcherWidget extends Widget {
 		Yii::$app -> language = ($CurrentLanguageIndex != sizeof($this -> Languages) - 1) ? $LanguageKeys[$CurrentLanguageIndex + 1] : $LanguageKeys[0];
 		// echo '$this -> language = ' . Yii::$app -> language . ' ';
 		$this -> LanguageLink = Yii::$app -> urlManager -> createUrl(Yii::$app -> language . '/' . Yii::$app -> controller -> route);
+		
 		// Yii::$app -> language .'/site/index'
 		// $this -> LanguageLink = Url::to('site/index', true);
 		// echo Yii::$app -> language . '/' . '';
 		// $this -> LanguageLink = Url::toRoute([Yii::$app -> language, '']);
+		
 		// Восстановление текущего языка.
 		Yii::$app -> language = $this -> CurrentLanguageCode;
-		// echo '$this -> language = ' . Yii::$app -> language . ' ';
 	}
 
 

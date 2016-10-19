@@ -216,7 +216,7 @@ class GameController extends ExtController {
 	 */
 	private function getDialogMessages() {
 		// Получение пути к файлу с набором шаблонов.
-		$FilePath = realpath(Yii::$app -> params['DialogLayout']);
+		$FilePath = realpath(Yii::getAlias(Yii::$app -> params['DialogLayout']));
 		// Если файл с набором шаблонов не найден:
 		if ($FilePath === false)
 			throw new GameException('Не удается открыть файл с набором шаблонов диалоговых окон.');

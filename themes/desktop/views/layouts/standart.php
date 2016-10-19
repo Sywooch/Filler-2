@@ -29,15 +29,9 @@
 				'Languages' => Yii::$app -> params['Languages'],
 				'CurrentLanguageCode' => Yii::$app -> language,
 			));
-
-			// Виджет переключателя языка.
-			// $this -> widget('ext.LanguageSwitcher.LanguageSwitcherWidget', array(
-			// 	'Languages' => Yii::app() -> params['Languages'],
-			// 	'CurrentLanguageCode' => Yii::app() -> getLanguage(),
-			// ));
 		?>
 		<div class="Help-Label BlueLight-Box" title="<?php echo(Yii::t('Dictionary', 'Help')); ?>"  id="Button-Help">
-			<?= Html::a('?', Url::to('help')); ?>
+			<?= Html::a('?', Url::to(['site/help'])); ?>
 		</div>
 	</div>
 </div>

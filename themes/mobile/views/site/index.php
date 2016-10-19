@@ -62,7 +62,7 @@
 						<input type="password" class="form-control text-48" style="height:100px; margin-bottom:40px; padding:0 30px;" maxlength="50" name="Password" id="Password" placeholder="<?= Yii::t('Dictionary', 'Password'); ?>">
 					</div>
 					<div class="text-right standart-link">
-						<?= Html::a(Yii::t('Dictionary', 'Forgot your password?'), Url::to('forgot')); ?>
+						<?= Html::a(Yii::t('Dictionary', 'Forgot your password?'), Url::to(['site/forgot'])); ?>
 					</div>
 				</div>
 				<div class="modal-footer" style="padding:30px;">

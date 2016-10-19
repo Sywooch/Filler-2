@@ -650,7 +650,7 @@ class SiteController extends ExtController {
 //		$Player -> Load(1);
 //		echo $Player -> getID();
 
-		$FilePath = realpath(Yii::$app -> params['EmailLayout']);
+		$FilePath = realpath(Yii::getAlias(Yii::$app -> params['EmailLayout']));
 		die('Путь: ' . $FilePath);
 
 	}
