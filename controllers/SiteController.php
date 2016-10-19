@@ -116,8 +116,8 @@ class SiteController extends ExtController {
 			],
 			'captcha' => [
 				'class' => 'yii\captcha\CaptchaAction',
-				'width' => '300px',
-				'height' => '100px',
+				'width' => Yii::$app -> mobileDetect -> isMobile() ? '300px' : '180px',
+				'height' => Yii::$app -> mobileDetect -> isMobile() ? '100px' : '50px',
 				'transparent' => true,
 				'backColor' => 0x323232,
 				'foreColor' => 0xAAAAAA, // 0x727272
