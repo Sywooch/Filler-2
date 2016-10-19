@@ -646,9 +646,12 @@ class SiteController extends ExtController {
 
 //		print_r($this -> view -> theme);
 
-		$Player = new \app\models\models\Player();
-		$Player -> Load(1);
-		echo $Player -> getID();
+//		$Player = new \app\models\models\Player();
+//		$Player -> Load(1);
+//		echo $Player -> getID();
+
+		$FilePath = realpath(Yii::$app -> params['EmailLayout']);
+		die('Путь: ' . $FilePath);
 
 	}
 
