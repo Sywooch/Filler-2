@@ -27,7 +27,7 @@ class FooterMenuAsset extends AssetBundle {
 	];
 	//
 	public function getTheme() {
-		return Yii::$app -> mobileDetect -> isMobile() ? 'FooterMenu-mobile.css' : 'FooterMenu.css';
+		return Yii::$app -> mobileDetect -> isPhone() ? 'FooterMenu-mobile.css' : 'FooterMenu.css';
 	}
 	//
 	public function init() {

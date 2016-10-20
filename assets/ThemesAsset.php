@@ -30,7 +30,7 @@ class ThemesAsset extends AssetBundle {
 	];
 	//
 	public function getTheme() {
-		return Yii::$app -> mobileDetect -> isMobile() ? '@app/themes/mobile' : '@app/themes/desktop';
+		return Yii::$app -> mobileDetect -> isPhone() ? '@app/themes/mobile' : '@app/themes/desktop';
 	}
 	//
 	public function init() {

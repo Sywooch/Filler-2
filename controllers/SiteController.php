@@ -116,8 +116,8 @@ class SiteController extends ExtController {
 			],
 			'captcha' => [
 				'class' => 'yii\captcha\CaptchaAction',
-				'width' => Yii::$app -> mobileDetect -> isMobile() ? '300px' : '180px',
-				'height' => Yii::$app -> mobileDetect -> isMobile() ? '100px' : '50px',
+				'width' => Yii::$app -> mobileDetect -> isPhone() ? '300px' : '180px',
+				'height' => Yii::$app -> mobileDetect -> isPhone() ? '100px' : '50px',
 				'transparent' => true,
 				'backColor' => 0x323232,
 				'foreColor' => 0xAAAAAA, // 0x727272
@@ -639,6 +639,10 @@ class SiteController extends ExtController {
 		//print_r($this -> ClientDevice);
 		//echo !$this -> ClientDevice -> isMobile();
 		//echo !$this -> ClientDevice -> isTablet();
+		echo 'mobileDetect '
+			. Yii::$app -> mobileDetect -> isMobile() . ' '
+			. Yii::$app -> mobileDetect -> isTablet() . ' '
+			. Yii::$app -> mobileDetect -> isPhone();
 
 		//echo $this -> ClientDevice -> isMobile() ? 'мобильный' : 'настольный';
 
@@ -650,8 +654,8 @@ class SiteController extends ExtController {
 //		$Player -> Load(1);
 //		echo $Player -> getID();
 
-		$FilePath = realpath(Yii::getAlias(Yii::$app -> params['EmailLayout']));
-		die('Путь: ' . $FilePath);
+//		$FilePath = realpath(Yii::getAlias(Yii::$app -> params['EmailLayout']));
+//		die('Путь: ' . $FilePath);
 
 	}
 

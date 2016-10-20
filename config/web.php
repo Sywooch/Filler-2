@@ -41,7 +41,7 @@ $config = [
 			'useFileTransport' => true,
 		],
 		'mobileDetect' => [
-			'class' => '\skeeks\yii2\mobiledetect\MobileDetect'
+			'class' => 'app\components\ExtMobileDetect'
 		],
 		'log' => [
 			'traceLevel' => YII_DEBUG ? 3 : 0,

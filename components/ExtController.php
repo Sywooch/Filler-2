@@ -53,14 +53,10 @@ class ExtController extends Controller {
 	public function init() {
 		// Установка текущего языка.
 		$this -> LanguageInit();
-
-		// Устройство пользователя.
-		$this -> ClientDevice = Yii::$app -> mobileDetect;
-
 		// Если устройство пользователя мобильное, устанавливается мобильная тема приложения.
-		if ($this -> ClientDevice -> isMobile() && !$this -> ClientDevice -> isTablet())
+		if (Yii::$app -> mobileDetect -> isPhone())
 			$this -> view -> theme -> pathMap['@app/views'] = '@app/themes/mobile/views';
-
+		//
 		parent::init();
 	}
 
