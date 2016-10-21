@@ -40,6 +40,7 @@ $config = [
 			// for the mailer to send real emails.
 			'useFileTransport' => true,
 		],
+		// Компонент для определение устройства пользователя.
 		'mobileDetect' => [
 			'class' => 'app\components\ExtMobileDetect'
 		],
