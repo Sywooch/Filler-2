@@ -32,10 +32,22 @@
 			</div>			
 		</div>
 		<div class="col-sm-24 col-xs-24 text-14 indent-bottom-md color-gray">
-			<span class="title-2">CREATE LOBBY</span>
+			<span class="title-2">ФУНКЦИОНАЛЬНОСТЬ</span>
 			<p>
-			In order to gather players and start the game, you must create the lobby. 
-			In the lobby you need to enter a title, choose the number of players, size of playing field and number of colors.
+				<ul>
+					<li>График скорости наращивания территории игрока с каждым ходом</li>
+					<li>Создание и настройка ботов</li>
+					<li>Управление размером игрового поля, количеством цветов</li>
+					<li>Настройка системы баллов</li>
+					<li>Создание и управление турнирами</li>
+					<li>Управление игроками</li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
 			</p>			
 		</div>
 	</div>

@@ -168,25 +168,6 @@ class GameController extends ExtController {
 	 *
 	 */
 	public function actionGame() {
-		// $jsFilePath = './protected/js/game/';
-		// // Подключение и публикация скрипта контроллера.
-		// Yii::app() -> clientScript -> registerScriptFile(
-		// 	Yii::app() -> assetManager -> publish(
-		// 		(YII_DEBUG ? $jsFilePath . 'GameController.js' : $jsFilePath . 'GameController.min.js')
-		// 	)
-		// );
-		// // Подключение и публикация скрипта модели.
-		// Yii::app() -> clientScript -> registerScriptFile(
-		// 	Yii::app() -> assetManager -> publish(
-		// 		(YII_DEBUG ? $jsFilePath . 'GameModel.js' : $jsFilePath . 'GameModel.min.js')
-		// 	)
-		// );
-		// // Подключение и публикация скрипта представления.
-		// Yii::app() -> clientScript -> registerScriptFile(
-		// 	Yii::app() -> assetManager -> publish(
-		// 		(YII_DEBUG ? $jsFilePath . 'GameView.js' : $jsFilePath . 'GameView.min.js')
-		// 	)
-		// );
 		// 
 		$Player = new Player();
 		// Если указанный игрок существует:

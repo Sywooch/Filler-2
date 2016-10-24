@@ -7,6 +7,8 @@ use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use app\models\UploadForm;
+use yii\web\UploadedFile;
 use yii\helpers\Url;
 
 use app\assets\IndexAsset;
@@ -477,10 +479,24 @@ class SiteController extends ExtController {
 				// Новый пароль копируется в чистом виде для отправки в письме.
 				$Password = $_POST['User']['Password'];
 			}
+
 			// AJAX-проверка.
 			// $this -> performAjaxValidation($Model);
 			// Полученные данные из POST-запроса копируются в модель.
 			$Model -> attributes = $_POST['User'];
+
+
+
+			$directory = Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory']);
+			$file = UploadedFile::getInstance($Model, 'imageFile');
+			$file -> name = md5($file -> name) . '.' . $file -> getExtension();
+
+			$Model -> imageFile = $file -> name;
+			if ($file -> validate())
+				$uploaded = $file -> saveAs($directory . $Model -> imageFile);
+
+
+
 			// Если данные пользователя успешно сохранены в БД:
 			if ($Model -> save()) {
 				$Result = TRUE;

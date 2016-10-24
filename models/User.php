@@ -3,6 +3,10 @@
 namespace app\models;
 
 use Yii;
+use yii\base\Model;
+use yii\web\UploadedFile;
+
+
 
 /**
  * This is the model class for table "user".
@@ -67,22 +71,6 @@ class User extends \yii\db\ActiveRecord
 			return false;
 	}
 
-
-
-	/**
-	 *	
-	 *
-	 */
-	// public function scenarios()
-	// {
-	//     return [
-	        // self::REGISTRATION => ['Name', 'Email', 'Password'],
-	        // self::REGISTRATION_AJAX => ['Name', 'Email', 'Password'],
-	        // self::RECOVERY => ['ControlPassword', 'Password'],
-	        // array('Name', 'required', 'on' => 'registration, registration-ajax, update, update-password'),
-	//     ];
-	// }
-
 	/**
 	 * @inheritdoc
 	 */
@@ -100,6 +88,7 @@ class User extends \yii\db\ActiveRecord
 			['Name', 'required', 'on' => ['registration', 'registration-ajax', 'update', 'update-password']],
 			['Email', 'required', 'on' => ['registration', 'registration-ajax', 'update', 'update-password', self::FORGOT]],
 			[['Password', 'ControlPassword'], 'required', 'on' => ['registration', 'registration-ajax', 'update-password', 'recovery']],
+			['imageFile', 'required', 'on' => ['update', 'update-password']],
 
 			[['Enable', 'Rating'], 'number', 'integerOnly' => true],
 			['Name', 'string', 'min' => 2, 'max' => 20, 'tooShort' => Yii::t('Dictionary', 'Field «{attribute}» must contain at least {min} characters')],
@@ -111,8 +100,8 @@ class User extends \yii\db\ActiveRecord
 			[['ControlPassword'], 'compare', 'compareAttribute' => 'Password', 'on' => ['registration', 'registration-ajax', 'update-password', 'recovery']],
 			['ControlCode', 'captcha', 'on' => 'registration'],
 
-			['ActivityMarker', 'safe'],
-			[['id', 'Name', 'Password', 'Email', 'RegistrationDate', 'Enable', 'GameMarker', 'Rating'], 'safe', 'on' => 'search'],
+			[['ActivityMarker', 'imageFile'], 'safe'],
+			[['id', 'Name', 'Password', 'Email', 'imageFile', 'RegistrationDate', 'Enable', 'GameMarker', 'Rating'], 'safe', 'on' => 'search'],
 		];
 	}
 
@@ -127,6 +116,7 @@ class User extends \yii\db\ActiveRecord
 			'Password' => Yii::t('Dictionary', 'Password'),
 			'ControlPassword' => Yii::t('Dictionary', 'Confirm password'),
 			'Email' => Yii::t('Dictionary', 'E-mail'),
+			'imageFile' => Yii::t('Dictionary', 'Image file'),
 			'RegistrationDate' => Yii::t('Dictionary', 'RegistrationDate'),
 			'Enable' => Yii::t('Dictionary', 'Enable'),
 			'ActivityMarker' => Yii::t('Dictionary', 'ActivityMarker'),

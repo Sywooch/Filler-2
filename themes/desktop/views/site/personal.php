@@ -2,6 +2,7 @@
 
 	use yii\helpers\Url;
 	use yii\helpers\Html;
+	use yii\widgets\ActiveForm;
 	use app\components\FooterMenu\FooterMenuWidget;
 
 ?>
@@ -24,6 +25,7 @@
 				$this -> render('formUserData', [
 					'Model' => $Model,
 					'Field' => [
+						'Image' => true,
 						'Name' => true,
 						'Email' => true,
 						'Password' => true,

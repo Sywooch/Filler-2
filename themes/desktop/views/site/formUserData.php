@@ -7,6 +7,8 @@
 	// 
 	$form = ActiveForm::begin([
 		'id' => 'user-form',
+		'options' => ['enctype' => 'multipart/form-data'],
+		
 		// 'options' => ['class' => 'form-horizontal'],
 		// 'action' => \yii\helpers\Url::toRoute('/site/test'),
 		// 'enableClientValidation' => true,
@@ -28,6 +30,12 @@
 		// 'errorMessageCssClass' => 'error-message',
 	]);
 ?>
+
+<?php if (isset($Field['Image']) && $Field['Image']) { ?>
+	<div class="row">
+		<?= $form -> field($Model, 'imageFile') -> fileInput() ?>
+	</div>
+<?php } ?>
 
 <?php if (isset($Field['Name']) && $Field['Name']) { ?>
 	<div class="row">
