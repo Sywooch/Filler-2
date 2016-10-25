@@ -8,5 +8,5 @@ return [
 	],
 	'EmailLayout' => '@app/messages/email/EmailLayout.php',
 	'DialogLayout' => '@app/messages/dialog/DialogLayout.php',
-	'uploadedImagesDirectory' => '@app/upload/images/'
+	'uploadedImagesDirectory' => '@webroot/upload/images/'
 ];

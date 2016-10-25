@@ -33,7 +33,19 @@
 
 <?php if (isset($Field['Image']) && $Field['Image']) { ?>
 	<div class="row">
-		<?= $form -> field($Model, 'imageFile') -> fileInput() ?>
+        <div class="col-xs-10 indent-bottom-md color-gray">
+            <?php
+            $storagePath = Yii::getAlias('@web/upload/images');
+            // Фото пользователя.
+            echo Html::img(
+                $storagePath . '/' . $Model -> imageFile,
+                ['width' => 120, 'height' => 160]
+            );
+            ?>
+        </div>
+        <div class="col-xs-14 indent-bottom-md color-gray">
+            <?= $form -> field($Model, 'imageFile') -> fileInput() ?>
+        </div>
 	</div>
 <?php } ?>
 

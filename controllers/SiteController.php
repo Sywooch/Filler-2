@@ -7,7 +7,6 @@ use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use app\models\UploadForm;
 use yii\web\UploadedFile;
 use yii\helpers\Url;
 
@@ -18,6 +17,7 @@ use app\components\ExtController;
 use app\components\EmailNotification;
 use app\components\UserIdentity;
 
+use app\models\UploadImage;
 use app\models\Bot as tableBot;
 use app\models\User as tableUser;
 use app\models\Lobby as tableLobby;
@@ -485,17 +485,10 @@ class SiteController extends ExtController {
 			// Полученные данные из POST-запроса копируются в модель.
 			$Model -> attributes = $_POST['User'];
 
-
-
-			$directory = Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory']);
-			$file = UploadedFile::getInstance($Model, 'imageFile');
-			$file -> name = md5($file -> name) . '.' . $file -> getExtension();
-
-			$Model -> imageFile = $file -> name;
-			if ($file -> validate())
-				$uploaded = $file -> saveAs($directory . $Model -> imageFile);
-
-
+			//
+			$imageFile = new UploadImage();
+			// Сохранение файла с изображением и получение нового имени (hash-код) файла.
+			$Model -> imageFile = $imageFile -> upload($Model, 'imageFile', true);
 
 			// Если данные пользователя успешно сохранены в БД:
 			if ($Model -> save()) {
