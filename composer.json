@@ -19,7 +19,10 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "skeeks/yii2-mobile-detect": "*",
-        "yiisoft/yii2-imagine": "^2.0"
+        "yiisoft/yii2-imagine": "^2.0",
+        "codeception/codeception": "2.1.*",
+        "codeception/specify": "*",
+        "codeception/verify": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

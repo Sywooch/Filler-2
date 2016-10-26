@@ -670,27 +670,46 @@ class SiteController extends ExtController {
 
 		$standardWidth = 120;
 		$standardHeight = 160;
+		$standardProportion = $standardWidth / $standardHeight;
+		$startX = 0;
+		$startY = 0;
 
 		$image = \yii\imagine\Image::getImagine() -> open(
-			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . 'e12f6e150d081437bc6ba7761416df89.jpg'));
+			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . 'be71cb34ecbd9d39072cbc20af79345c.jpg'));
 
-		$size = $image->getSize();
+		$size = $image -> getSize();
 		
-//		$ratio = $size->getWidth()/$size->getHeight();
-//
-//		$width = 200;
-//		$height = round($width/$ratio);
+		echo $proportion = $size -> getWidth() / $size -> getHeight();
 
-		$box = new \Imagine\Image\Box(300, 240);
-		$point = new \Imagine\Image\Point(50, 50);
-		$image -> crop($point, $box) -> save(
-			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . '_e12f6e150d081437bc6ba7761416df89.jpg'));
+		// $width > $height
+		// Обрезка слева и справа.
+		if ($proportion > $standardProportion) {
+			$width = round($standardHeight * $proportion);
+			$box = new \Imagine\Image\Box($width, $standardHeight);
+			$image -> resize($box);
+			$startX = round(($width - $standardWidth) / 2);
 
-		
-		
-//		$box = new \Imagine\Image\Box($width, $height);
-//		$img->resize($box)->save(
-//			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . '0ae60094f6297eac7d69124b7d6bf406.jpg'));
+		}
+		// $height > $width
+		// Обрезка сверху и снизу.
+		else {
+			$height = round($standardWidth / $proportion);
+			$box = new \Imagine\Image\Box($standardWidth, $height);
+			$image -> resize($box);
+			$startY = round(($height - $standardHeight) / 2);
+
+		}
+
+		$point = new \Imagine\Image\Point($startX, $startY);
+		$box = new \Imagine\Image\Box($standardWidth, $standardHeight);
+
+		print_r($point);
+		print_r($box);
+
+		$image -> crop($point, $box);
+
+		$image -> save(
+			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . 'image.jpg'));
 
 	}
 

@@ -8,6 +8,9 @@ use yii\web\UploadedFile;
 
 use app\components\SiteException;
 
+use Imagine\Image\Point;
+use Imagine\Image\Box;
+
 
 
 /**
@@ -54,6 +57,22 @@ class UploadImage extends Model {
         }
         else
             return null;
+    }
+
+    /**
+     *
+     *
+     */
+    public function resize() {
+        
+    }
+
+    /**
+     *
+     *
+     */
+    public function crop() {
+
     }
 
     /**
