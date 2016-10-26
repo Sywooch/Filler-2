@@ -648,10 +648,10 @@ class SiteController extends ExtController {
 		//print_r($this -> ClientDevice);
 		//echo !$this -> ClientDevice -> isMobile();
 		//echo !$this -> ClientDevice -> isTablet();
-		echo 'mobileDetect '
-			. Yii::$app -> mobileDetect -> isMobile() . ' '
-			. Yii::$app -> mobileDetect -> isTablet() . ' '
-			. Yii::$app -> mobileDetect -> isPhone();
+//		echo 'mobileDetect '
+//			. Yii::$app -> mobileDetect -> isMobile() . ' '
+//			. Yii::$app -> mobileDetect -> isTablet() . ' '
+//			. Yii::$app -> mobileDetect -> isPhone();
 
 		//echo $this -> ClientDevice -> isMobile() ? 'мобильный' : 'настольный';
 
@@ -665,6 +665,32 @@ class SiteController extends ExtController {
 
 //		$FilePath = realpath(Yii::getAlias(Yii::$app -> params['EmailLayout']));
 //		die('Путь: ' . $FilePath);
+
+
+
+		$standardWidth = 120;
+		$standardHeight = 160;
+
+		$image = \yii\imagine\Image::getImagine() -> open(
+			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . 'e12f6e150d081437bc6ba7761416df89.jpg'));
+
+		$size = $image->getSize();
+		
+//		$ratio = $size->getWidth()/$size->getHeight();
+//
+//		$width = 200;
+//		$height = round($width/$ratio);
+
+		$box = new \Imagine\Image\Box(300, 240);
+		$point = new \Imagine\Image\Point(50, 50);
+		$image -> crop($point, $box) -> save(
+			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . '_e12f6e150d081437bc6ba7761416df89.jpg'));
+
+		
+		
+//		$box = new \Imagine\Image\Box($width, $height);
+//		$img->resize($box)->save(
+//			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . '0ae60094f6297eac7d69124b7d6bf406.jpg'));
 
 	}
 
