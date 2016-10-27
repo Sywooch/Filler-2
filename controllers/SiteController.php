@@ -668,48 +668,57 @@ class SiteController extends ExtController {
 
 
 
-		$standardWidth = 120;
-		$standardHeight = 160;
-		$standardProportion = $standardWidth / $standardHeight;
-		$startX = 0;
-		$startY = 0;
 
-		$image = \yii\imagine\Image::getImagine() -> open(
-			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . '79ef908afb3d06893b40d8eb08f40c66.jpg'));
+//		$standardWidth = 120;
+//		$standardHeight = 160;
+//		$standardProportion = $standardWidth / $standardHeight;
+//		$startX = 0;
+//		$startY = 0;
+//
+//		$image = \yii\imagine\Image::getImagine() -> open(
+//			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . '79ef908afb3d06893b40d8eb08f40c66.jpg'));
+//
+//		$size = $image -> getSize();
+//
+//		echo $proportion = $size -> getWidth() / $size -> getHeight();
+//
+//		// $width > $height
+//		// Обрезка слева и справа.
+//		if ($proportion > $standardProportion) {
+//			$width = round($standardHeight * $proportion);
+//			$box = new \Imagine\Image\Box($width, $standardHeight);
+//			$image -> resize($box);
+//			$startX = round(($width - $standardWidth) / 2);
+//
+//		}
+//		// $height > $width
+//		// Обрезка сверху и снизу.
+//		else {
+//			$height = round($standardWidth / $proportion);
+//			$box = new \Imagine\Image\Box($standardWidth, $height);
+//			$image -> resize($box);
+//			$startY = round(($height - $standardHeight) / 2);
+//
+//		}
+//
+//		$point = new \Imagine\Image\Point($startX, $startY);
+//		$box = new \Imagine\Image\Box($standardWidth, $standardHeight);
+//
+//		print_r($point);
+//		print_r($box);
+//
+//		$image -> crop($point, $box);
+//
+//		$image -> save(
+//			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . 'image.jpg'));
 
-		$size = $image -> getSize();
-		
-		echo $proportion = $size -> getWidth() / $size -> getHeight();
 
-		// $width > $height
-		// Обрезка слева и справа.
-		if ($proportion > $standardProportion) {
-			$width = round($standardHeight * $proportion);
-			$box = new \Imagine\Image\Box($width, $standardHeight);
-			$image -> resize($box);
-			$startX = round(($width - $standardWidth) / 2);
+		$imageFile = new UploadImage(Yii::$app -> params['uploadedImagesDirectory']);
+		$imageFile -> open(Yii::getAlias(Yii::$app->params['uploadedImagesDirectory'] . 'c3182e94045ea001beebbb41bac3c725.jpg'));
+		$imageFile -> resize(40, 80);
+		$imageFile -> crop(40, 40);
+		$imageFile -> save('test.jpg');
 
-		}
-		// $height > $width
-		// Обрезка сверху и снизу.
-		else {
-			$height = round($standardWidth / $proportion);
-			$box = new \Imagine\Image\Box($standardWidth, $height);
-			$image -> resize($box);
-			$startY = round(($height - $standardHeight) / 2);
-
-		}
-
-		$point = new \Imagine\Image\Point($startX, $startY);
-		$box = new \Imagine\Image\Box($standardWidth, $standardHeight);
-
-		print_r($point);
-		print_r($box);
-
-		$image -> crop($point, $box);
-
-		$image -> save(
-			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . 'image.jpg'));
 
 	}
 

@@ -38,7 +38,7 @@ class UploadImage extends Model {
      *
      *
      */
-    public $directoryPath = Yii::$app -> params['uploadedImagesDirectory'];
+    public $directoryPath;
 
     /**
      *
@@ -57,6 +57,17 @@ class UploadImage extends Model {
      *
      */
     public $startY = 0;
+
+
+
+    /**
+     *
+     *
+     */
+    function __construct($directoryPath) {
+//        parent::__construct();
+        $this -> directoryPath = $directoryPath;
+    }
 
 
 
@@ -107,7 +118,7 @@ class UploadImage extends Model {
      *
      */
     public function save($fileName) {
-        $this -> imageFile -> save(Yii::getAlias($this -> directoryPath . 'image.jpg'));
+        $this -> imageFile -> save(Yii::getAlias($this -> directoryPath . $fileName));
     }
 
     /**
@@ -142,9 +153,15 @@ class UploadImage extends Model {
     public function crop($width, $height) {
         //
         $size = $this -> imageFile -> getSize();
+
+        //
+        if ($width > $size -> getWidth() || $height > $size -> getHeight())
+            return false;
+
         // Корректировка новых размеров изображения, если они превышают текущие.
-        $width = $width > $size -> getWidth() ? $size -> getWidth() : $width;
-        $height = $height > $size -> getHeight() ? $size -> getHeight() : $height;
+        // $width = $width > $size -> getWidth() ? $size -> getWidth() : $width;
+        // $height = $height > $size -> getHeight() ? $size -> getHeight() : $height;
+        
         // Вычисление координат начальной точки кадра.
         $startX = round(($size -> getWidth() - $width) / 2);
         $startY = round(($size -> getHeight() - $height) / 2);
@@ -154,6 +171,8 @@ class UploadImage extends Model {
         $frameSize = new Box($width, $height);
         // Обрезание изображения по заданным размерам.
         $this -> imageFile -> crop($startPoint, $frameSize);
+
+        return true;
     }
 
     /**
