@@ -675,7 +675,7 @@ class SiteController extends ExtController {
 		$startY = 0;
 
 		$image = \yii\imagine\Image::getImagine() -> open(
-			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . 'be71cb34ecbd9d39072cbc20af79345c.jpg'));
+			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . '79ef908afb3d06893b40d8eb08f40c66.jpg'));
 
 		$size = $image -> getSize();
 		
