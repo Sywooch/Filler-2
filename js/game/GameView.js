@@ -243,7 +243,7 @@ viewPlayer.prototype.StatisticsRefresh = function (Statistics) {
 	// Если игровой показатель "Количество побед" имеет правильный формат:
 	if (typeof Statistics.WinGames !== 'undefined' && Statistics.WinGames !== null) {
 		$('#PlayerWinnings').html(Statistics.WinGames);
-		$('#PlayerGames-xs').html(Statistics.WinGames);
+		$('#PlayerWinnings-xs').html(Statistics.WinGames);
 	}
 	// Если игровой показатель "Рейтинг" имеет правильный формат:
 	if (typeof Statistics.Rating !== 'undefined' && Statistics.Rating !== null) {

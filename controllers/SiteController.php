@@ -482,13 +482,29 @@ class SiteController extends ExtController {
 
 			// AJAX-проверка.
 			// $this -> performAjaxValidation($Model);
+
 			// Полученные данные из POST-запроса копируются в модель.
 			$Model -> attributes = $_POST['User'];
 
 			//
-			$imageFile = new UploadImage();
+//			$imageFile = new UploadImage();
+
+			$imageFile = new UploadImage(Yii::$app -> params['uploadedImagesDirectory']);
+
 			// Сохранение файла с изображением и получение нового имени (hash-код) файла.
 			$Model -> imageFile = $imageFile -> upload($Model, 'imageFile', true);
+
+			$imageFile -> open(Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . $Model -> imageFile));
+			$imageFile -> resize(90, 120);
+			$imageFile -> crop(90, 120);
+			$imageFile -> save($Model -> imageFile);
+			$imageFile -> resize(60, 60);
+			$imageFile -> crop(60, 60);
+			$imageFile -> save($Model -> imageFile);
+
+
+
+
 
 			// Если данные пользователя успешно сохранены в БД:
 			if ($Model -> save()) {
@@ -713,12 +729,15 @@ class SiteController extends ExtController {
 //			Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . 'image.jpg'));
 
 
-		$imageFile = new UploadImage(Yii::$app -> params['uploadedImagesDirectory']);
-		$imageFile -> open(Yii::getAlias(Yii::$app->params['uploadedImagesDirectory'] . 'c3182e94045ea001beebbb41bac3c725.jpg'));
-		$imageFile -> resize(40, 80);
-		$imageFile -> crop(40, 40);
-		$imageFile -> save('test.jpg');
+//		$imageFile = new UploadImage(Yii::$app -> params['uploadedImagesDirectory']);
+//		$imageFile -> open(Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . 'c3182e94045ea001beebbb41bac3c725.jpg'));
+//		$imageFile -> resize(40, 80);
+//		$imageFile -> crop(40, 40);
+//		$imageFile -> save('test.jpg');
 
+		$Lobby = new \app\models\models\Lobby();
+		$Lobby -> Load(1213);
+		echo $Lobby -> setStatus(2);
 
 	}
 

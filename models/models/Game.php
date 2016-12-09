@@ -609,6 +609,21 @@ class Game extends LSD {
 
 
 	/**
+	 *
+	 *
+	 */
+	public function isExist($LobbyID) {
+		// Поиск игры в БД по указанному идентификатору лобби.
+		if (tableGame::findOne([
+			'LobbyID' => $LobbyID
+		]))
+			return true;
+		return false;
+	}
+
+
+
+	/**
 	 *	Загружает игру по указанному идентификатору лобби $LobbyID.
 	 *	Если игра успешно загружена, возвращает true.
 	 *	Если игра не загружена, возвращает false.
@@ -665,6 +680,9 @@ class Game extends LSD {
 	 *
 	 */
 	public function Save() {
+		// Если игра уже зарегистрирована в БД:
+		if (!$this -> getID() && $this -> isExist($this -> LobbyID))
+			return false;
 		return parent::saveModel('\app\models\Game', [
 			'ColorMatrix' => serialize($this -> ColorMatrix),
 			'FinishDate' => $this -> FinishDate,

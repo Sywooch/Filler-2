@@ -44,7 +44,15 @@
             ?>
         </div>
         <div class="col-xs-14 indent-bottom-md color-gray">
-            <?= $form -> field($Model, 'imageFile') -> fileInput() ?>
+            <?=
+			$form -> field($Model, 'imageFile', [
+				'template' => '<div class="col-xs-14">{input}</div>',
+				'inputOptions' => [
+					'class' => 'btn btn-info',
+					'style' => 'padding-left: 50px; padding-right: 50px;'
+				],
+			]) -> fileInput()
+			?>
         </div>
 	</div>
 <?php } ?>

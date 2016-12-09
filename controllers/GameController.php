@@ -126,7 +126,7 @@ class GameController extends ExtController {
 					// Список действий, доступных не авторизованным пользователям.
 					[
 						'actions' => [
-							'game', 'lobbieslistget'
+							'game', 'lobbieslistget', 'availableplayersget'
 						],
 						'allow' => false,
 						'roles' => ['?'],
@@ -134,7 +134,7 @@ class GameController extends ExtController {
 					// Список действий, доступных авторизованным пользователям.
 					[
 						'actions' => [
-							'game', 'lobbieslistget'
+							'game', 'lobbieslistget', 'availableplayersget'
 						],
 						'allow' => true,
 						'roles' => ['@'],
@@ -445,16 +445,21 @@ class GameController extends ExtController {
 							// Регистрация временной метки игрока.
 							$Player -> setGameMarker();
 					}
+					Yii::info('Регистрация новой игры [ LobbyID = ' . $LobbyID . ' | GameID = ' . $GameData['GameID'] . ' ].', 'game.gamestart');
 					// Возвращает данные игры.
 					echo(json_encode($GameData));
 				}
 				// Если возникла ошибка:
-				else
+				else {
+					Yii::error('Ошибка регистрации новой игры [ LobbyID = ' . $LobbyID . ' ].', 'game.gamestarterror');
 					echo(json_encode(['Error' => self::DATA_ERROR]));
+				}
 			}
 			// Если возникла ошибка:
-			else
+			else {
+				Yii::error('Ошибка загрузки лобби из БД [ LobbyID = ' . $LobbyID . ' ] при регистрации новой игры.', 'game.lobbyfinderror');
 				echo(json_encode(['Error' => self::DATA_ERROR]));
+			}
 			Yii::$app -> end();
 		}
 		else {
@@ -501,12 +506,15 @@ class GameController extends ExtController {
 				if ($Lobby -> Load($LobbyID)) {
 					// Получение данных игры.
 					$GameData = $this -> getGameData($Lobby, $Game);
+					Yii::info('Получение новой игры [ LobbyID = ' . $LobbyID . ' | GameID = ' . $GameData['GameID'] . ' ].', 'game.gameget');
 					// Возвращает данные игры.
 					echo(json_encode($GameData));
 				}
-				else
+				else {
+					Yii::error('Ошибка загрузки лобби из БД [ LobbyID = ' . $LobbyID . ' ] при получении новой игры.', 'game.lobbyfinderror');
 					// Возвращает код ошибки.
 					echo(json_encode(['Error' => self::DATA_ERROR]));
+				}
 			}
 			Yii::$app -> end();
 		}

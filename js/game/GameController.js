@@ -705,7 +705,12 @@ $(document).ready(function() {
 	$('#LobbyJoinButton').click(GameController.LobbyJoin);
 
 	// Начало игры.
-	$('#GameStartButton').click(GameController.GameStart);
+	$('#GameStartButton').click(function () {
+		// Блокирование кнопки.
+		LobbyDialog.ButtonDisabled('GameStartButton');
+		// Запуск игры.
+		GameController.GameStart();
+	});
 
 	// Переключение режима звука.
 	$('#Button-Sound').click(function () {
