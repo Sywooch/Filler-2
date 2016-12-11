@@ -24,6 +24,7 @@ use app\models\Lobby as tableLobby;
 use app\models\LobbyPlayer as tableLobbyPlayer;
 
 use app\models\models\Bot;
+use app\models\models\Session;
 
 
 
@@ -103,6 +104,21 @@ class SiteController extends ExtController {
 				],
 			],
 		];
+	}
+
+	
+
+	/**
+	 *	
+	 *
+	 */
+	public function beforeAction($action) {
+		// Регистрация начала сессии текущего пользователя.
+		$playerSession = new Session();
+		// Поиск текущей сессии по идентификатору текущего пользователя.
+		if (Yii::$app -> user -> getId() && $playerSession -> Search(Yii::$app -> user -> getId()))
+			$playerSession -> Update();
+		return true;
 	}
 
 
@@ -229,6 +245,9 @@ class SiteController extends ExtController {
 			if ($Player -> authenticate()) {
 				// Начинается авторизованная сессия.
 				Yii::$app -> user -> login($Player);
+				// Регистрация начала сессии текущего пользователя.
+				$playerSession = new Session(Yii::$app -> user -> getId());
+				$playerSession -> Start();
 				// Запись в соответствующий журнал логов информационного сообщения.
 				Yii::info('Авторизация пользователя [ ' . $Email . ' ].', 'user.login');
 				// Возвращается код успешной авторизации.
@@ -259,6 +278,11 @@ class SiteController extends ExtController {
 	 *
 	 */
 	public function actionLogout() {
+		// Регистрация начала сессии текущего пользователя.
+		$playerSession = new Session();
+		// Поиск текущей сессии по идентификатору текущего пользователя.
+		$playerSession -> Search(Yii::$app -> user -> getId());
+		$playerSession -> Stop();
 		// Запись в соответствующий журнал логов информационного сообщения.
 		Yii::info('Выход пользователя [ ' . Yii::$app -> user -> identity -> Email . ' ].', 'user.logout');
 		// Завершение авторизованной сессии.
@@ -734,10 +758,6 @@ class SiteController extends ExtController {
 //		$imageFile -> resize(40, 80);
 //		$imageFile -> crop(40, 40);
 //		$imageFile -> save('test.jpg');
-
-		$Lobby = new \app\models\models\Lobby();
-		$Lobby -> Load(1213);
-		echo $Lobby -> setStatus(2);
 
 	}
 

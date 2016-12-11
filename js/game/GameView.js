@@ -125,6 +125,9 @@ viewScoreboard.prototype.GamePlayersHide = function () {
  */
 viewScoreboard.prototype.GamePlayersShow = function (PlayersList) {
 	console.log('viewScoreboard.prototype.GamePlayersShow');
+	//
+	$('#PlayersList-1').html('');
+	$('#PlayersList-2').html('');
 	var self = this;
 	// Создание представлений для всех игроков текущей игры.
 	if (Array.isArray(PlayersList)) {
@@ -782,8 +785,8 @@ $(document).ready(function () {
 	 *	Инициализация диалогового окна.
 	 *
 	 */
-	LobbyCreateDialog.Init = function () {
-		$('#LobbyName').val('');
+	LobbyCreateDialog.Init = function (LobbyName) {
+		$('#LobbyName').val(LobbyName);
 		$('#LobbyName').focus();
 	}
 	/**

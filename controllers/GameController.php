@@ -23,6 +23,7 @@ use app\models\models\Player;
 use app\models\models\Bot;
 use app\models\models\Lobby;
 use app\models\models\Game;
+use app\models\models\Session;
 
 
 
@@ -147,6 +148,21 @@ class GameController extends ExtController {
 
 
 	/**
+	 *	
+	 *
+	 */
+	public function beforeAction($action) {
+		// Регистрация начала сессии текущего пользователя.
+		$playerSession = new Session();
+		// Поиск текущей сессии по идентификатору текущего пользователя.
+		if (Yii::$app -> user -> getId() && $playerSession -> Search(Yii::$app -> user -> getId()))
+			$playerSession -> Update();
+		return true;
+	}
+
+
+
+	/**
 	 *	Устанавливает фильтры.
 	 *	Включен фильтр контроля доступа.
 	 *
@@ -180,6 +196,7 @@ class GameController extends ExtController {
 			var Player = " . json_encode($PlayerPropertyList) . ";
 			var BASE_URL = '" . Yii::$app -> request -> baseUrl . "';
 			var DIALOG = " . json_encode($this -> getDialogMessages()) . ";
+			var GameText = " . json_encode($this -> getGameText()) . ";
 			var LoadGame = " . json_encode($this -> GameLoad()) . ";",
 			yii\web\View::POS_HEAD
 		);
@@ -204,6 +221,18 @@ class GameController extends ExtController {
 		// Получение набора шаблонов диалоговых окон.
 		$DialogLayout = require($FilePath);
 		return $DialogLayout;
+	}
+
+
+
+	/**
+	 *	Возвращает список текстов для игры.
+	 *
+	 */
+	private function getGameText() {
+		return [
+			'forLobbyName' => Yii::t('Dictionary', 'invites...'),
+		];
 	}
 
 

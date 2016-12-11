@@ -105,7 +105,7 @@ return [
 	// Неизвестная ошибка.
 	'UnknownError' => [
 		'Caption' => Yii::t('Dictionary', 'Unknown error'),
-		'Message' => Yii::t('Dictionary', 'Sorry! Something went wrong...'),
+		'Message' => Yii::t('Dictionary', 'Everything breaks sooner or later. But it is fixable. Please reload the page.'),
 		'YesButton' => Yii::t('Dictionary', 'Close'),
 		'NoButton' => '',
 		'Type' => 'error',

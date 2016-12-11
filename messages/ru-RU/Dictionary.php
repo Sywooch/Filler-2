@@ -12,6 +12,7 @@ return [
 	'Unknown error' => 'Неизвестная ошибка',
 	'Sorry! Something went wrong...' => 'Сожалеем! Что-то пошло не так...',
 	'Something happened' => 'Что-то пошло не так',
+	'Everything breaks sooner or later. But it is fixable. Please reload the page.' => 'Все рано или поздно ломается. Но это исправимо. Пожалуйста, обновите страницу.',
 
 	// Authorization Errors
 	'Incorrect password' => 'Неверный пароль',
@@ -49,6 +50,7 @@ return [
 	'All players connected. You can start the game.' => 'Все игроки в сборе. Можно начинать игру.',
 	'All players connected. The game starts...' => 'Все игроки в сборе. Игра сейчас начнется...',
 	'The validity of the lobby is up.' => 'Срок действия лобби истек.',
+	'invites...' => 'приглашает...',
 
 	// Player
 	'Games number' => 'Количество игр',

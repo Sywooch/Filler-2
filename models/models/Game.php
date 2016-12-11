@@ -508,13 +508,15 @@ class Game extends LSD {
 	 *
 	 */
 	public function getMovesList($order = 'DESC', $limit = 1000) {
+		// Список ходов.
+		$movesList = [];
 		// Загрузка из БД всех сделанных ходов для указанной игры.
 		$dbModel = tableGameDetail::find()
 			-> where(['GameID' => $this -> id])
 			-> orderBy('ID ' . $order)
 			-> limit($limit)
 			-> all();
-		// Формирование массива ходов.
+		// Формирование списка ходов.
 		foreach ($dbModel as $move) {
 			$movesList[] = [
 				// Индекс цвета.
@@ -683,13 +685,17 @@ class Game extends LSD {
 		// Если игра уже зарегистрирована в БД:
 		if (!$this -> getID() && $this -> isExist($this -> LobbyID))
 			return false;
-		return parent::saveModel('\app\models\Game', [
+		$gameData = [
 			'ColorMatrix' => serialize($this -> ColorMatrix),
 			'FinishDate' => $this -> FinishDate,
 			'Comment' => $this -> Comment,
 			'LobbyID' => $this -> LobbyID,
 			'WinnerID' => $this -> WinnerID,
-		]);
+		];
+		// Если дата начала игры уже установлена:
+		if ($this -> StartDate)
+			$gameData['StartDate'] = $this -> StartDate;
+		return parent::saveModel('\app\models\Game', $gameData);
 	}
 
 

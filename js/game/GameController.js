@@ -695,6 +695,7 @@ $(document).ready(function() {
 
 	// Открытие диалогового окна для создания лобби.
 	$('#LobbyCreate, #LobbyCreate-xs').click(function () {
+		LobbyCreateDialog.Init(window.Player.Name + ' ' + GameText.forLobbyName);
 		LobbyCreateDialog.Show();
 	});
 
@@ -706,6 +707,8 @@ $(document).ready(function() {
 
 	// Начало игры.
 	$('#GameStartButton').click(function () {
+		// Регистрация цели в Яндекс.Метрике.
+		// YandexCounter('GameStartButton');
 		// Блокирование кнопки.
 		LobbyDialog.ButtonDisabled('GameStartButton');
 		// Запуск игры.
@@ -742,6 +745,20 @@ $(document).ready(function() {
 	});
 
 });
+
+
+
+
+
+/**
+ *  Регистрация цели в Яндекс.Метрике.
+ *
+ */
+function YandexCounter(GoalName) {
+	try {
+		yaCounter41440834.reachGoal(GoalName);
+	} catch(e) { }
+}
 
 
 

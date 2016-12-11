@@ -40,8 +40,8 @@ $(document).ready(function () {
 				}
 				// Если ошибка данных:
 				else if (GameData.Error == self.ErrorTypes.DataError)
-					// Повторный запуск новой игры.
-					self.GameStart(LobbyID, PlayersNumber, Callback);
+					// Вывод сообщения об ошибке.
+					MessageDialog.Show(DIALOG.UnknownError);
 				// Если неизвестная ошибка:
 				else
 					console.log(self.URL.Base + self.URL.GameStart + ' : Error = ' + GameData.Error);
@@ -73,8 +73,8 @@ $(document).ready(function () {
 				}
 				// Если ошибка данных:
 				else if (Result.Error == self.ErrorTypes.ExpireError || Result.Error == self.ErrorTypes.DataError)
-					// Повторный запрос начала игры.
-					self.GameGet(LobbyID, Callback);
+					// Вывод сообщения об ошибке.
+					MessageDialog.Show(DIALOG.UnknownError);
 				// Если неизвестная ошибка:
 				else
 					console.log(self.URL.Base + self.URL.GameGet + ' : Error = ' + Result.Error);
@@ -196,7 +196,8 @@ $(document).ready(function () {
 				}
 				// Если ошибка данных:
 				else if (Result.Error == self.ErrorTypes.ExpireError || Result.Error == self.ErrorTypes.DataError)
-					self.MoveGet(CompetitorID, Callback);
+					// Вывод сообщения об ошибке.
+					MessageDialog.Show(DIALOG.UnknownError);
 				// Если неизвестная ошибка:
 				else
 					console.log(self.URL.Base + self.URL.MoveGet + ' : Error = ' + Result.Error);

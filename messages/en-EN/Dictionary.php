@@ -12,6 +12,7 @@ return [
 	'Unknown error' => 'Unknown error',
 	'Sorry! Something went wrong...' => 'Sorry! Something went wrong...',
 	'Something happened' => 'Something happened',
+	'Everything breaks sooner or later. But it is fixable. Please reload the page.' => 'Everything breaks sooner or later. But it is fixable. Please reload the page.',
 
 	// Authorization Errors
 	'Incorrect password' => 'Incorrect password',
@@ -49,6 +50,7 @@ return [
 	'All players connected. You can start the game.' => 'All players connected. You can start the game.',
 	'All players connected. The game starts...' => 'All players connected. The game starts...',
 	'The validity of the lobby is up.' => 'The validity of the lobby is up.',
+	'invites...' => 'invites...',
 
 	// Player
 	'Games number' => 'Games number',
