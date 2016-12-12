@@ -467,20 +467,21 @@ class Player extends User {
 			-> with('lobby.games') 
 			-> where(['PlayerID' => $id])
 			-> all();
-
 		// Подсчет общего количества побед и текущей победной серии игрока.
 		foreach ($dbModel as $Game) {
-			if ($Game -> lobby -> games[0] -> WinnerID != null)
+			// Если по текущему лобби существует игра:
+			if ($Game -> lobby -> games[0] -> WinnerID != null) {
 				$this -> TotalGames++;
-			if ($Game -> lobby -> games[0] -> WinnerID == $id) {
-				$this -> WinGames++;
-				$this -> WinningStreak++;
+				// Если по текущей игре игрок победитель:
+				if ($Game -> lobby -> games[0] -> WinnerID == $id) {
+					$this -> WinGames++;
+					$this -> WinningStreak++;
+				}
+				else
+					$this -> WinningStreak = 0;
 			}
-			else
-				$this -> WinningStreak = 0;
 		}
 		// Подсчет общего количества игр и количества поражений игрока.
-		// $this -> TotalGames = sizeof($dbModel);
 		$this -> LoseGames = $this -> TotalGames - $this -> WinGames;
 	}
 
