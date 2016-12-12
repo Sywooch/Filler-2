@@ -27,27 +27,7 @@ use app\models\Session as tableSession;
  *
  */
 class Session extends LSD {
-
-	/**
-	 *	Тип устройства: Компьютер
-	 *
-	 */
-	const DESKTOP_DEVICE = 1;
-
-	/**
-	 *	Тип устройства: Планшет
-	 *
-	 */
-	const TABLET_DEVICE = 2;
-
-	/**
-	 *	Тип устройства: Смартфон
-	 *
-	 */
-	const PHONE_DEVICE = 3;
-
-
-
+	
 	/**
 	 *	Идентификатор пользователя.
 	 *
@@ -73,7 +53,6 @@ class Session extends LSD {
 	 *
 	 */
 	function __construct($UserID = null) {
-		//
 		$this -> UserID = $UserID;
 	}
 
@@ -109,6 +88,18 @@ class Session extends LSD {
 	public function Stop() {
 		$this -> EndDate = date("Y-m-d H:i:s");
 		$this -> Save();
+	}
+
+
+
+	/**
+	 *	Проверяет, запущена ли сессия.
+	 *
+	 */
+	public function isExist() {
+		if ($this -> UserID)
+			return true;
+		return false;
 	}
 
 
@@ -165,21 +156,14 @@ class Session extends LSD {
 	 *
 	 */
 	public function Save() {
-		//
-		if (!$this -> UserID)
+		// Проверка существования сессии.
+		if (!$this -> isExist())
 			return false;
-		//
-		if (Yii::$app -> mobileDetect -> isPhone())
-			$deviceType = self::PHONE_DEVICE;
-		elseif (Yii::$app -> mobileDetect -> isTablet())
-			$deviceType = self::TABLET_DEVICE;
-		else
-			$deviceType = self::DESKTOP_DEVICE;
 		//
 		return parent::saveModel('\app\models\Session', [
 			'UserIP' => Yii::$app -> request -> getUserIP(),
 			'UserAgent' => Yii::$app -> request -> getUserAgent(),
-			'DeviceType' => $deviceType,
+			'DeviceType' => Yii::$app -> mobileDetect -> getDeviceType(),
 			'StartDate' => $this -> StartDate,
 			'EndDate' => $this -> EndDate,
 			'UserID' => $this -> UserID,
