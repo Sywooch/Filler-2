@@ -452,7 +452,11 @@ class SiteController extends ExtController {
 				// Автоматическая авторизация нового пользователя.
 				$Player = new UserIdentity($Model -> Email, $Password);
 				if ($Player -> authenticate()) {
+					// Начинается авторизованная сессия.
 					Yii::$app -> user -> login($Player);
+					// Регистрация начала сессии текущего пользователя.
+					$playerSession = new Session(Yii::$app -> user -> getId());
+					$playerSession -> Start();
 					// Перенаправление на страницу игры.
 					return $this -> redirect(['game/game']);
 				}
