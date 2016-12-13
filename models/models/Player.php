@@ -471,13 +471,17 @@ class Player extends User {
 		foreach ($dbModel as $Game) {
 			// Если по текущему лобби существует игра:
 			if ($Game -> lobby -> games[0] -> WinnerID != null) {
+				// Общее количество игр увеличивается.
 				$this -> TotalGames++;
-				// Если по текущей игре игрок победитель:
+				// Если в текущей игре игрок победитель:
 				if ($Game -> lobby -> games[0] -> WinnerID == $id) {
+					// Количество побед увеличивается.
 					$this -> WinGames++;
+					// Непрерывная победная серия увеличивается.
 					$this -> WinningStreak++;
 				}
 				else
+					// Непрерывная победная серия обнуляется.
 					$this -> WinningStreak = 0;
 			}
 		}
