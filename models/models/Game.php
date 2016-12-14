@@ -138,11 +138,14 @@ class Game extends LSD {
 	 *	всем домашним ячейкам игроков устанавливаются разные цвета.
 	 *
 	 */
-	protected function ColorMatrixGeneration($SizeX, $SizeY, $ColorsNumber, $PlayersStartingPosition = null) {
+	public function ColorMatrixGeneration($SizeX, $SizeY, $ColorsNumber, $PlayersStartingPosition = null) {
 		// Заполнение игровой матрицы случайными индексами цветов 
 		// из указанного диапазона.
 		for ($Index = 0; $Index < $SizeX * $SizeY; $Index++)
 			$ColorMatrix[] = rand(1, $ColorsNumber);
+
+		$this -> applyMatrix($ColorMatrix, $this -> getMapMatrix(1));
+
 		// Если указан список стартовых позиций игроков:
 		if (is_array($PlayersStartingPosition)) {
 			// Перемешивание стартовых позиций игроков.
@@ -170,6 +173,69 @@ class Game extends LSD {
 		}
 		// Возвращается случайная матрица индексов цвета.
 		return $ColorMatrix;
+	}
+
+
+
+	protected function getMapMatrix($mapIndex) {
+		$mapMatrix = [];
+		for ($index = 0; $index < 600; $index++) {
+			$mapMatrix[$index] = 0;
+		}
+		$mapMatrix[101] = 1;
+		$mapMatrix[131] = 1;
+		$mapMatrix[161] = 1;
+		$mapMatrix[191] = 1;
+		$mapMatrix[215] = 1;
+		$mapMatrix[216] = 1;
+		$mapMatrix[217] = 1;
+		$mapMatrix[218] = 1;
+		$mapMatrix[219] = 1;
+		$mapMatrix[220] = 1;
+
+		$mapMatrix[108] = 1;
+		$mapMatrix[138] = 1;
+		$mapMatrix[168] = 1;
+		$mapMatrix[198] = 1;
+		$mapMatrix[229] = 1;
+		$mapMatrix[230] = 1;
+		$mapMatrix[231] = 1;
+		$mapMatrix[232] = 1;
+		$mapMatrix[233] = 1;
+		$mapMatrix[234] = 1;
+
+		$mapMatrix[401] = 1;
+		$mapMatrix[431] = 1;
+		$mapMatrix[461] = 1;
+		$mapMatrix[491] = 1;
+		$mapMatrix[365] = 1;
+		$mapMatrix[366] = 1;
+		$mapMatrix[367] = 1;
+		$mapMatrix[368] = 1;
+		$mapMatrix[369] = 1;
+		$mapMatrix[370] = 1;
+
+		$mapMatrix[408] = 1;
+		$mapMatrix[438] = 1;
+		$mapMatrix[468] = 1;
+		$mapMatrix[498] = 1;
+		$mapMatrix[379] = 1;
+		$mapMatrix[380] = 1;
+		$mapMatrix[381] = 1;
+		$mapMatrix[382] = 1;
+		$mapMatrix[383] = 1;
+		$mapMatrix[384] = 1;
+
+		return $mapMatrix;
+	}
+
+
+
+	protected function applyMatrix(&$colorMatrix, $mapMatrix) {
+		foreach ($mapMatrix as $index => $value) {
+			if ($value)
+				$colorMatrix[$index] = 100;
+		}		
 	}
 
 

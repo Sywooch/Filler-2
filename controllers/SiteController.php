@@ -763,6 +763,10 @@ class SiteController extends ExtController {
 //		$imageFile -> crop(40, 40);
 //		$imageFile -> save('test.jpg');
 
+//		$game = new \app\models\models\Game();
+//		print_r($game -> ColorMatrixGeneration(30, 20, 10));
+
+
 	}
 
 }
