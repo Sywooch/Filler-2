@@ -4,10 +4,10 @@
  *	Зависит от файлов GameBoard.php, GameBoard.css / GameBoard-mobile.css, 
  *
  */
-viewGameBoard = function (Settings) {
+viewGameMap = function (Settings) {
 	// Если задан идентификатор DOM-элемента игрового поля:
-	if (typeof Settings.GameBoardID !== 'undefined' && Settings.GameBoardID !== null)
-		this.GameBoardID = Settings.GameBoardID;
+	if (typeof Settings.GameMapID !== 'undefined' && Settings.GameMapID !== null)
+		this.GameMapID = Settings.GameMapID;
 	// Префиксы идентификаторов основных DOM-элементов.
 	this.Prefix = {
 		FieldContainer: 'FieldContainer',
@@ -15,6 +15,10 @@ viewGameBoard = function (Settings) {
 		Cell: 'c-',
 		Button: 'Color'
 	};
+	this.color = {
+		selectedCell: 'e70',
+		unselectedCell: '303030',
+	}
 	// Если не задан нестандартный список игровых цветов:
 	if (!this.ColorsListSet(Settings.Colors)) {
 		// Стандартный список игровых цветов:
@@ -41,8 +45,8 @@ viewGameBoard = function (Settings) {
  *	По указанным размерам формируется игровое поле из ячеек.
  *
  */
-viewGameBoard.prototype.FieldSizeSet = function (SizeX, SizeY) {
-	console.log('viewGameBoard.prototype.FieldSizeSet : ' + SizeX + ' x ' + SizeY);
+viewGameMap.prototype.FieldSizeSet = function (SizeX, SizeY) {
+	console.log('viewGameMap.prototype.FieldSizeSet : ' + SizeX + ' x ' + SizeY);
 	// Массив ячеек (<div>-блоков).
 	var CellsBlock = '';
 	// Если заданы размеры игрового поля:
@@ -52,7 +56,7 @@ viewGameBoard.prototype.FieldSizeSet = function (SizeX, SizeY) {
 		// Формирование игрового поля из заданного количества ячеек.
 		for (var Index = 1; Index <= (SizeX * SizeY); Index++)
 			// Добавление ячейки с указанным идентификатором.
-			CellsBlock += '<div class="GameTile " id="' + this.Prefix.Cell + Index + '"></div>';
+			CellsBlock += '<div class="cell " id="' + this.Prefix.Cell + Index + '"></div>';
 	}
 	// Отображение массива ячеек.
 	$('#' + this.Prefix.FieldContainer).html(CellsBlock);
@@ -61,8 +65,8 @@ viewGameBoard.prototype.FieldSizeSet = function (SizeX, SizeY) {
  *	Установка списка игровых цветов.
  *
  */
-viewGameBoard.prototype.ColorsListSet = function (ColorsList) {
-	console.log('viewGameBoard.prototype.ColorsListSet');
+viewGameMap.prototype.ColorsListSet = function (ColorsList) {
+	console.log('viewGameMap.prototype.ColorsListSet');
 	// Если список игровых цветов имеет правильный формат:
 	if (typeof ColorsList !== 'undefined' && Array.isArray(ColorsList) && ColorsList.length >= 6) {
 		this.Colors = ColorsList;
@@ -75,108 +79,99 @@ viewGameBoard.prototype.ColorsListSet = function (ColorsList) {
  *	Получение списка игровых цветов.
  *
  */
-viewGameBoard.prototype.ColorsListGet = function () {
-	console.log('viewGameBoard.prototype.ColorsListGet');
+viewGameMap.prototype.ColorsListGet = function () {
+	console.log('viewGameMap.prototype.ColorsListGet');
 	return this.Colors;
-}
-/**
- *	Установка стилей преграды для игрового поля.
- *
- */
-viewGameBoard.prototype.MapSet = function (ColorMatrix) {
-	var self = this;
-	if (Array.isArray(ColorMatrix)) {
-		$.each(ColorMatrix, function(CellIndex, ColorIndex) {
-			//
-			if (!self.isColorCell(ColorIndex))
-				self.CellWallStyleSet(CellIndex + 1);
-		});
-	}
 }
 /**
  *	Перекрашивание всего игрового поля. Обновление кнопок-образцов цветов.
  *
  */
-viewGameBoard.prototype.Repaint = function (ColorMatrix, PlayerMatrix, DisabledColors, ProgressByColorsList, HomeCellIndex) {
-	console.log('viewGameBoard.prototype.Repaint');
+viewGameMap.prototype.repaint = function (matrix) {
 	var self = this;
-	// Перекрашивание всего игрового поля.
-	if (Array.isArray(ColorMatrix)) {
-		$.each(ColorMatrix, function(Key, Value) {
-			//
-			if (self.isColorCell(Value))
-				// Установка цвета текущей ячейки.
-				self.CellColorSet(Key + 1, self.Colors[Value - 1]);
-		});
-	}
-	// Обозначение территорий, занятых игроками.
-	if (Array.isArray(PlayerMatrix)) {
-		$.each(PlayerMatrix, function(Key, Value) {
-			// Если текущая ячейка занята:
-			if (Value)
-				self.CellShapeSet(Key + 1);
-			// Если текущая ячейка свободна:
+	if (Array.isArray(matrix)) {
+		$.each(matrix, function(cellIndex, value) {
+			if (value)
+				self.cellColorSet(cellIndex + 1);
 			else
-				self.CellShapeReset(Key + 1);
+				self.cellColorReset(cellIndex + 1);
 		});
 	}
-	// Если домашняя ячейка указана:
-	if (typeof HomeCellIndex === 'number')
-		// Форматирование домашней ячейки.
-		this.HomeCellShapeSet(HomeCellIndex);
-	// Отключение кнопок с занятыми цветами.
-	this.GamePadRefresh(DisabledColors);
-	// Обновление ярлыков прогресса на кнопках-образцах цвета.
-	this.GamePadProgressLablesRefresh(ProgressByColorsList);
-	// Выключение режима подсветки всех ячеек.
-	this.CellHighlightHide();
+	
+	
+	
+	// console.log('viewGameMap.prototype.Repaint');
+	// var self = this;
+	// // Перекрашивание всего игрового поля.
+	// if (Array.isArray(ColorMatrix)) {
+	// 	$.each(ColorMatrix, function(Key, Value) {
+	// 		// Установка цвета текущей ячейки.
+	// 		self.CellColorSet(Key + 1, self.Colors[Value - 1]);
+	// 	});
+	// }
+	// // Обозначение территорий, занятых игроками.
+	// if (Array.isArray(PlayerMatrix)) {
+	// 	$.each(PlayerMatrix, function(Key, Value) {
+	// 		// Если текущая ячейка занята:
+	// 		if (Value)
+	// 			self.CellShapeSet(Key + 1);
+	// 		// Если текущая ячейка свободна:
+	// 		else
+	// 			self.CellShapeReset(Key + 1);
+	// 	});
+	// }
 }
+
 /**
- *	Проверка типа ячейки.
+ *
  *
  */
-viewGameBoard.prototype.isColorCell = function (ColorIndex) {
-	// Если индекс цвета не найден в списке цветов:
-	// this.Colors.indexOf(ColorIndex) == -1
-	// Если индекс цвета входит в диапазон:
-	if (ColorIndex > this.Colors.length)
-		return false;
-	return true;
-	// return ColorIndex < this.Colors.length;
+viewGameMap.prototype.reset = function () {
+	var self = this;
+	$('.cell').each(function () {
+		self.cellColorReset(this);
+	});
 }
+
 /**
- *	Установка стиля преграды для указанной ячейки.
+ *	Установка цвета указанной ячейки.
  *
  */
-viewGameBoard.prototype.CellWallStyleSet = function (CellIndex) {
-	$('#' + this.Prefix.Cell + CellIndex).addClass('GameTile-Wall');
+viewGameMap.prototype.cellColorSet = function (cellIndex) {
+	// $('#' + this.Prefix.Cell + CellIndex).css({'background-color': '#' + Color});
+	// $('#' + this.Prefix.Cell + cellIndex).css({'background-color': '#' + this.color.selectedCell});
+	$('#' + this.Prefix.Cell + cellIndex).addClass('cell-on');
 }
 /**
  *	Установка цвета указанной ячейки.
  *
  */
-viewGameBoard.prototype.CellColorSet = function (CellIndex, Color) {
-	$('#' + this.Prefix.Cell + CellIndex).css({'background-color': '#' + Color});
+viewGameMap.prototype.cellColorReset = function (cell) {
+	// $('#' + this.Prefix.Cell + CellIndex).css({'background-color': '#' + Color});
+	if (typeof cell !== 'object')
+		cell = '#' + this.Prefix.Cell + cell;
+	// $(cell).css({'background-color': '#' + this.color.unselectedCell});
+	$(cell).removeClass('cell-on');
 }
 /**
  *	Получение цвета указанной ячейки.
  *
  */
-viewGameBoard.prototype.CellColorGet = function (CellIndex) {
+viewGameMap.prototype.CellColorGet = function (CellIndex) {
 	return $('#' + this.Prefix.Cell + CellIndex).css('background-color');
 }
 /**
  *	Установка формы указанной ячейки.
  *
  */
-viewGameBoard.prototype.CellShapeSet = function (CellIndex) {
+viewGameMap.prototype.CellShapeSet = function (CellIndex) {
 	$('#' + this.Prefix.Cell + CellIndex).css({'border-radius': '0px'});
 }
 /**
  *	Установка формы указанной стартовой (домашней) ячейки.
  *
  */
-viewGameBoard.prototype.HomeCellShapeSet = function (HomeCellIndex) {
+viewGameMap.prototype.HomeCellShapeSet = function (HomeCellIndex) {
 	// Если домашняя ячейка в верхнем левом углу:
 	if (HomeCellIndex == 1)
 		$('#' + this.Prefix.Cell + HomeCellIndex).css({'border-top-left-radius': '100%'});
@@ -194,14 +189,14 @@ viewGameBoard.prototype.HomeCellShapeSet = function (HomeCellIndex) {
  *	Сброс формы указанной ячейки.
  *
  */
-viewGameBoard.prototype.CellShapeReset = function (CellIndex) {
+viewGameMap.prototype.CellShapeReset = function (CellIndex) {
 	$('#' + this.Prefix.Cell + CellIndex).css({'border-radius': '4px'});
 }
 /**
  *	Установка панели кнопок-образцов цвета.
  *
  */
-viewGameBoard.prototype.GamePad = function (ColorsNumber, Handler) {
+viewGameMap.prototype.GamePad = function (ColorsNumber, Handler) {
 	console.log('GameBoard.GamePad(' + ColorsNumber + ')');
 	// Массив кнопок (<div>-блоков).
 	var GamePad = '';
@@ -221,31 +216,32 @@ viewGameBoard.prototype.GamePad = function (ColorsNumber, Handler) {
  *	Включение режима подсветки указанных ячеек.
  *
  */
-viewGameBoard.prototype.CellHighlightShow = function (CellsList) {
-	console.log('viewGameBoard.prototype.CellHighlightShow');
-	var self = this;
-	// Если задан список ячеек:
-	if (typeof CellsList !== 'undefined' && Array.isArray(CellsList)) {
-		$.each(CellsList, function(Key, Value) {
-			// Включение режима подсветки указанной ячейки.
-			$('#' + self.Prefix.Cell + Value).addClass('GameTile-Mask');
-		});
-	}
-}
+// viewGameMap.prototype.CellHighlightShow = function (CellsList) {
+// 	console.log('viewGameMap.prototype.CellHighlightShow');
+// 	var self = this;
+// 	// Если задан список ячеек:
+// 	if (typeof CellsList !== 'undefined' && Array.isArray(CellsList)) {
+// 		$.each(CellsList, function(Key, Value) {
+// 			// Включение режима подсветки указанной ячейки.
+// 			$('#' + self.Prefix.Cell + Value).addClass('GameTile-Mask');
+// 		});
+// 	}
+// }
 /**
  *	Выключение режима подсветки всех ячеек.
  *
  */
-viewGameBoard.prototype.CellHighlightHide = function () {
-	$('.GameTile').removeClass('GameTile-Mask');
-}
+// viewGameMap.prototype.CellHighlightHide = function () {
+// 	console.log('viewGameMap.prototype.CellHighlightHide');
+// 	$('.GameTile').removeClass('GameTile-Mask');
+// }
 /**
  *	Обновление состояния игровой панели.
  *	Отключение кнопок с занятыми цветами.
  *
  */
-viewGameBoard.prototype.GamePadRefresh = function (DisabledColors) {
-	console.log('viewGameBoard.prototype.GamePadRefresh');
+viewGameMap.prototype.GamePadRefresh = function (DisabledColors) {
+	console.log('viewGameMap.prototype.GamePadRefresh');
 	var self = this;
 	// Если задан список блокированных индексов цветов:
 	if (typeof DisabledColors !== 'undefined' && Array.isArray(DisabledColors)) {
@@ -259,7 +255,7 @@ viewGameBoard.prototype.GamePadRefresh = function (DisabledColors) {
  *	Обновление цифровых значений ярлыков прогресса кнопок игровой панели.
  *
  */
-viewGameBoard.prototype.GamePadProgressLablesRefresh = function (ProgressByColorsList) {
+viewGameMap.prototype.GamePadProgressLablesRefresh = function (ProgressByColorsList) {
 	var self = this;
 	$.each(ProgressByColorsList, function(Key, Value) {
 		$('#' + self.Prefix.Button + (Key + 1) + ' > div').html('+' + Value);
@@ -269,17 +265,17 @@ viewGameBoard.prototype.GamePadProgressLablesRefresh = function (ProgressByColor
  *	Получение кода цвета указанной кнопки-образца.
  *
  */
-viewGameBoard.prototype.ButtonColorGet = function (ColorIndex) {
+viewGameMap.prototype.ButtonColorGet = function (ColorIndex) {
 	return $('#' + this.Prefix.Button + ColorIndex).css('background-color');
 }
 /**
  *	Установка размера игрового поля и ячеек.
  *
  */
-viewGameBoard.prototype.SizeSet = function (SizeX, SizeY) {
-	console.log('viewGameBoard.prototype.SizeSet(' + SizeX + ' x ' + SizeY + ')');
+viewGameMap.prototype.SizeSet = function (SizeX, SizeY) {
+	console.log('viewGameMap.prototype.SizeSet(' + SizeX + ' x ' + SizeY + ')');
 	// Вычисление размера ячейки.
-	var CellSize = Math.floor(($('#' + this.GameBoardID).width() - 20) / SizeX);
+	var CellSize = Math.floor(($('#' + this.GameMapID).width() - 20) / SizeX);
 	this.CellSize = CellSize - 2;
 	// Вычисление размера контейнера игрового поля.
 	var GameBoardWidth = (CellSize * SizeX) + 20;
@@ -290,7 +286,7 @@ viewGameBoard.prototype.SizeSet = function (SizeX, SizeY) {
 		'height': GameBoardHeight + 'px'
 	});
 	// Установка размера всех ячеек.
-	$('.GameTile').css({
+	$('.cell').css({
 		'width': CellSize - 2 + 'px',
 		'height': CellSize - 2 + 'px'
 	});

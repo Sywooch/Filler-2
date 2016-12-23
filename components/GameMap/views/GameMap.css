@@ -19,6 +19,8 @@
 
 	-moz-user-select: none;
 	-webkit-user-select: none;
+
+	cursor: pointer;
 }
 
 #GamePad {
@@ -29,7 +31,7 @@
 	height: 80px;
 }
 
-.GameTile {
+.cell {
 	float: left;
 	margin: 1px;
 	width: 20px;
@@ -40,24 +42,25 @@
 	padding: 3px 1px 0px 0px;
 	color: #FFFFFF;
 	background-color: #303030; /* #897559; */
+	border: 1px dotted #777;
 
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
+	/*-moz-border-radius: 4px;*/
+	/*-webkit-border-radius: 4px;*/
+	/*border-radius: 4px;*/
 }
 
-.GameTile-Mask {
-	-webkit-animation: Mask 500ms infinite ease-in-out;
-	animation: Mask 500ms infinite ease-in-out;
+.cell:hover {
+	background-color: #a8a39d;
 }
 
-.GameTile-Wall {
-	/*border: 1px dashed #fff !important;*/
-	/*border-radius: 2px !important;*/
-	border-radius: 0 !important;
-	/*border: 4px solid #ddd !important;*/
-	border: 1px dotted #ddd !important;
+.cell-on {
+	background-color: #e70 !important;
 }
+
+/*.GameTile-Mask {*/
+	/*-webkit-animation: Mask 500ms infinite ease-in-out;*/
+	/*animation: Mask 500ms infinite ease-in-out;*/
+/*}*/
 
 @-webkit-keyframes Mask {
 	from {

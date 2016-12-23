@@ -517,18 +517,18 @@ class SiteController extends ExtController {
 			//
 //			$imageFile = new UploadImage();
 
-			$imageFile = new UploadImage(Yii::$app -> params['uploadedImagesDirectory']);
+//			$imageFile = new UploadImage(Yii::$app -> params['uploadedImagesDirectory']);
 
 			// Сохранение файла с изображением и получение нового имени (hash-код) файла.
-			$Model -> imageFile = $imageFile -> upload($Model, 'imageFile', true);
-
-			$imageFile -> open(Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . $Model -> imageFile));
-			$imageFile -> resize(90, 120);
-			$imageFile -> crop(90, 120);
-			$imageFile -> save($Model -> imageFile);
-			$imageFile -> resize(60, 60);
-			$imageFile -> crop(60, 60);
-			$imageFile -> save($Model -> imageFile);
+//			$Model -> imageFile = $imageFile -> upload($Model, 'imageFile', true);
+//
+//			$imageFile -> open(Yii::getAlias(Yii::$app -> params['uploadedImagesDirectory'] . $Model -> imageFile));
+//			$imageFile -> resize(90, 120);
+//			$imageFile -> crop(90, 120);
+//			$imageFile -> save($Model -> imageFile);
+//			$imageFile -> resize(60, 60);
+//			$imageFile -> crop(60, 60);
+//			$imageFile -> save($Model -> imageFile);
 
 
 
@@ -766,6 +766,32 @@ class SiteController extends ExtController {
 //		$game = new \app\models\models\Game();
 //		print_r($game -> ColorMatrixGeneration(30, 20, 10));
 
+//		$map = new \app\models\models\Map();
+//		$map -> Load(3);
+//		print_r($map);
+
+		$dbModel = \app\models\Map::find()
+			-> where([
+//				'sizeX' => 24,
+//				'sizeY' => 16
+			])
+			-> orderBy('name')
+			-> all();
+
+		if ($dbModel) {
+			$mapList = [];
+			// Формирование списка активных лобби.
+			foreach ($dbModel as $mapData) {
+				$mapList[] = [
+					'id' => $mapData['id'],
+					'name' => $mapData['name']
+				];
+			}
+			// Возвращается список действующих лобби.
+			echo(json_encode($mapList));
+		}
+
+//		print_r($mapList);
 
 	}
 

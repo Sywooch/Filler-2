@@ -452,6 +452,8 @@ GameController.GameStartReady = function(LoadFlag) {
 	window.GameBoardView.FieldSizeSet(window.GameBoard.Size.X, window.GameBoard.Size.Y);
 	// 
 	window.GameBoardView.SizeSet(window.GameBoard.Size.X, window.GameBoard.Size.Y);
+	//
+	window.GameBoardView.MapSet(window.GameBoard.ColorMatrix);
 	// Инициализация панели образцов цветов.
 	window.GameBoardView.GamePad(window.GameBoard.ColorsNumber, 'GameController.MoveSet');
 	// Обновление игрового поля.
@@ -508,10 +510,11 @@ GameController.GameFinish = function() {
 	// Если игрок проиграл:
 	else {
 		// Вставка в сообщение имени победителя.
-		DIALOG.Defeat.Message = DIALOG.Defeat.Message
-				.replace('{COMPETITOR_NAME}', '«' + Winner.Name + '»');
+		var defeatMessage = $.extend({}, DIALOG.Defeat);
+		defeatMessage.Message = defeatMessage.Message
+			.replace('{COMPETITOR_NAME}', '«' + Winner.Name + '»');
 		// Вывод сообщения о поражении.
-		MessageDialog.Show(DIALOG.Defeat, {YesButton: GameController.LobbyModeSet});
+		MessageDialog.Show(defeatMessage, {YesButton: GameController.LobbyModeSet});
 	}
 	// Завершение игры.
 	window.GameBoard.GameFinish(GameController.GameFinishReady);

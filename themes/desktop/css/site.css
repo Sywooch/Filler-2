@@ -24,6 +24,11 @@ p {
 	margin: 0 0 1.5em 0;
 }
 
+textarea {
+	padding: 12px 12px;
+	resize: none;
+}
+
 .modal-background {
 	background: white url(../images/background.gif) repeat;
 }

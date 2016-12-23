@@ -41,7 +41,7 @@ $config = [
 			// send all mails to a file by default. You have to set
 			// 'useFileTransport' to false and configure a transport
 			// for the mailer to send real emails.
-			'useFileTransport' => true,
+			'useFileTransport' => false,
 		],
 		// Компонент для определение устройства пользователя.
 		'mobileDetect' => [
@@ -72,10 +72,11 @@ $config = [
 				],
 				[
                     'class' => 'yii\log\EmailTarget',
-                    'levels' => ['error', 'warning', 'info'],
+                    'levels' => ['info'],
+					'logVars' => [],
                     'categories' => ['user.*'],
                     'message' => [
-                       'from' => ['Game Logs <logs@game-test.ru>'],
+                       'from' => ['logs@game-test.ru' => 'Game Logs'],
                        'to' => ['poluektovkv@gmail.com'],
                        'subject' => 'User log',
                     ],

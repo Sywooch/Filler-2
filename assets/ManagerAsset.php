@@ -11,13 +11,13 @@ use yii\web\AssetBundle;
  * 
  *
  */
-class GameAsset extends AssetBundle {
+class ManagerAsset extends AssetBundle {
 
 	/**
 	 *
 	 *
 	 */
-	public $sourcePath = '@app/js/game';
+	public $sourcePath = '@app/js/manager';
 
 	/**
 	 *
@@ -30,9 +30,9 @@ class GameAsset extends AssetBundle {
 	 *
 	 */
 	public $js = [
-		YII_DEBUG ? 'GameController.js' : 'GameController.js',
-		YII_DEBUG ? 'GameModel.js' : 'GameModel.js',
-		YII_DEBUG ? 'GameView.js' : 'GameView.js',
+		YII_DEBUG ? 'ManagerController.js' : 'ManagerController.js',
+		YII_DEBUG ? 'ManagerModel.js' : 'ManagerModel.js',
+		YII_DEBUG ? 'ManagerView.js' : 'ManagerView.js',
 	];
 
 	/**

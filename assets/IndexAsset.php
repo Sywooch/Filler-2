@@ -18,7 +18,7 @@ class IndexAsset extends AssetBundle {
 	];
 	//
 	public $js = [
-		YII_DEBUG ? 'index.js' : 'index.min.js',
+		YII_DEBUG ? 'index.js' : 'index.js',
 		'jquery.validate.js',
 		'jquery.form.js',
 	];

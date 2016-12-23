@@ -186,4 +186,14 @@ return [
 	'Sound switcher' => 'Sound switcher',
 	'Language switcher' => 'Language switcher',
 
+	// Manager
+	'Description' => 'Description',
+	'Enter a description' => 'Enter a description',
+	'Comment' => 'Comment',
+	'Enter a comment' => 'Enter a comment',
+	'Map Save' => 'Map Save',
+	'The map has been successfully saved.' => 'The map {MAP_NAME} has been successfully saved.',
+	'Error saving card' => 'Error saving card',
+	'When you save the map an error occurred.' => 'When you save the map an error occurred.',
+
 ];

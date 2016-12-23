@@ -186,4 +186,14 @@ return [
 	'Sound switcher' => 'Переключатель звука',
 	'Language switcher' => 'Переключатель языка',
 
+	// Manager
+	'Description' => 'Описание',
+	'Enter a description' => 'Введите описание',
+	'Comment' => 'Комментарий',
+	'Enter a comment' => 'Введите комментарий',
+	'Map Save' => 'Сохранение карты',
+	'The map {MAP_NAME} has been successfully saved.' => 'Карта {MAP_NAME} успешно сохранена.',
+	'Error saving card' => 'Ошибка сохранения карты',
+	'When you save the map an error occurred.' => 'При сохранении карты произошла ошибка.',
+
 ];

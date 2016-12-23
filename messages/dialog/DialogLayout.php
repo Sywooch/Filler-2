@@ -165,5 +165,25 @@ return [
 			'Size' => Yii::t('Dictionary', 'Size'),
 		],
 	],
+
+	// Успешное сохранение карты.
+	'MapSave' => [
+		'Caption' => Yii::t('Dictionary', 'Map Save'),
+		'Message' => Yii::t('Dictionary', 'The map {MAP_NAME} has been successfully saved.'),
+		'YesButton' => Yii::t('Dictionary', 'OK'),
+		'NoButton' => '',
+		'Type' => 'info',
+		'Loading' => false
+	],
+
+	// Успешное сохранение карты.
+	'ErrorMapSave' => [
+		'Caption' => Yii::t('Dictionary', 'Error saving card'),
+		'Message' => Yii::t('Dictionary', 'When you save the map an error occurred.'),
+		'YesButton' => Yii::t('Dictionary', 'Close'),
+		'NoButton' => '',
+		'Type' => 'info',
+		'Loading' => false
+	],
 	
 ];
