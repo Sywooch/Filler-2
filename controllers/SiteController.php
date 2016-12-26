@@ -87,7 +87,7 @@ class SiteController extends ExtController {
 					[
 						'actions' => [
 							'registration', 'forgot', 'recovery', 'login', 
-							'index', 'help', 'captcha', 'shorthelp', 'test'
+							'index', 'help', 'captcha', 'shorthelp' //, 'test'
 						],
 						'allow' => true,
 						'roles' => ['?'],
@@ -113,12 +113,16 @@ class SiteController extends ExtController {
 	 *
 	 */
 	public function beforeAction($action) {
-		// Регистрация начала сессии текущего пользователя.
-		$playerSession = new Session();
-		// Поиск текущей сессии по идентификатору текущего пользователя.
-		if (Yii::$app -> user -> getId() && $playerSession -> Search(Yii::$app -> user -> getId()))
-			$playerSession -> Update();
-		return true;
+		if (parent::beforeAction($action)) {
+			// Регистрация начала сессии текущего пользователя.
+			$playerSession = new Session();
+			// Поиск текущей сессии по идентификатору текущего пользователя.
+			if (Yii::$app->user->getId() && $playerSession->Search(Yii::$app->user->getId()))
+				$playerSession->Update();
+			return true;
+		}
+		else
+			return false;
 	}
 
 
@@ -770,28 +774,35 @@ class SiteController extends ExtController {
 //		$map -> Load(3);
 //		print_r($map);
 
-		$dbModel = \app\models\Map::find()
-			-> where([
-//				'sizeX' => 24,
-//				'sizeY' => 16
-			])
-			-> orderBy('name')
-			-> all();
-
-		if ($dbModel) {
-			$mapList = [];
-			// Формирование списка активных лобби.
-			foreach ($dbModel as $mapData) {
-				$mapList[] = [
-					'id' => $mapData['id'],
-					'name' => $mapData['name']
-				];
-			}
-			// Возвращается список действующих лобби.
-			echo(json_encode($mapList));
-		}
+//		$dbModel = \app\models\Map::find()
+//			-> where([
+////				'sizeX' => 24,
+////				'sizeY' => 16
+//			])
+//			-> orderBy('name')
+//			-> all();
+//
+//		if ($dbModel) {
+//			$mapList = [];
+//			// Формирование списка активных лобби.
+//			foreach ($dbModel as $mapData) {
+//				$mapList[] = [
+//					'id' => $mapData['id'],
+//					'name' => $mapData['name']
+//				];
+//			}
+//			// Возвращается список действующих лобби.
+//			echo(json_encode($mapList));
+//		}
 
 //		print_r($mapList);
+
+//		print_r(Yii::$app -> user -> loginUrl);
+//		echo Yii::$app -> homeUrl;
+
+//		return $this -> redirect(Yii::$app -> user -> loginUrl);
+
+		echo 'Доступ есть';
 
 	}
 

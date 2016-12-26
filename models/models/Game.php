@@ -146,7 +146,7 @@ class Game extends LSD {
 		for ($Index = 0; $Index < $SizeX * $SizeY; $Index++)
 			$ColorMatrix[] = rand(1, $ColorsNumber);
 
-		$this -> applyMatrix($ColorMatrix, $this -> getMapMatrix(30));
+		$this -> applyMatrix($ColorMatrix, $this -> getMapMatrix(41));
 
 		// Если указан список стартовых позиций игроков:
 		if (is_array($PlayersStartingPosition)) {

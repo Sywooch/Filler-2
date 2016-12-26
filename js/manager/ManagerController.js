@@ -152,6 +152,55 @@ ManagerController.MapListReady = function() {
 	console.log('ManagerController.MapListReady');
 	// Обновление представления списка карт.
 	window.ManagerView.mapListLoad(window.mapCollectionModel.listGet());
+	$('#tableTest').DataTable({
+		paging: false,
+		lengthChange: false,
+		dom: 't',
+		columnDefs: [
+			{ "width": "40%", "targets": 0 }
+		],
+		data: window.mapCollectionModel.listGet(),
+		rowId: 'id',
+		columns: [
+			{
+				data: 'name',
+				title: 'Название',
+				width: '20%'
+			},
+			{
+				data: 'sizeX',
+				title: 'Размер (ширина)',
+				width: '5%'
+			},
+			{
+				data: 'sizeY',
+				title: 'Размер (высота)',
+				width: '5%'
+			},
+			{
+				data: 'description',
+				title: 'Описание',
+				width: '40%'
+			},
+			{
+				data: 'comment',
+				title: 'Комментарий',
+				width: '30%'
+			}
+		]
+	});
+
+
+
+	var table = $('#tableTest').DataTable();
+
+
+
+	$('#tableTest tbody').on( 'click', 'tr', function () {
+		// alert( 'Row index: '+table.row( this ).index() );
+		console.log(table.row( this ).id());
+	} );
+	
 }
 
 /**
@@ -159,19 +208,19 @@ ManagerController.MapListReady = function() {
  *
  */
 ManagerController.MapLoadReady = function() {
-	// Установка размерности игрового поля.
-	window.GameMapView.FieldSizeSet(window.ManagerModel.sizeX, window.ManagerModel.sizeY);
+	//
+	window.GameMap.setSize(window.ManagerModel.sizeX, window.ManagerModel.sizeY);
 	// Загрузка матрицы карты в модель карты.
 	window.GameMap.loadMatrix(window.ManagerModel.matrix);
+	// Установка размерности игрового поля.
+	window.GameMapView.FieldSizeSet(window.ManagerModel.sizeX, window.ManagerModel.sizeY);
 	// Установка размера ячеек и игрового поля.
 	window.GameMapView.SizeSet(window.GameMap.Size.X, window.GameMap.Size.Y);
 	// Вывод карты на игровое поле.
 	window.GameMapView.repaint(window.ManagerModel.matrix);
-	//
+	// Инициализация формы данными карты.
 	window.ManagerView.mapNameSet(window.ManagerModel.name);
-	//
 	window.ManagerView.mapDescriptionSet(window.ManagerModel.description);
-	//
 	window.ManagerView.mapCommentSet(window.ManagerModel.comment);
 }
 
@@ -216,6 +265,7 @@ ManagerController.MapSave = function() {
 ManagerController.MapEditCancel = function() {
 	window.GameMap.resetMatrix();
 	window.GameMapView.reset();
+	window.ManagerView.mapReset();
 }
 
 /**
@@ -226,7 +276,7 @@ ManagerController.SizeSet = function() {
 	var sizeType = window.ManagerView.mapSizeGet();
 	var sizeX = Application.mapSize[sizeType - 1].sizeX;
 	var sizeY = Application.mapSize[sizeType - 1].sizeY;
-
+console.log('ManagerController.SizeSet ' + sizeX + ' - '+ sizeY);
 	//
 	window.GameMap.setSize(sizeX, sizeY);
 	window.GameMapView.FieldSizeSet(sizeX, sizeY);
@@ -281,9 +331,15 @@ $(document).ready(function() {
 	
 
 	//
-	$('#editMapName').change(function() {
+	$('#mapList').change(function() {
 		ManagerController.MapLoad();
 	});
+
+
+
+	// $('#tableTest').click(function(event) {
+	// 	console.log('#tableTest');
+	// });
 
 
 
@@ -299,6 +355,39 @@ $(document).ready(function() {
 			// Выключение представления ячейки.
 			window.GameMapView.cellColorReset(cellIndex);
 	});
+
+
+
+	// Окно сообщений закрыто.
+	$('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
+		// e.target // activated tab
+		// e.relatedTarget // previous tab
+		// console.log('t4');
+		ManagerController.SizeSet();
+	});
+
+	// $('.nav-tabs').click(function() {
+		// console.log('t4');
+		// window.GameMapView.SizeSet(window.GameMap.Size.X, window.GameMap.Size.Y);
+	// });
+
+
+
+
+	// var table = $('#tableTest').DataTable();
+
+	// table.row.add([
+	// 	"Константин", "Программист", "Москва", "1980", "2016/12/25", "$7,300"
+	// ]).draw();
+	// {
+	// 	"Name":       "Константин",
+	// 	"Position":   "Программист",
+	// 	"Office":     "Москва",
+	// 	"Extn.":       "1980",
+	// 	"Start date": "2016/12/25",
+	// 	"Salary":     "$7,300"
+	// }).draw();
+
 
 });
 

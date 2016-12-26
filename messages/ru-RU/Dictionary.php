@@ -185,6 +185,8 @@ return [
 	'Game rules' => 'Правила игры',
 	'Sound switcher' => 'Переключатель звука',
 	'Language switcher' => 'Переключатель языка',
+	'Type' => 'Тип',
+	'Create a new map' => 'Создать новую карту',
 
 	// Manager
 	'Description' => 'Описание',

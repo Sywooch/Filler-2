@@ -72,7 +72,7 @@ class ExtController extends Controller {
 		// Запись в соответствующий журнал логов информационного сообщения.
 		Yii::info('Доступ пользователя [ ' . $User . ' ] к действию [ ' . $actionName . ' ] отклонен.', 'user.access');
 		// Перенаправление на стартовую страницу.
-		return $this -> redirect(Yii::$app -> homeUrl);
+		return $this -> redirect(Yii::$app -> user -> loginUrl); // Yii::$app -> homeUrl
 	}
 
 

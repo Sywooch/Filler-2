@@ -179,6 +179,8 @@ return [
 	'Posting' => 'Posting',
 	'Start game' => 'Start game',
 	'Join' => 'Join',
+	'Type' => 'Type',
+	'Create a new map' => 'Create a new map',
 
 	// Button tip
 	'Help' => 'Help',

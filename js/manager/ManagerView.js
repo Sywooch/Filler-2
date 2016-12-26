@@ -19,11 +19,11 @@ ManagerView.prototype.mapListLoad = function (mapList) {
 		});
 	}
 	// Вывод списка лобби.
-	$('#editMapName').html(mapBlock);
+	$('#mapList').html(mapBlock);
 }
 
 ManagerView.prototype.mapGet = function () {
-	return $('#editMapName').val();
+	return $('#mapList').val();
 }
 
 ManagerView.prototype.mapNameGet = function () {
@@ -36,6 +36,10 @@ ManagerView.prototype.mapNameSet = function (value) {
 
 ManagerView.prototype.mapSizeGet = function () {
 	return $('#mapSize').val();
+}
+
+ManagerView.prototype.mapSizeSet = function (value) {
+	$('#mapSize').val(value);
 }
 
 ManagerView.prototype.mapDescriptionGet = function () {
@@ -56,6 +60,18 @@ ManagerView.prototype.mapCommentSet = function (value) {
 
 ManagerView.prototype.mapEnableGet = function () {
 	return $('#mapEnable').is(':checked') ? 1 : 0;
+}
+
+ManagerView.prototype.mapEnableSet = function (value) {
+	$('#mapEnable').prop('checked', value);
+}
+
+ManagerView.prototype.mapReset = function () {
+	this.mapNameSet('');
+	this.mapDescriptionSet('');
+	this.mapCommentSet('');
+	this.mapSizeSet(1);
+	this.mapEnableSet(false);
 }
 
 

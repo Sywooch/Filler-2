@@ -50,7 +50,7 @@
 }
 
 .cell:hover {
-	background-color: #a8a39d;
+	background-color: rgba(0, 0, 0, 0.2); /*#a8a39d;*/
 }
 
 .cell-on {

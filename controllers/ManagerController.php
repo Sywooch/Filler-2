@@ -142,7 +142,7 @@ class ManagerController extends ExtController {
 		Yii::$app -> view -> registerJs(
 			"var BASE_URL = '" . Yii::$app -> request -> baseUrl . "';
 			var DIALOG = " . json_encode($this -> getDialogMessages()) . ";",
-			yii\web\View::POS_HEAD
+			\yii\web\View::POS_HEAD
 		);
 		
 		// Вывод представления.
@@ -177,25 +177,15 @@ class ManagerController extends ExtController {
 	 */
 	public function actionMapsave() {
 		// Получение из запроса идентификаторов игры и игрока, индекса цвета и количества ячеек.
-		$name = Yii::$app -> request -> post('name');
-		$matrix = Yii::$app -> request -> post('matrix');
-		$sizeX = Yii::$app -> request -> post('sizeX');
-		$sizeY = Yii::$app -> request -> post('sizeY');
-		$description = Yii::$app -> request -> post('description');
-		$comment = Yii::$app -> request -> post('comment');		
-		$enable = Yii::$app -> request -> post('enable');
+		$mapPropertyList = Yii::$app -> request -> post();
+		// Преобразование матрицы из формата JSON в массив.
+		$mapPropertyList['matrix'] = json_decode($mapPropertyList['matrix']);
+		//
 		$gameMap = new Map();
 		// Если тип запроса AJAX:
 		if (Yii::$app -> request -> isAjax) {
-			$gameMap -> set([
-				'name' => $name,
-				'matrix' => json_decode($matrix),
-				'sizeX' => $sizeX,
-				'sizeY' => $sizeY,
-				'description' => $description,
-				'comment' => $comment,
-				'enable' => $enable
-			]);
+			// Загрузка полученных параметров карты в модель карты.
+			$gameMap -> set($mapPropertyList);
 			// Если указанная игра найдена и ход успешно зарегистрирован:
 			if ($gameMap -> Save())
 				// Возвращает Error = false.
@@ -245,7 +235,11 @@ class ManagerController extends ExtController {
 				foreach ($dbModel as $mapData) {
 					$mapList[] = [
 						'id' => $mapData['id'],
-						'name' => $mapData['name']
+						'name' => $mapData['name'],
+						'sizeX' => $mapData['sizeX'],
+						'sizeY' => $mapData['sizeY'],
+						'description' => $mapData['description'],
+						'comment' => $mapData['comment'],
 					];
 				}
 				// Возвращается список действующих лобби.

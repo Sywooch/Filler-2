@@ -10,6 +10,8 @@ ManagerModel = function (settings) {
 	// Типы ошибок.
 	if (typeof settings.errorTypes !== 'undefined' && settings.errorTypes !== null)
 		this.errorTypes = settings.errorTypes;
+	//
+	this.ID = 0;
 }
 /**
  *  Установка параметров карты.
@@ -21,6 +23,8 @@ ManagerModel.prototype.set = function (map) {
 	if (typeof map === 'undefined' || typeof map !== 'object')
 		return;
 
+	//
+	this.ID = this.ID ? this.ID : 0;
 	this.name = map.name;
 	this.matrix = map.matrix;
 	this.sizeX = map.sizeX;
@@ -40,6 +44,7 @@ ManagerModel.prototype.save = function (callback, errorCallback) {
 	$.post(
 		this.URL.base + this.URL.mapSave,
 		{
+			id: this.ID,
 			name: this.name,
 			matrix: JSON.stringify(this.matrix),
 			sizeX: this.sizeX,
@@ -80,6 +85,7 @@ ManagerModel.prototype.load = function (mapID, callback, errorCallback) {
 		function(result) {
 			if (!result.error) {
 				//
+				self.ID = result.ID;
 				self.name = result.name;
 				self.matrix = result.matrix;
 				self.sizeX = result.sizeX;
@@ -100,37 +106,6 @@ ManagerModel.prototype.load = function (mapID, callback, errorCallback) {
 		'json'
 	)
 }
-
-/**
- *
- *
- */
-// ManagerModel.prototype.mapListLoad = function (type, size, errorCallback) {
-// 	//
-// 	var self = this;
-// 	// AJAX-запрос.
-// 	$.post(
-// 		this.URL.base + this.URL.mapListLoad,
-// 		{
-// 			type: type,
-// 			size: size
-// 		},
-// 		function(result) {
-// 			if (!result.error) {
-// 				//
-// 				self.mapList = result.mapList;
-// 			}
-// 			else if (result.error == self.errorTypes.dataError) {
-// 				// Если задана errorCallback-функция:
-// 				if (typeof errorCallback === 'function')
-// 					errorCallback();
-// 			}
-// 		},
-// 		'json'
-// 	)
-// }
-
-
 
 
 

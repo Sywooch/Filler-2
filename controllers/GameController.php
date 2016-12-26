@@ -152,12 +152,16 @@ class GameController extends ExtController {
 	 *
 	 */
 	public function beforeAction($action) {
-		// Регистрация начала сессии текущего пользователя.
-		$playerSession = new Session();
-		// Поиск текущей сессии по идентификатору текущего пользователя.
-		if (Yii::$app -> user -> getId() && $playerSession -> Search(Yii::$app -> user -> getId()))
-			$playerSession -> Update();
-		return true;
+		if (parent::beforeAction($action)) {
+			// Регистрация начала сессии текущего пользователя.
+			$playerSession = new Session();
+			// Поиск текущей сессии по идентификатору текущего пользователя.
+			if (Yii::$app->user->getId() && $playerSession->Search(Yii::$app->user->getId()))
+				$playerSession->Update();
+			return true;
+		}
+		else
+			return false;
 	}
 
 
@@ -198,7 +202,7 @@ class GameController extends ExtController {
 			var DIALOG = " . json_encode($this -> getDialogMessages()) . ";
 			var GameText = " . json_encode($this -> getGameText()) . ";
 			var LoadGame = " . json_encode($this -> GameLoad()) . ";",
-			yii\web\View::POS_HEAD
+			\yii\web\View::POS_HEAD
 		);
 		// Вывод представления.
 		return $this -> render('game', [

@@ -33,6 +33,7 @@ class ManagerAsset extends AssetBundle {
 		YII_DEBUG ? 'ManagerController.js' : 'ManagerController.js',
 		YII_DEBUG ? 'ManagerModel.js' : 'ManagerModel.js',
 		YII_DEBUG ? 'ManagerView.js' : 'ManagerView.js',
+		YII_DEBUG ? 'datatables.min.js' : 'datatables.min.js',
 	];
 
 	/**

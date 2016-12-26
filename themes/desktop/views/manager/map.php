@@ -17,98 +17,146 @@
 ?>
 
 <div class="row">
-	<!-- GameMode -->
 	<div class="col-xs-24" id="map">
-		<div class="col-xs-24 text-center text-14 color-yellow" id="TopString"></div>
-		<!-- GameBoardBlock -->
-		<div class="col-xs-16 text-center" id="GameBoardDiv">
-			<?=
-				// Виджет игрового поля.
-				GameMapWidget::widget([
-					// Размер игрового поля.
-					'Size' => [18, 12]
-				]);
-			?>
-		</div>
-		<!-- GamePlayersBlock -->
-		<div class="col-xs-8" id="settings">
+		<ul class="nav nav-tabs nav-justified">
+			<li class="active"><a href="#t1" data-toggle="pill">Статистика</a></li>
+			<li><a href="#t2" data-toggle="pill">Игроки</a></li>			
+			<li><a href="#t3" data-toggle="pill">Боты</a></li>
+			<li><a href="#t4" data-toggle="pill">Игровые карты</a></li>
+			<li><a href="#t5" data-toggle="pill">Турниры</a></li>
+			<li><a href="#t6" data-toggle="pill">Миссии</a></li>			
+			<li><a href="#t7" data-toggle="pill">Настройки</a></li>
+		</ul>
+	</div>
+	<div class="tab-content indent-md">
+		<div class="tab-pane" id="t1"></div>
+		<div class="tab-pane" id="t2"></div>
+		<div class="tab-pane" id="t3"></div>
+		<div class="tab-pane" id="t4">
 
-			<ul class="nav nav-tabs nav-justified">
-				<li class="active"><a href="#home" data-toggle="pill">Редактирование карты</a></li>
-				<li><a href="#profile" data-toggle="pill">Список карт</a></li>
-			</ul>
-
-			<div class="tab-content indent-md">
-				<div class="tab-pane active" id="home">
-					<div class="row">
-						<div class="col-xs-24 form-group" id="name">
-							<label class="control-label" for="mapName"><?= Yii::t('Dictionary', 'Name'); ?></label>
-							<input type="text" class="form-control" id="mapName" style="height: 50px" placeholder="<?= Yii::t('Dictionary', 'Enter a name'); ?>">
-						</div>
-						<div class="col-xs-24 form-group" id="description">
-							<label class="control-label" for="mapDescription"><?= Yii::t('Dictionary', 'Description'); ?></label>
-							<textarea class="form-control" rows="3" id="mapDescription" placeholder="<?= Yii::t('Dictionary', 'Enter a description'); ?>"></textarea>
-						</div>
-						<div class="col-xs-24 form-group" id="comment">
-							<label class="control-label" for="mapComment"><?= Yii::t('Dictionary', 'Comment'); ?></label>
-							<textarea class="form-control" rows="2" id="mapComment" placeholder="<?= Yii::t('Dictionary', 'Enter a comment'); ?>"></textarea>
-						</div>
-						<div class="col-xs-24 form-group" id="size">
-							<label class="control-label" for="mapSize"><?= Yii::t('Dictionary', 'Size'); ?></label>
-							<select class="form-control" id="mapSize" style="cursor: pointer; height: 50px;">
-								<option style="padding: 7px 7px;" value="1">18 x 12</option>
-								<option style="padding: 7px 7px;" value="2" selected>24 x 16</option>
-								<option style="padding: 7px 7px;" value="3">30 x 20</option>
-							</select>
-						</div>
-						<div class="col-xs-24 form-group" id="enable">
-							<label class="control-label">
-								<input type="checkbox" id="mapEnable" value="enable">&nbsp;&nbsp;Активная карта
-							</label>
-						</div>
-						<div class="col-xs-24 form-group indent-md" id="buttons">
-							<button type="button" class="btn btn-default" id="cancel" style="margin-right:10px;"><?= Yii::t('Dictionary', 'Cancel'); ?></button>
-							<button type="button" class="btn btn-primary" data-dismiss="modal" id="save"><?= Yii::t('Dictionary', 'Save'); ?></button>
-						</div>
-					</div>
+			<div class="col-xs-24 indent-md">
+				<div class="col-xs-6 text-left text-14">
+					<label class="control-label" for="mapTypeFilter"><?= Yii::t('Dictionary', 'Type'); ?></label>
+					<select class="form-control" id="mapTypeFilter" style="cursor: pointer; height: 40px;">
+						<option style="padding: 7px 7px;" value="1">Цвет</option>
+						<option style="padding: 7px 7px;" value="2">Блок</option>
+						<option style="padding: 7px 7px;" value="0" selected>Все типы</option>
+					</select>
 				</div>
-				<div class="tab-pane" id="profile">
-					<div class="row">
-						<div class="col-xs-24 form-group">
-							<label class="control-label" for="editMapType"><?= Yii::t('Dictionary', 'Type'); ?></label>
-							<select class="form-control" id="editMapType" style="cursor: pointer; height: 50px;">
-								<option style="padding: 7px 7px;" value="1">Цвет</option>
-								<option style="padding: 7px 7px;" value="2">Блок</option>
-								<option style="padding: 7px 7px;" value="0" selected>Все типы</option>
-							</select>
-						</div>
-						<div class="col-xs-24 form-group">
-							<label class="control-label" for="editMapSize"><?= Yii::t('Dictionary', 'Size'); ?></label>
-							<select class="form-control" id="editMapSize" style="cursor: pointer; height: 50px;">
-								<option style="padding: 7px 7px;" value="1">18 x 12</option>
-								<option style="padding: 7px 7px;" value="2">24 x 16</option>
-								<option style="padding: 7px 7px;" value="3">30 x 20</option>
-								<option style="padding: 7px 7px;" value="0" selected>Все размеры</option>
-							</select>
-						</div>
-						<div class="col-xs-24 form-group">
-							<label class="control-label" for="editMapName"><?= Yii::t('Dictionary', 'Name'); ?></label>
-							<select class="form-control" id="editMapName" style="cursor: pointer; height: 50px;">
-								<option style="padding: 7px 7px;" value="1" selected>Имя 1</option>
-								<option style="padding: 7px 7px;" value="2">Имя 2</option>
-								<option style="padding: 7px 7px;" value="3">Имя 3</option>
-							</select>
-						</div>
-						<div class="col-xs-24 form-group indent-md" id="buttons">
-							<button type="button" class="btn btn-default" id="editCancel" style="margin-right:10px;"><?= Yii::t('Dictionary', 'Cancel'); ?></button>
-							<button type="button" class="btn btn-primary" data-dismiss="modal" id="editSave"><?= Yii::t('Dictionary', 'Save'); ?></button>
-						</div>
-					</div>
+				<div class="col-xs-6 text-left text-14">
+					<label class="control-label" for="mapSizeFilter"><?= Yii::t('Dictionary', 'Size'); ?></label>
+					<select class="form-control" id="mapSizeFilter" style="cursor: pointer; height: 40px;">
+						<option style="padding: 7px 7px;" value="1">18 x 12</option>
+						<option style="padding: 7px 7px;" value="2">24 x 16</option>
+						<option style="padding: 7px 7px;" value="3">30 x 20</option>
+						<option style="padding: 7px 7px;" value="0" selected>Все размеры</option>
+					</select>
+				</div>
+				<div class="col-xs-12 text-left text-14" style="margin-top: 26px;">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" id="create"><?= Yii::t('Dictionary', 'Create a new map'); ?></button>
 				</div>
 			</div>
 
+			<div class="col-xs-24 indent-md">
+				<table id="tableTest" class="display table table-hover cursor-pointer" width="100%"></table>
+			</div>
 
+			<div class="col-xs-24 indent-md" id="map">
+				<div class="col-xs-1"></div>
+				<!-- GameBoardBlock -->
+				<div class="col-xs-14 text-center" id="GameBoardDiv">
+					<?=
+						// Виджет игрового поля.
+						GameMapWidget::widget([
+							// Размер игрового поля.
+							'Size' => [18, 12]
+						]);
+					?>
+				</div>
+				<!-- GamePlayersBlock -->
+				<div class="col-xs-8" id="settings">
+
+					<ul class="nav nav-tabs nav-justified">
+						<li class="active"><a href="#home" data-toggle="pill">Редактирование карты</a></li>
+						<li><a href="#profile" data-toggle="pill">Список карт</a></li>
+					</ul>
+
+					<div class="tab-content indent-md">
+						<div class="tab-pane active" id="home">
+							<div class="row">
+								<div class="col-xs-24 form-group" id="name">
+									<label class="control-label" for="mapName"><?= Yii::t('Dictionary', 'Name'); ?></label>
+									<input type="text" class="form-control" id="mapName" style="height: 50px" placeholder="<?= Yii::t('Dictionary', 'Enter a name'); ?>">
+								</div>
+								<div class="col-xs-24 form-group" id="description">
+									<label class="control-label" for="mapDescription"><?= Yii::t('Dictionary', 'Description'); ?></label>
+									<textarea class="form-control" rows="3" id="mapDescription" placeholder="<?= Yii::t('Dictionary', 'Enter a description'); ?>"></textarea>
+								</div>
+								<div class="col-xs-24 form-group" id="comment">
+									<label class="control-label" for="mapComment"><?= Yii::t('Dictionary', 'Comment'); ?></label>
+									<textarea class="form-control" rows="2" id="mapComment" placeholder="<?= Yii::t('Dictionary', 'Enter a comment'); ?>"></textarea>
+								</div>
+								<div class="col-xs-24 form-group" id="size">
+									<label class="control-label" for="mapSize"><?= Yii::t('Dictionary', 'Size'); ?></label>
+									<select class="form-control" id="mapSize" style="cursor: pointer; height: 50px;">
+										<option style="padding: 7px 7px;" value="1">18 x 12</option>
+										<option style="padding: 7px 7px;" value="2" selected>24 x 16</option>
+										<option style="padding: 7px 7px;" value="3">30 x 20</option>
+									</select>
+								</div>
+								<div class="col-xs-24 form-group" id="enable">
+									<label class="control-label">
+										<input type="checkbox" id="mapEnable" value="enable">&nbsp;&nbsp;Активная карта
+									</label>
+								</div>
+								<div class="col-xs-24 form-group indent-md" id="buttons">
+									<button type="button" class="btn btn-default" id="cancel" style="margin-right:10px;"><?= Yii::t('Dictionary', 'Cancel'); ?></button>
+									<button type="button" class="btn btn-primary" data-dismiss="modal" id="save"><?= Yii::t('Dictionary', 'Save'); ?></button>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="profile">
+							<div class="row">
+								<div class="col-xs-24 form-group">
+									<label class="control-label" for="mapTypeFilter"><?= Yii::t('Dictionary', 'Type'); ?></label>
+									<select class="form-control" id="mapTypeFilter" style="cursor: pointer; height: 50px;">
+										<option style="padding: 7px 7px;" value="1">Цвет</option>
+										<option style="padding: 7px 7px;" value="2">Блок</option>
+										<option style="padding: 7px 7px;" value="0" selected>Все типы</option>
+									</select>
+								</div>
+								<div class="col-xs-24 form-group">
+									<label class="control-label" for="mapSizeFilter"><?= Yii::t('Dictionary', 'Size'); ?></label>
+									<select class="form-control" id="mapSizeFilter" style="cursor: pointer; height: 50px;">
+										<option style="padding: 7px 7px;" value="1">18 x 12</option>
+										<option style="padding: 7px 7px;" value="2">24 x 16</option>
+										<option style="padding: 7px 7px;" value="3">30 x 20</option>
+										<option style="padding: 7px 7px;" value="0" selected>Все размеры</option>
+									</select>
+								</div>
+								<div class="col-xs-24 form-group">
+									<label class="control-label" for="mapList"><?= Yii::t('Dictionary', 'Name'); ?></label>
+									<select class="form-control" id="mapList" style="cursor: pointer; height: 50px;">
+										<option style="padding: 7px 7px;" value="1" selected>Имя 1</option>
+										<option style="padding: 7px 7px;" value="2">Имя 2</option>
+										<option style="padding: 7px 7px;" value="3">Имя 3</option>
+									</select>
+								</div>
+								<div class="col-xs-24 form-group indent-md" id="buttons">
+									<button type="button" class="btn btn-default" id="editCancel" style="margin-right:10px;"><?= Yii::t('Dictionary', 'Cancel'); ?></button>
+									<button type="button" class="btn btn-primary" data-dismiss="modal" id="editSave"><?= Yii::t('Dictionary', 'Save'); ?></button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-xs-1"></div>
+			</div>
 		</div>
+		<div class="tab-pane" id="t5"></div>
+		<div class="tab-pane" id="t6"></div>
+		<div class="tab-pane" id="t7"></div>
 	</div>
 </div>
 
