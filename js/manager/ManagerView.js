@@ -2,6 +2,25 @@
 ManagerView = function () {
 
 }
+
+/**
+ *	Включение представления режима лобби.
+ *
+ */
+ManagerView.prototype.MapEditMode = function () {
+	$('#mapListMode').hide();
+	$('#mapEditMode').show();
+}
+
+/**
+ *	Включение представления режима игры.
+ *
+ */
+ManagerView.prototype.MapListMode = function () {
+	$('#mapEditMode').hide();
+	$('#mapListMode').show();
+}
+
 /**
  *	Обновление представления списка лобби.
  *

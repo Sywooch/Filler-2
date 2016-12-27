@@ -14,6 +14,28 @@ ManagerModel = function (settings) {
 	this.ID = 0;
 }
 /**
+ *	Сброс параметров карты.
+ *
+ */
+ManagerModel.prototype.reset = function () {
+	// 
+	this.ID = null;
+	// 
+	this.matrix = [];
+	// 
+	this.name = null;
+	// 
+	this.sizeX = null;
+	// 
+	this.sizeY = null;
+	// 
+	this.description = null;
+	// 
+	this.comment = null;
+	// 
+	this.enable = null;
+}
+/**
  *  Установка параметров карты.
  *
  */

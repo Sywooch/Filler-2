@@ -105,6 +105,8 @@ ManagerController.Init = function() {
 	// Установка начального размера игрового поля.
 	ManagerController.SizeSet();
 
+	ManagerController.MapListMode();
+
 }
 
 /**
@@ -123,15 +125,34 @@ ManagerController.Run = function() {
  *
  *
  */
-ManagerController.MapLoad = function() {
+ManagerController.MapLoad = function(mapID) {
 	// Получение идентификатора выбранной в списке карты.
-	var mapID = window.ManagerView.mapGet();
+	// var mapID = window.ManagerView.mapGet();
+
+
+
 	// Загрузка карты из БД
 	window.ManagerModel.load(
 		mapID,
 		function(){ManagerController.MapLoadReady()},
 		function(){MessageDialog.Show(DIALOG.ErrorMapSave)}
 	);
+}
+
+/**
+ *
+ *
+ */
+ManagerController.MapEditMode = function() {
+	window.ManagerView.MapEditMode();	
+}
+
+/**
+ *
+ *
+ */
+ManagerController.MapListMode = function() {
+	window.ManagerView.MapListMode();
 }
 
 /**
@@ -197,8 +218,11 @@ ManagerController.MapListReady = function() {
 
 
 	$('#tableTest tbody').on( 'click', 'tr', function () {
+		ManagerController.MapEditMode();
+		
 		// alert( 'Row index: '+table.row( this ).index() );
 		console.log(table.row( this ).id());
+		ManagerController.MapLoad(table.row( this ).id());
 	} );
 	
 }
@@ -222,6 +246,16 @@ ManagerController.MapLoadReady = function() {
 	window.ManagerView.mapNameSet(window.ManagerModel.name);
 	window.ManagerView.mapDescriptionSet(window.ManagerModel.description);
 	window.ManagerView.mapCommentSet(window.ManagerModel.comment);
+
+	ManagerController.MapEditMode();
+}
+
+/**
+ *
+ *
+ */
+ManagerController.MapCreate = function() {
+	window.ManagerModel.reset();
 }
 
 /**
@@ -263,9 +297,11 @@ ManagerController.MapSave = function() {
  *
  */
 ManagerController.MapEditCancel = function() {
+	window.ManagerModel.reset();
 	window.GameMap.resetMatrix();
 	window.GameMapView.reset();
 	window.ManagerView.mapReset();
+	ManagerController.MapListMode();
 }
 
 /**
@@ -308,10 +344,20 @@ $(window).load(function () {
  *
  */
 $(document).ready(function() {
+
+	//
+	$('#create').click(function() {
+		ManagerController.MapEditMode();		
+		ManagerController.SizeSet();
+		ManagerController.MapCreate();
+	});
+	
+	
 	
 	// Сохранение.
 	$('#save').click(function() {
 		ManagerController.MapSave();
+		ManagerController.MapEditCancel();
 	});
 
 
