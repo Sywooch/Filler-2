@@ -159,14 +159,15 @@ modelCollection = function (settings) {
  *	Обновление коллекции. Отправляется AJAX-запрос на сервер.
  *
  */
-modelCollection.prototype.listLoad = function (type, size, errorCallback) {
+modelCollection.prototype.listLoad = function (type, mapSize, errorCallback) {
 	var self = this;
 	// AJAX-запрос.
 	$.post(
 		this.URL.base + this.URL.listLoad,
 		{
 			type: type,
-			size: size
+			sizeX: mapSize.sizeX,
+			sizeY: mapSize.sizeY
 		},
 		function(list) {
 			if (!list.error) {

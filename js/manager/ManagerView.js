@@ -8,8 +8,8 @@ ManagerView = function () {
  *
  */
 ManagerView.prototype.MapEditMode = function () {
-	$('#mapListMode').hide();
-	$('#mapEditMode').show();
+	$('#mapListMode').fadeOut(200);
+	$('#mapEditMode').fadeIn(300);
 }
 
 /**
@@ -17,8 +17,8 @@ ManagerView.prototype.MapEditMode = function () {
  *
  */
 ManagerView.prototype.MapListMode = function () {
-	$('#mapEditMode').hide();
-	$('#mapListMode').show();
+	$('#mapEditMode').fadeOut(300);
+	$('#mapListMode').fadeIn(500);
 }
 
 /**
@@ -57,7 +57,16 @@ ManagerView.prototype.mapSizeGet = function () {
 	return $('#mapSize').val();
 }
 
-ManagerView.prototype.mapSizeSet = function (value) {
+ManagerView.prototype.mapSizeSet = function (sizeList, sizeX, sizeY) {
+	var value = 1;
+	if (Array.isArray(sizeList)) {
+		$.each(sizeList, function(index, size) {
+			if (size.sizeX == sizeX && size.sizeY == sizeY) {
+				value = size.value;
+				return false;
+			}
+		});
+	}
 	$('#mapSize').val(value);
 }
 
@@ -91,6 +100,10 @@ ManagerView.prototype.mapReset = function () {
 	this.mapCommentSet('');
 	this.mapSizeSet(1);
 	this.mapEnableSet(false);
+}
+
+ManagerView.prototype.mapSizeFilter = function () {
+	return $('#mapSizeFilter').val();
 }
 
 

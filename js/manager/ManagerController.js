@@ -9,14 +9,22 @@ var SERVER_ERROR = {
 var Application = {
 	mapSize: [
 		{
+			value: 0,
+			sizeX: 0,
+			sizeY: 0
+		},
+		{
+			value: 1,
 			sizeX: 18,
 			sizeY: 12
 		},
 		{
+			value: 2,
 			sizeX: 24,
 			sizeY: 16
 		},
 		{
+			value: 3,
 			sizeX: 30,
 			sizeY: 20
 		}
@@ -107,6 +115,9 @@ ManagerController.Init = function() {
 
 	ManagerController.MapListMode();
 
+
+	
+
 }
 
 /**
@@ -161,8 +172,9 @@ ManagerController.MapListMode = function() {
  */
 ManagerController.MapListLoad = function() {
 	console.log('ManagerController.MapListLoad');
+	var mapSizeFilter = window.ManagerView.mapSizeFilter();
 	//
-	window.mapCollectionModel.listLoad(1, 1);
+	window.mapCollectionModel.listLoad(1, Application.mapSize[mapSizeFilter]);
 }
 
 /**
@@ -172,8 +184,20 @@ ManagerController.MapListLoad = function() {
 ManagerController.MapListReady = function() {
 	console.log('ManagerController.MapListReady');
 	// Обновление представления списка карт.
-	window.ManagerView.mapListLoad(window.mapCollectionModel.listGet());
-	$('#tableTest').DataTable({
+	// window.ManagerView.mapListLoad(window.mapCollectionModel.listGet());
+
+
+	var table;
+
+	if ($.fn.dataTable.isDataTable('#mapList')) {
+		table = $('#mapList').DataTable();
+		table.destroy();
+	}
+
+	// table = $('#mapList').DataTable();
+	// table.destroy();
+
+	table = $('#mapList').DataTable({
 		paging: false,
 		lengthChange: false,
 		dom: 't',
@@ -211,19 +235,12 @@ ManagerController.MapListReady = function() {
 		]
 	});
 
+	// $('#mapList').css( 'width', '100%' );
+	// table.columns.adjust().draw();
+
+	// table.ajax.url( 'newData.json' ).load();
 
 
-	var table = $('#tableTest').DataTable();
-
-
-
-	$('#tableTest tbody').on( 'click', 'tr', function () {
-		ManagerController.MapEditMode();
-		
-		// alert( 'Row index: '+table.row( this ).index() );
-		console.log(table.row( this ).id());
-		ManagerController.MapLoad(table.row( this ).id());
-	} );
 	
 }
 
@@ -246,6 +263,12 @@ ManagerController.MapLoadReady = function() {
 	window.ManagerView.mapNameSet(window.ManagerModel.name);
 	window.ManagerView.mapDescriptionSet(window.ManagerModel.description);
 	window.ManagerView.mapCommentSet(window.ManagerModel.comment);
+	window.ManagerView.mapSizeSet(
+		Application.mapSize,
+		window.ManagerModel.sizeX,
+		window.ManagerModel.sizeY
+	);
+	window.ManagerView.mapEnableSet(window.ManagerModel.enable);
 
 	ManagerController.MapEditMode();
 }
@@ -310,8 +333,8 @@ ManagerController.MapEditCancel = function() {
  */
 ManagerController.SizeSet = function() {
 	var sizeType = window.ManagerView.mapSizeGet();
-	var sizeX = Application.mapSize[sizeType - 1].sizeX;
-	var sizeY = Application.mapSize[sizeType - 1].sizeY;
+	var sizeX = Application.mapSize[sizeType].sizeX;
+	var sizeY = Application.mapSize[sizeType].sizeY;
 console.log('ManagerController.SizeSet ' + sizeX + ' - '+ sizeY);
 	//
 	window.GameMap.setSize(sizeX, sizeY);
@@ -374,18 +397,34 @@ $(document).ready(function() {
 		ManagerController.SizeSet();
 	});
 
+
+
+	$('#mapSizeFilter').change(function() {
+		// Загрузка списка карт.
+		ManagerController.MapListLoad();
+	});
+
 	
 
 	//
-	$('#mapList').change(function() {
-		ManagerController.MapLoad();
-	});
+	// $('#mapList').change(function() {
+	// 	ManagerController.MapLoad();
+	// });
 
 
 
 	// $('#tableTest').click(function(event) {
 	// 	console.log('#tableTest');
 	// });
+
+
+
+	$(document).on('click', '#mapList tbody tr', function() {
+		var table = $('#mapList').DataTable();
+		ManagerController.MapEditMode();
+		console.log('Клик по строке таблицы ' + table.row(this).id());
+		ManagerController.MapLoad(table.row(this).id());
+	});
 
 
 

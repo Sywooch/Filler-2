@@ -59,7 +59,7 @@
 				</div>
 
 				<div class="col-xs-24">
-					<table id="tableTest" class="display table table-hover cursor-pointer" width="100%"></table>
+					<table id="mapList" class="display table table-hover cursor-pointer" width="100%"></table>
 				</div>
 
 			</div>

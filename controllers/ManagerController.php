@@ -216,7 +216,7 @@ class ManagerController extends ExtController {
 		// Если тип запроса AJAX:
 		if (Yii::$app -> request -> isAjax) {
 			$size = [];
-			if (0) {
+			if ($sizeX && $sizeY) {
 				$size = [
 					'sizeX' => $sizeX,
 					'sizeY' => $sizeY
