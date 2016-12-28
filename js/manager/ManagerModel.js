@@ -32,8 +32,10 @@ ManagerModel.prototype.reset = function () {
 	this.description = null;
 	// 
 	this.comment = null;
+	//
+	this.type = 1;
 	// 
-	this.enable = null;
+	this.enable = 0;
 }
 /**
  *  Установка параметров карты.
@@ -53,6 +55,7 @@ ManagerModel.prototype.set = function (map) {
 	this.sizeY = map.sizeY;
 	this.description = map.description;
 	this.comment = map.comment;
+	this.type = map.type;
 	this.enable = map.enable;
 }
 /**
@@ -73,6 +76,7 @@ ManagerModel.prototype.save = function (callback, errorCallback) {
 			sizeY: this.sizeY,
 			description: this.description,
 			comment: this.comment,
+			type: this.type,
 			enable: this.enable
 		},
 		function(result) {
@@ -114,6 +118,7 @@ ManagerModel.prototype.load = function (mapID, callback, errorCallback) {
 				self.sizeY = result.sizeY;
 				self.description = result.description;
 				self.comment = result.comment;
+				self.type = result.type;
 				self.enable = result.enable;
 				// Если задана callback-функция:
 				if (typeof callback === 'function')
@@ -159,13 +164,13 @@ modelCollection = function (settings) {
  *	Обновление коллекции. Отправляется AJAX-запрос на сервер.
  *
  */
-modelCollection.prototype.listLoad = function (type, mapSize, errorCallback) {
+modelCollection.prototype.listLoad = function (mapType, mapSize, errorCallback) {
 	var self = this;
 	// AJAX-запрос.
 	$.post(
 		this.URL.base + this.URL.listLoad,
 		{
-			type: type,
+			type: mapType,
 			sizeX: mapSize.sizeX,
 			sizeY: mapSize.sizeY
 		},

@@ -29,6 +29,20 @@ use app\models\Map as tableMap;
 class Map extends LSD {
 
 	/**
+	 *	Цветные ячейки.
+	 *
+	 */
+	const COLOR_MAP_TYPE = 1;
+
+	/**
+	 *	Блокирующие ячейки.
+	 *
+	 */
+	const BLOCK_MAP_TYPE = 2;
+	
+	
+
+	/**
 	 *	Название карты.
 	 *
 	 */
@@ -63,6 +77,12 @@ class Map extends LSD {
 	 *
 	 */
 	protected $comment;
+
+	/**
+	 *	Тип.
+	 *
+	 */
+	protected $type = 1;
 
 	/**
 	 *	Статус.
@@ -120,6 +140,7 @@ class Map extends LSD {
 			'matrix' => $this -> matrix,
 			'description' => $this -> description,
 			'comment' => $this -> comment,
+			'type' => $this -> type,
 			'enable' => $this -> enable
 		];
 	}
@@ -166,6 +187,7 @@ class Map extends LSD {
 			'sizeY',
 			'description',
 			'comment',
+			'type',
 			'enable'
 		]);
 		$this -> matrix = unserialize($this -> matrix);
@@ -193,6 +215,7 @@ class Map extends LSD {
 			'sizeY' => $this -> sizeY,
 			'description' => $this -> description,
 			'comment' => $this -> comment,
+			'type' => $this -> type,
 			'enable' => $this -> enable,
 		]);
 

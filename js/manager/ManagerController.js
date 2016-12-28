@@ -173,8 +173,9 @@ ManagerController.MapListMode = function() {
 ManagerController.MapListLoad = function() {
 	console.log('ManagerController.MapListLoad');
 	var mapSizeFilter = window.ManagerView.mapSizeFilter();
+	var mapTypeFilter = window.ManagerView.mapTypeFilter();
 	//
-	window.mapCollectionModel.listLoad(1, Application.mapSize[mapSizeFilter]);
+	window.mapCollectionModel.listLoad(mapTypeFilter, Application.mapSize[mapSizeFilter]);
 }
 
 /**
@@ -220,17 +221,22 @@ ManagerController.MapListReady = function() {
 			{
 				data: 'sizeY',
 				title: 'Размер (высота)',
-				width: '5%'
+				width: '10%'
 			},
 			{
 				data: 'description',
 				title: 'Описание',
-				width: '40%'
+				width: '35%'
+			},
+			{
+				data: 'type',
+				title: 'Тип',
+				width: '10%'
 			},
 			{
 				data: 'comment',
 				title: 'Комментарий',
-				width: '30%'
+				width: '20%'
 			}
 		]
 	});
@@ -268,6 +274,7 @@ ManagerController.MapLoadReady = function() {
 		window.ManagerModel.sizeX,
 		window.ManagerModel.sizeY
 	);
+	window.ManagerView.mapTypeSet(window.ManagerModel.type);
 	window.ManagerView.mapEnableSet(window.ManagerModel.enable);
 
 	ManagerController.MapEditMode();
@@ -290,6 +297,7 @@ ManagerController.MapSave = function() {
 	var name = window.ManagerView.mapNameGet();
 	var description = window.ManagerView.mapDescriptionGet();
 	var comment = window.ManagerView.mapCommentGet();
+	var type = window.ManagerView.mapTypeGet();
 	var enable = window.ManagerView.mapEnableGet();
 	var matrix = window.GameMap.getMatrix();
 	// Загрузка данных карты в модель карты.
@@ -300,6 +308,7 @@ ManagerController.MapSave = function() {
 		sizeY: window.GameMap.Size.Y,
 		description: description,
 		comment: comment,
+		type: type,
 		enable: enable
 	});
 	// Вставка в сообщение об успешном сохранении новой карты названия карты.
@@ -399,7 +408,7 @@ $(document).ready(function() {
 
 
 
-	$('#mapSizeFilter').change(function() {
+	$('#mapSizeFilter, #mapTypeFilter').change(function() {
 		// Загрузка списка карт.
 		ManagerController.MapListLoad();
 	});

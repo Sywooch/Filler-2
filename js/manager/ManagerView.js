@@ -70,6 +70,17 @@ ManagerView.prototype.mapSizeSet = function (sizeList, sizeX, sizeY) {
 	$('#mapSize').val(value);
 }
 
+ManagerView.prototype.mapTypeGet = function () {
+	return $('#colorMapType').is(':checked') ? 1 : 2;
+}
+
+ManagerView.prototype.mapTypeSet = function (type) {
+	if (type == 1)
+		$('#colorMapType').prop('checked', true);
+	else if (type == 2)
+		$('#blockMapType').prop('checked', true);
+}
+
 ManagerView.prototype.mapDescriptionGet = function () {
 	return $('#mapDescription').val();
 }
@@ -104,6 +115,10 @@ ManagerView.prototype.mapReset = function () {
 
 ManagerView.prototype.mapSizeFilter = function () {
 	return $('#mapSizeFilter').val();
+}
+
+ManagerView.prototype.mapTypeFilter = function () {
+	return $('#mapTypeFilter').val();
 }
 
 

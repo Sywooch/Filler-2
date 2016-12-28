@@ -215,23 +215,25 @@ class ManagerController extends ExtController {
 
 		// Если тип запроса AJAX:
 		if (Yii::$app -> request -> isAjax) {
-			$size = [];
+			$filter = [];
 			if ($sizeX && $sizeY) {
-				$size = [
+				$filter = [
 					'sizeX' => $sizeX,
 					'sizeY' => $sizeY
 				];
 			}
+			if ($type)
+				$filter['type'] = $type;
 
 			$dbModel = \app\models\Map::find()
-				-> where($size)
+				-> where($filter)
 				-> orderBy('name')
 				-> all();
 
 			//
 			if ($dbModel) {
 				$mapList = [];
-				// Формирование списка активных лобби.
+				// Формирование списка карт.
 				foreach ($dbModel as $mapData) {
 					$mapList[] = [
 						'id' => $mapData['id'],
@@ -239,6 +241,7 @@ class ManagerController extends ExtController {
 						'sizeX' => $mapData['sizeX'],
 						'sizeY' => $mapData['sizeY'],
 						'description' => $mapData['description'],
+						'type' => $mapData['type'],
 						'comment' => $mapData['comment'],
 					];
 				}

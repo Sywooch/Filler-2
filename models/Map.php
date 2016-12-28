@@ -14,6 +14,7 @@ use Yii;
  * @property string $name
  * @property string $description
  * @property string $comment
+ * @property integer $type
  * @property integer $enable
  */
 class Map extends \yii\db\ActiveRecord
@@ -34,7 +35,7 @@ class Map extends \yii\db\ActiveRecord
         return [
             [['matrix', 'sizeX', 'sizeY', 'name'], 'required'],
             [['matrix'], 'string'],
-            [['sizeX', 'sizeY', 'enable'], 'integer'],
+            [['sizeX', 'sizeY', 'type', 'enable'], 'integer'],
             [['name'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 200],
             [['comment'], 'string', 'max' => 100],
@@ -54,6 +55,7 @@ class Map extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'name'),
             'description' => Yii::t('app', 'description'),
             'comment' => Yii::t('app', 'comment'),
+            'type' => Yii::t('app', 'type'),
             'enable' => Yii::t('app', 'enable'),
         ];
     }
