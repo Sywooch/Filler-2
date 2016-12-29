@@ -112,11 +112,8 @@ ManagerController.Init = function() {
 
 	// Установка начального размера игрового поля.
 	ManagerController.SizeSet();
-
+	// Включение режима отображения списка карт.
 	ManagerController.MapListMode();
-
-
-	
 
 }
 
@@ -137,11 +134,6 @@ ManagerController.Run = function() {
  *
  */
 ManagerController.MapLoad = function(mapID) {
-	// Получение идентификатора выбранной в списке карты.
-	// var mapID = window.ManagerView.mapGet();
-
-
-
 	// Загрузка карты из БД
 	window.ManagerModel.load(
 		mapID,
@@ -171,7 +163,7 @@ ManagerController.MapListMode = function() {
  *
  */
 ManagerController.MapListLoad = function() {
-	console.log('ManagerController.MapListLoad');
+	//
 	var mapSizeFilter = window.ManagerView.mapSizeFilter();
 	var mapTypeFilter = window.ManagerView.mapTypeFilter();
 	//
@@ -186,7 +178,6 @@ ManagerController.MapListReady = function() {
 	console.log('ManagerController.MapListReady');
 	// Обновление представления списка карт.
 	// window.ManagerView.mapListLoad(window.mapCollectionModel.listGet());
-
 
 	var table;
 
@@ -245,8 +236,6 @@ ManagerController.MapListReady = function() {
 	// table.columns.adjust().draw();
 
 	// table.ajax.url( 'newData.json' ).load();
-
-
 	
 }
 
@@ -344,11 +333,9 @@ ManagerController.SizeSet = function() {
 	var sizeType = window.ManagerView.mapSizeGet();
 	var sizeX = Application.mapSize[sizeType].sizeX;
 	var sizeY = Application.mapSize[sizeType].sizeY;
-console.log('ManagerController.SizeSet ' + sizeX + ' - '+ sizeY);
 	//
 	window.GameMap.setSize(sizeX, sizeY);
 	window.GameMapView.FieldSizeSet(sizeX, sizeY);
-
 	// Установка размеров представления игрового поля по умолчанию.
 	window.GameMapView.SizeSet(window.GameMap.Size.X, window.GameMap.Size.Y);
 }
@@ -377,7 +364,7 @@ $(window).load(function () {
  */
 $(document).ready(function() {
 
-	//
+	// Создание новой карты.
 	$('#create').click(function() {
 		ManagerController.MapEditMode();		
 		ManagerController.SizeSet();
@@ -386,7 +373,7 @@ $(document).ready(function() {
 	
 	
 	
-	// Сохранение.
+	// Сохранение текущей карты.
 	$('#save').click(function() {
 		ManagerController.MapSave();
 		ManagerController.MapEditCancel();
@@ -394,44 +381,32 @@ $(document).ready(function() {
 
 
 
-	// Отмена.
+	// Отмена изменений текущей карты.
 	$('#cancel').click(function() {
 		ManagerController.MapEditCancel();
 	});
 
 
 
-	// Размер.
+	// Изменение размера текущей карты.
 	$('#size').change(function() {
 		ManagerController.SizeSet();
 	});
 
 
-
+	
+	// Изменение одного из фильтров.
 	$('#mapSizeFilter, #mapTypeFilter').change(function() {
 		// Загрузка списка карт.
 		ManagerController.MapListLoad();
 	});
 
-	
-
-	//
-	// $('#mapList').change(function() {
-	// 	ManagerController.MapLoad();
-	// });
 
 
-
-	// $('#tableTest').click(function(event) {
-	// 	console.log('#tableTest');
-	// });
-
-
-
+	// Нажатие на строку таблицы со списком карт.
 	$(document).on('click', '#mapList tbody tr', function() {
 		var table = $('#mapList').DataTable();
 		ManagerController.MapEditMode();
-		console.log('Клик по строке таблицы ' + table.row(this).id());
 		ManagerController.MapLoad(table.row(this).id());
 	});
 
@@ -452,19 +427,17 @@ $(document).ready(function() {
 
 
 
-	// Окно сообщений закрыто.
+	// Отображение таблицы со списком карт.
 	$('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
-		// e.target // activated tab
-		// e.relatedTarget // previous tab
-		// console.log('t4');
 		ManagerController.SizeSet();
 	});
+	
+	
 
 	// $('.nav-tabs').click(function() {
 		// console.log('t4');
 		// window.GameMapView.SizeSet(window.GameMap.Size.X, window.GameMap.Size.Y);
 	// });
-
 
 
 
@@ -481,7 +454,6 @@ $(document).ready(function() {
 	// 	"Start date": "2016/12/25",
 	// 	"Salary":     "$7,300"
 	// }).draw();
-
 
 });
 

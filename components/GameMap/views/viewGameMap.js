@@ -97,29 +97,6 @@ viewGameMap.prototype.repaint = function (matrix) {
 				self.cellColorReset(cellIndex + 1);
 		});
 	}
-	
-	
-	
-	// console.log('viewGameMap.prototype.Repaint');
-	// var self = this;
-	// // Перекрашивание всего игрового поля.
-	// if (Array.isArray(ColorMatrix)) {
-	// 	$.each(ColorMatrix, function(Key, Value) {
-	// 		// Установка цвета текущей ячейки.
-	// 		self.CellColorSet(Key + 1, self.Colors[Value - 1]);
-	// 	});
-	// }
-	// // Обозначение территорий, занятых игроками.
-	// if (Array.isArray(PlayerMatrix)) {
-	// 	$.each(PlayerMatrix, function(Key, Value) {
-	// 		// Если текущая ячейка занята:
-	// 		if (Value)
-	// 			self.CellShapeSet(Key + 1);
-	// 		// Если текущая ячейка свободна:
-	// 		else
-	// 			self.CellShapeReset(Key + 1);
-	// 	});
-	// }
 }
 
 /**
@@ -212,29 +189,6 @@ viewGameMap.prototype.GamePad = function (ColorsNumber, Handler) {
 	for (Index = 1; Index <= ColorsNumber; Index++)
 		$('#' + this.Prefix.Button + Index).css({'background-color': '#' + this.Colors[Index - 1]});
 }
-/**
- *	Включение режима подсветки указанных ячеек.
- *
- */
-// viewGameMap.prototype.CellHighlightShow = function (CellsList) {
-// 	console.log('viewGameMap.prototype.CellHighlightShow');
-// 	var self = this;
-// 	// Если задан список ячеек:
-// 	if (typeof CellsList !== 'undefined' && Array.isArray(CellsList)) {
-// 		$.each(CellsList, function(Key, Value) {
-// 			// Включение режима подсветки указанной ячейки.
-// 			$('#' + self.Prefix.Cell + Value).addClass('GameTile-Mask');
-// 		});
-// 	}
-// }
-/**
- *	Выключение режима подсветки всех ячеек.
- *
- */
-// viewGameMap.prototype.CellHighlightHide = function () {
-// 	console.log('viewGameMap.prototype.CellHighlightHide');
-// 	$('.GameTile').removeClass('GameTile-Mask');
-// }
 /**
  *	Обновление состояния игровой панели.
  *	Отключение кнопок с занятыми цветами.
