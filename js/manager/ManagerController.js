@@ -177,66 +177,7 @@ ManagerController.MapListLoad = function() {
 ManagerController.MapListReady = function() {
 	console.log('ManagerController.MapListReady');
 	// Обновление представления списка карт.
-	// window.ManagerView.mapListLoad(window.mapCollectionModel.listGet());
-
-	var table;
-
-	if ($.fn.dataTable.isDataTable('#mapList')) {
-		table = $('#mapList').DataTable();
-		table.destroy();
-	}
-
-	// table = $('#mapList').DataTable();
-	// table.destroy();
-
-	table = $('#mapList').DataTable({
-		paging: false,
-		lengthChange: false,
-		dom: 't',
-		columnDefs: [
-			{ "width": "40%", "targets": 0 }
-		],
-		data: window.mapCollectionModel.listGet(),
-		rowId: 'id',
-		columns: [
-			{
-				data: 'name',
-				title: 'Название',
-				width: '20%'
-			},
-			{
-				data: 'sizeX',
-				title: 'Размер (ширина)',
-				width: '5%'
-			},
-			{
-				data: 'sizeY',
-				title: 'Размер (высота)',
-				width: '10%'
-			},
-			{
-				data: 'description',
-				title: 'Описание',
-				width: '35%'
-			},
-			{
-				data: 'type',
-				title: 'Тип',
-				width: '10%'
-			},
-			{
-				data: 'comment',
-				title: 'Комментарий',
-				width: '20%'
-			}
-		]
-	});
-
-	// $('#mapList').css( 'width', '100%' );
-	// table.columns.adjust().draw();
-
-	// table.ajax.url( 'newData.json' ).load();
-	
+	window.ManagerView.mapListLoad(window.mapCollectionModel.listGet());
 }
 
 /**
@@ -431,29 +372,6 @@ $(document).ready(function() {
 	$('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
 		ManagerController.SizeSet();
 	});
-	
-	
-
-	// $('.nav-tabs').click(function() {
-		// console.log('t4');
-		// window.GameMapView.SizeSet(window.GameMap.Size.X, window.GameMap.Size.Y);
-	// });
-
-
-
-	// var table = $('#tableTest').DataTable();
-
-	// table.row.add([
-	// 	"Константин", "Программист", "Москва", "1980", "2016/12/25", "$7,300"
-	// ]).draw();
-	// {
-	// 	"Name":       "Константин",
-	// 	"Position":   "Программист",
-	// 	"Office":     "Москва",
-	// 	"Extn.":       "1980",
-	// 	"Start date": "2016/12/25",
-	// 	"Salary":     "$7,300"
-	// }).draw();
 
 });
 

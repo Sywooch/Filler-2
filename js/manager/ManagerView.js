@@ -1,10 +1,56 @@
 
+/**
+ *	
+ *
+ */
 ManagerView = function () {
-
+	// Инициализация таблицы со списком карт.
+	$('#mapList').DataTable({
+		paging: false,
+		lengthChange: false,
+		dom: 't',
+		columnDefs: [
+			{ "width": "40%", "targets": 0 }
+		],
+		data: [],
+		rowId: 'id',
+		columns: [
+			{
+				data: 'name',
+				title: 'Название',
+				width: '20%'
+			},
+			{
+				data: 'sizeX',
+				title: 'Размер (ширина)',
+				width: '5%'
+			},
+			{
+				data: 'sizeY',
+				title: 'Размер (высота)',
+				width: '10%'
+			},
+			{
+				data: 'description',
+				title: 'Описание',
+				width: '35%'
+			},
+			{
+				data: 'type',
+				title: 'Тип',
+				width: '10%'
+			},
+			{
+				data: 'comment',
+				title: 'Комментарий',
+				width: '20%'
+			}
+		]
+	});	
 }
 
 /**
- *	Включение представления режима лобби.
+ *	Включение режима редактирования карты.
  *
  */
 ManagerView.prototype.MapEditMode = function () {
@@ -13,7 +59,7 @@ ManagerView.prototype.MapEditMode = function () {
 }
 
 /**
- *	Включение представления режима игры.
+ *	Включение режима отображения списка карт.
  *
  */
 ManagerView.prototype.MapListMode = function () {
@@ -22,41 +68,68 @@ ManagerView.prototype.MapListMode = function () {
 }
 
 /**
- *	Обновление представления списка лобби.
+ *	Обновление представления списка карт.
  *
  */
 ManagerView.prototype.mapListLoad = function (mapList) {
-	console.log('ManagerView.prototype.mapListLoad');
-	// Если список лобби не имеет нужный формат:
-	if (!Array.isArray(mapList))
-		mapList = [];
-	var mapBlock = '';
-	if (Array.isArray(mapList)) {
-		$.each(mapList, function(index, map) {
-			mapBlock = mapBlock +
-				'<option style="padding: 7px 7px;" value="' + map.id + '" selected>' + map.name + '</option>';
-		});
-	}
-	// Вывод списка лобби.
-	$('#mapList').html(mapBlock);
+	// Получение объекта таблицы со списком карт.
+	var mapListTable = $('#mapList').DataTable();
+	// Удаление всех текущих данных из таблицы.
+	mapListTable.clear();
+	// Загрузка нового списка карт в таблицу.
+	mapListTable.rows.add(mapList).draw();
+	mapListTable.columns.adjust().draw();
+
+	// table.row.add([
+	// 	"Константин", "Программист", "Москва", "1980", "2016/12/25", "$7,300"
+	// ]).draw();
+	// {
+	// 	"Name":       "Константин",
+	// 	"Position":   "Программист",
+	// 	"Office":     "Москва",
+	// 	"Extn.":       "1980",
+	// 	"Start date": "2016/12/25",
+	// 	"Salary":     "$7,300"
+	// }).draw();
+	
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapGet = function () {
 	return $('#mapList').val();
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapNameGet = function () {
 	return $('#mapName').val();
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapNameSet = function (value) {
 	$('#mapName').val(value);
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapSizeGet = function () {
 	return $('#mapSize').val();
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapSizeSet = function (sizeList, sizeX, sizeY) {
 	var value = 1;
 	if (Array.isArray(sizeList)) {
@@ -70,10 +143,18 @@ ManagerView.prototype.mapSizeSet = function (sizeList, sizeX, sizeY) {
 	$('#mapSize').val(value);
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapTypeGet = function () {
 	return $('#colorMapType').is(':checked') ? 1 : 2;
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapTypeSet = function (type) {
 	if (type == 1)
 		$('#colorMapType').prop('checked', true);
@@ -81,30 +162,58 @@ ManagerView.prototype.mapTypeSet = function (type) {
 		$('#blockMapType').prop('checked', true);
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapDescriptionGet = function () {
 	return $('#mapDescription').val();
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapDescriptionSet = function (value) {
 	$('#mapDescription').val(value);
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapCommentGet = function () {
 	return $('#mapComment').val();
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapCommentSet = function (value) {
 	$('#mapComment').val(value);
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapEnableGet = function () {
 	return $('#mapEnable').is(':checked') ? 1 : 0;
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapEnableSet = function (value) {
 	$('#mapEnable').prop('checked', value);
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapReset = function () {
 	this.mapNameSet('');
 	this.mapDescriptionSet('');
@@ -113,10 +222,18 @@ ManagerView.prototype.mapReset = function () {
 	this.mapEnableSet(false);
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapSizeFilter = function () {
 	return $('#mapSizeFilter').val();
 }
 
+/**
+ *
+ *
+ */
 ManagerView.prototype.mapTypeFilter = function () {
 	return $('#mapTypeFilter').val();
 }
