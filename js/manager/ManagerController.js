@@ -248,7 +248,10 @@ ManagerController.MapSave = function() {
 	// Сохранение новой карты в базу данных.
 	window.ManagerModel.save(
 		// Вывод сообщения об успешном сохранении новой карты.
-		function(){MessageDialog.Show(mapSaveMessage)},
+		function(){
+			MessageDialog.Show(mapSaveMessage);
+			ManagerController.MapListLoad();
+		},
 		// Вывод сообщения об ошибке.
 		function(){MessageDialog.Show(DIALOG.ErrorMapSave)}
 	);
@@ -311,13 +314,14 @@ $(document).ready(function() {
 		ManagerController.SizeSet();
 		ManagerController.MapCreate();
 	});
-	
-	
-	
+
+
+
 	// Сохранение текущей карты.
 	$('#save').click(function() {
 		ManagerController.MapSave();
 		ManagerController.MapEditCancel();
+		// ManagerController.MapListLoad();
 	});
 
 
