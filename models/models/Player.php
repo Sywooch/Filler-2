@@ -256,7 +256,7 @@ class Player extends User {
 	public function getLastLobbyID() {
 		// Поиск в БД последнего лобби, в котором участвовал игрок.
 		$dbModel = tableLobbyPlayer::find()
-			-> where(['PlayerID' => 1])
+			-> where(['PlayerID' => $this -> id])
 			-> orderBy('LobbyID DESC')
 			-> one();
 		return $dbModel -> LobbyID;

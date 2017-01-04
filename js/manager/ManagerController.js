@@ -247,10 +247,11 @@ ManagerController.MapSave = function() {
 		.replace('{MAP_NAME}', '«' + name + '»');
 	// Сохранение новой карты в базу данных.
 	window.ManagerModel.save(
-		// Вывод сообщения об успешном сохранении новой карты.
 		function(){
-			MessageDialog.Show(mapSaveMessage);
+			// Обновление списка карт.
 			ManagerController.MapListLoad();
+			// Вывод сообщения об успешном сохранении новой карты.
+			MessageDialog.Show(mapSaveMessage);
 		},
 		// Вывод сообщения об ошибке.
 		function(){MessageDialog.Show(DIALOG.ErrorMapSave)}
@@ -258,7 +259,7 @@ ManagerController.MapSave = function() {
 }
 
 /**
- *
+ *	Отмена редактирования карты.
  *
  */
 ManagerController.MapEditCancel = function() {
@@ -270,10 +271,11 @@ ManagerController.MapEditCancel = function() {
 }
 
 /**
- *
+ *	Установка размера игрового поля.
  *
  */
 ManagerController.SizeSet = function() {
+	// Получение выбранного размера 
 	var sizeType = window.ManagerView.mapSizeGet();
 	var sizeX = Application.mapSize[sizeType].sizeX;
 	var sizeY = Application.mapSize[sizeType].sizeY;

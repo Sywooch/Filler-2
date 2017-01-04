@@ -517,37 +517,39 @@ class GameController extends ExtController {
 		$Lobby = new Lobby();
 		// Если тип запроса AJAX:
 		if (Yii::$app -> request -> isAjax) {
-			// Установка ограничения времени выполнения запроса.
-			set_time_limit(100);
-			// Установка количества циклов ожидания.
-			$Timeout = 15;
-			// Закрытие сессии, чтобы обрабатывались другие запросы.
-			Yii::$app -> session -> close();
-			// Ожидание начала новой игры по указанному лобби, пока не истекло время ожидания.
-			while ($Timeout > 0 && !$Game -> Search($LobbyID)) {
-				$Timeout--;
-				sleep(self::SLEEP_INTERVAL);
-			}
-			// Открытие сессии.
-			Yii::$app -> session -> open();
-			// Если время ожидания начала новой игры истекло:
-			if ($Timeout == 0)
-				// Возвращает код ошибки.
-				echo(json_encode(['Error' => self::EXPIRE_ERROR]));
-			else {
-				// Если указанное лобби найдено:
-				if ($Lobby -> Load($LobbyID)) {
+			// Если указанное лобби найдено:
+			if ($Lobby -> Load($LobbyID)) {
+				// Установка ограничения времени выполнения запроса.
+				set_time_limit(250);
+				// Установка количества циклов ожидания.
+				$Timeout = $Lobby -> getActiveTimeInterval();
+				// Закрытие сессии, чтобы обрабатывались другие запросы.
+				Yii::$app -> session -> close();
+				// Ожидание начала новой игры по указанному лобби,
+				// пока не истекло время ожидания или не истек срок действия лобби.
+				while ($Timeout > 0 && $Lobby -> isActive() && !$Game -> Search($LobbyID)) {
+					$Timeout--;
+					sleep(self::SLEEP_INTERVAL);
+				}
+				// Открытие сессии.
+				Yii::$app -> session -> open();
+				// Если время ожидания начала новой игры истекло
+				// или истек срок действия лобби.
+				if ($Timeout == 0 || !$Lobby -> isActive())
+					// Возвращает код ошибки.
+					echo(json_encode(['Error' => self::EXPIRE_ERROR]));
+				else {
 					// Получение данных игры.
 					$GameData = $this -> getGameData($Lobby, $Game);
 					Yii::info('Получение новой игры [ LobbyID = ' . $LobbyID . ' | GameID = ' . $GameData['GameID'] . ' ].', 'game.gameget');
 					// Возвращает данные игры.
 					echo(json_encode($GameData));
 				}
-				else {
-					Yii::error('Ошибка загрузки лобби из БД [ LobbyID = ' . $LobbyID . ' ] при получении новой игры.', 'game.lobbyfinderror');
-					// Возвращает код ошибки.
-					echo(json_encode(['Error' => self::DATA_ERROR]));
-				}
+			}
+			else {
+				Yii::error('Ошибка загрузки лобби из БД [ LobbyID = ' . $LobbyID . ' ] при получении новой игры.', 'game.lobbyfinderror');
+				// Возвращает код ошибки.
+				echo(json_encode(['Error' => self::DATA_ERROR]));
 			}
 			Yii::$app -> end();
 		}

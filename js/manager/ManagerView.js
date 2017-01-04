@@ -9,41 +9,41 @@ ManagerView = function () {
 		paging: false,
 		lengthChange: false,
 		dom: 't',
-		columnDefs: [
-			{ "width": "40%", "targets": 0 }
-		],
+		// columnDefs: [
+		// 	{ "width": "40%", "targets": 0 }
+		// ],
 		data: [],
 		rowId: 'id',
 		columns: [
 			{
 				data: 'name',
 				title: 'Название',
-				width: '20%'
+				// width: '20%'
 			},
 			{
 				data: 'sizeX',
 				title: 'Размер (ширина)',
-				width: '5%'
+				// width: '5%'
 			},
 			{
 				data: 'sizeY',
 				title: 'Размер (высота)',
-				width: '10%'
+				// width: '10%'
 			},
 			{
 				data: 'description',
 				title: 'Описание',
-				width: '35%'
+				// width: '35%'
 			},
 			{
 				data: 'type',
 				title: 'Тип',
-				width: '10%'
+				// width: '10%'
 			},
 			{
 				data: 'comment',
 				title: 'Комментарий',
-				width: '20%'
+				// width: '20%'
 			}
 		]
 	});	

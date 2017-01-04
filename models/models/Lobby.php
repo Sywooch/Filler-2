@@ -238,6 +238,16 @@ class Lobby extends LSD {
 
 
 	/**
+	 *	Возвращает срок действия лобби в секундах.
+	 *
+	 */
+	public function getActiveTimeInterval() {
+		return self::ACTIVE_LOBBY_TIME_INTERVAL;
+	}
+
+
+
+	/**
 	 *	Возвращает текущее значение таймера лобби в секундах.
 	 *
 	 */

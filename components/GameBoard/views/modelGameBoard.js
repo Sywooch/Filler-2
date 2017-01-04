@@ -71,8 +71,12 @@ $(document).ready(function () {
 					if (typeof Callback === 'function')
 						Callback();
 				}
+				// Если истек срок действия:
+				else if (Result.Error == self.ErrorTypes.ExpireError) {
+					
+				}
 				// Если ошибка данных:
-				else if (Result.Error == self.ErrorTypes.ExpireError || Result.Error == self.ErrorTypes.DataError)
+				else if (Result.Error == self.ErrorTypes.DataError)
 					// Вывод сообщения об ошибке.
 					MessageDialog.Show(DIALOG.UnknownError);
 				// Если неизвестная ошибка:
