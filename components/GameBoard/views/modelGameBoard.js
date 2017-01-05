@@ -55,6 +55,9 @@ $(document).ready(function () {
 	 */
 	modelGameBoard.prototype.GameGet = function (LobbyID, Callback) {
 		console.log('modelGameBoard.prototype.GameGet');
+		//
+		if (!this.ServerRequestStatusSet('GameGet', true)) return;
+		//
 		var self = this;
 		// AJAX-запрос.
 		$.post(
@@ -63,6 +66,8 @@ $(document).ready(function () {
 				LobbyID: LobbyID
 			},
 			function(Result) {
+				//
+				self.ServerRequestStatusSet('GameGet', false);
 				// Если ошибок нет:
 				if (!Result.Error) {
 					// Установка игровых параметров.
@@ -250,9 +255,29 @@ $(document).ready(function () {
 		// Типы ошибок.
 		if (typeof Settings.ErrorTypes !== 'undefined' && Settings.ErrorTypes !== null)
 			this.ErrorTypes = Settings.ErrorTypes;
+		//
+		this.ServerRequestStatus = {
+			GameStart: false,
+			GameGet: false,
+			GameFinish: false,
+			MoveSet: false,
+			MoveGet: false
+		};
 		// Сброс игровых параметров.
 		this.GameReset();
 
+		return true;
+	}
+	/**
+	 *
+	 *
+	 */
+	modelGameBoard.prototype.ServerRequestStatusSet = function (Request, Status) {
+		if (typeof this.ServerRequestStatus[Request] === 'undefined')
+			return false;
+		if (this.ServerRequestStatus[Request] && Status)
+			return false;
+		this.ServerRequestStatus[Request] = Status;
 		return true;
 	}
 	/**

@@ -369,7 +369,8 @@ GameController.LobbyResultReady = function(NotRepeat) {
 	console.log('GameController.LobbyResultReady');
 	// Если лобби еще активно:
 	if (window.LobbyModel.isActive())
-		// Ожидание подключения следующего игрока.
+		// Ожидание подключения следующего игрока
+		// или окончания срока действия лобби.
 		window.LobbyModel.Result(GameController.LobbyResultReady);
 	else
 		// Выключение таймера лобби.

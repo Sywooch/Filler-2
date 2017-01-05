@@ -37,7 +37,7 @@ viewScoreboard.prototype.GameMode = function () {
  *
  */
 viewScoreboard.prototype.LobbiesListRefresh = function (LobbiesList, Handler) {
-	console.log('viewScoreboard.prototype.LobbiesListRefresh');
+	// console.log('viewScoreboard.prototype.LobbiesListRefresh');
 	// console.time('LobbiesListRefresh');
 	// Если список лобби не имеет нужный формат:
 	if (!Array.isArray(LobbiesList))
@@ -67,7 +67,7 @@ viewScoreboard.prototype.LobbiesListRefresh = function (LobbiesList, Handler) {
  *
  */
 viewScoreboard.prototype.CompetitorsListRefresh = function (CompetitorsList, Handler) {
-	console.log('viewScoreboard.prototype.CompetitorsListRefresh');
+	// console.log('viewScoreboard.prototype.CompetitorsListRefresh');
 	// console.time('CompetitorsListRefresh');
 	// Массив соперников (<div>-блоков).
 	var CompetitorsBlocks = '';
@@ -124,7 +124,7 @@ viewScoreboard.prototype.GamePlayersHide = function () {
  *
  */
 viewScoreboard.prototype.GamePlayersShow = function (PlayersList) {
-	console.log('viewScoreboard.prototype.GamePlayersShow');
+	// console.log('viewScoreboard.prototype.GamePlayersShow');
 	//
 	$('#PlayersList-1').html('');
 	$('#PlayersList-2').html('');
@@ -170,7 +170,7 @@ viewScoreboard.prototype.GamePlayerHighlight = function (PlayerID) {
  *
  */
 viewScoreboard.prototype.PlayersScoreRefresh = function (PlayersList, ColorsList) {
-	console.log('viewScoreboard.prototype.PlayersScoreRefresh');
+	// console.log('viewScoreboard.prototype.PlayersScoreRefresh');
 	var self = this;
 	if (Array.isArray(PlayersList)) {
 		PlayersList.forEach(function(Player, Index) {

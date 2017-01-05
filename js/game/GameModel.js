@@ -21,7 +21,7 @@ modelLobby = function (Settings) {
  *
  */
 modelLobby.prototype.Set = function (Lobby) {
-	console.log('modelLobby.prototype.Set');
+	// console.log('modelLobby.prototype.Set');
 	// Если не передан объект лобби:
 	if (typeof Lobby === 'undefined' || typeof Lobby !== 'object')
 		return;
@@ -59,7 +59,7 @@ modelLobby.prototype.Set = function (Lobby) {
  *
  */
 modelLobby.prototype.Reset = function () {
-	console.log('modelLobby.prototype.Reset');
+	// console.log('modelLobby.prototype.Reset');
 	// Идентификатор лобби.
 	this.ID = 0;
 	// Название лобби.
@@ -220,7 +220,7 @@ modelLobby.prototype.Result = function (Callback) {
  *
  */
 modelLobby.prototype.GetPlayersList = function () {
-	console.log('modelLobby.prototype.GetPlayersList');
+	// console.log('modelLobby.prototype.GetPlayersList');
 	return this.PlayersList;
 }
 /**
@@ -228,7 +228,7 @@ modelLobby.prototype.GetPlayersList = function () {
  *
  */
 modelLobby.prototype.GetCreatorID = function () {
-	console.log('modelLobby.prototype.GetCreatorID');
+	// console.log('modelLobby.prototype.GetCreatorID');
 	return this.CreatorID;
 }
 /**
@@ -237,7 +237,7 @@ modelLobby.prototype.GetCreatorID = function () {
  *
  */
 modelLobby.prototype.isActive = function () {
-	console.log('modelLobby.prototype.isActive');
+	// console.log('modelLobby.prototype.isActive');
 	return this.Active;
 }
 /**
@@ -246,7 +246,7 @@ modelLobby.prototype.isActive = function () {
  *
  */
 modelLobby.prototype.isFullPlayersList = function () {
-	console.log('modelLobby.prototype.isFullPlayersList');
+	// console.log('modelLobby.prototype.isFullPlayersList');
 	if (Array.isArray(this.PlayersList) && this.PlayersList.length == this.PlayersNumber)
 		return true;
 	else
@@ -258,7 +258,7 @@ modelLobby.prototype.isFullPlayersList = function () {
  *
  */
 modelLobby.prototype.isPlayerIncluded = function (PlayerID) {
-	console.log('modelLobby.prototype.isPlayerIncluded');
+	// console.log('modelLobby.prototype.isPlayerIncluded');
 	var Player = false;
 	// Поиск указанного игрока в списке подключившихся к лобби игроков.
 	if (Array.isArray(this.PlayersList)) {
