@@ -194,12 +194,17 @@ modelLobby.prototype.Result = function (Callback) {
 		function(Result) {
 			// Если нет ошибок:
 			if (!Result.Error) {
-				// Текущее значение таймера лобби.
-				self.Timer = Result.Timer;
-				// Статус активности лобби.
-				self.Active = Result.Active;
-				// Список подключенных к лобби игроков.
-				self.PlayersList = Result.PlayersList;
+				if (self.ID == Result.ID) {
+					// Текущее значение таймера лобби.
+					self.Timer = Result.Timer;
+					// Статус активности лобби.
+					self.Active = Result.Active;
+					// Список подключенных к лобби игроков.
+					self.PlayersList = Result.PlayersList;
+					// Если задана callback-функция:
+					if (typeof Callback === 'function')
+						Callback();
+				}
 			}
 			// Если срок действия лобби истек или ошибка данных:
 			else if (Result.Error == self.ErrorTypes.ExpireError || Result.Error == self.ErrorTypes.DataError) {
@@ -208,9 +213,6 @@ modelLobby.prototype.Result = function (Callback) {
 			// Если неизвестная ошибка:
 			else
 				console.log(self.URL.Base + self.URL.Result + ' : Error = ' + Result.Error);
-			// Если задана callback-функция:
-			if (typeof Callback === 'function')
-				Callback();
 		},
 		'json'
 	)
