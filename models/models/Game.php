@@ -209,8 +209,8 @@ class Game extends LSD {
 			// Присоединение указанной ячейки к территории указанного игрока.
 			$this -> playingField[$cellIndex - 1] = $playerID;
 		}
-		// Если есть присоединенные ячейки:
-		if (count($adjacentCellsList))
+		// Если есть присоединенные ячейки или игрок признал поражение:
+		if ($colorIndex == 0 || count($adjacentCellsList))
 			// Изменение цвета всех ячеек игрока.
 			$this -> playerFieldReindex($playerID, $colorIndex);
 		// Возвращается количество присоединенных ячеек.

@@ -18,12 +18,13 @@ viewGameBoard = function (Settings) {
 	// Если не задан нестандартный список игровых цветов:
 	if (!this.ColorsListSet(Settings.Colors)) {
 		// Стандартный список игровых цветов:
-		this.ColorsListSet(Array(
+		this.ColorsListSet([
+			'292929', // Нейтральный (не игровой) цвет #292929
 			'FF0000', '00FF00', '3355FF', 'FFFF00',
 			'FF00FF', 'FFFFFF', '990000', '3E5900',
 			'333399', 'EE7700', '888890', '9900DD',
 			'FFBB88', '00FFBB', '4A4A4F', '7C4600'
-		));
+		]);
 	}
 	// Размеры игрового поля.
 	if (typeof Settings.Size !== 'undefined' && Settings.Size !== null)
@@ -104,9 +105,13 @@ viewGameBoard.prototype.Repaint = function (ColorMatrix, PlayerMatrix, DisabledC
 	if (Array.isArray(ColorMatrix)) {
 		$.each(ColorMatrix, function(Key, Value) {
 			//
-			if (self.isColorCell(Value))
-				// Установка цвета текущей ячейки.
-				self.CellColorSet(Key + 1, self.Colors[Value - 1]);
+			if (self.isColorCell(Value)) {
+				// if (Value)
+					// Установка цвета текущей ячейки.
+					self.CellColorSet(Key + 1, self.Colors[Value]);
+				// else
+				// 	self.CellColorSet(Key + 1, '292929');
+			}
 		});
 	}
 	// Обозначение территорий, занятых игроками.
@@ -215,7 +220,7 @@ viewGameBoard.prototype.GamePad = function (ColorsNumber, Handler) {
 	$('#' + this.Prefix.GamePad).html(GamePad);
 	// Установка для всех кнопок игровых цветов.
 	for (Index = 1; Index <= ColorsNumber; Index++)
-		$('#' + this.Prefix.Button + Index).css({'background-color': '#' + this.Colors[Index - 1]});
+		$('#' + this.Prefix.Button + Index).css({'background-color': '#' + this.Colors[Index]});
 }
 /**
  *	Включение режима подсветки указанных ячеек.

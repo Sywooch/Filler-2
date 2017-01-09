@@ -10,6 +10,7 @@ use Yii;
  * @property string $LobbyID
  * @property integer $PlayerID
  * @property string $Date
+ * @property integer $Status
  *
  * @property Lobby $lobby
  * @property User $player
@@ -31,7 +32,7 @@ class LobbyPlayer extends \yii\db\ActiveRecord
     {
         return [
             [['LobbyID', 'PlayerID'], 'required'],
-            [['LobbyID', 'PlayerID'], 'integer'],
+            [['LobbyID', 'PlayerID', 'Status'], 'integer'],
             [['Date'], 'safe'],
             [['LobbyID'], 'exist', 'skipOnError' => true, 'targetClass' => Lobby::className(), 'targetAttribute' => ['LobbyID' => 'id']],
             [['PlayerID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['PlayerID' => 'id']],
@@ -47,6 +48,7 @@ class LobbyPlayer extends \yii\db\ActiveRecord
             'LobbyID' => Yii::t('app', 'LobbyID'),
             'PlayerID' => Yii::t('app', 'PlayerID'),
             'Date' => Yii::t('app', 'Date'),
+            'Status' => Yii::t('app', 'Status'),
         ];
     }
 

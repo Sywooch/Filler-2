@@ -193,15 +193,25 @@ $(document).ready(function () {
 			function(Result) {
 				// Если ошибок нет:
 				if (!Result.Error) {
-					// Регистрация хода соперника на игровом поле.
-					var CellNumber = self.AdjacentCellsAccession(CompetitorID, Result.ColorIndex);
+					var CellNumber = 0;
+					// Если соперником сделан ход:
+					if (Result.ColorIndex)
+						// Регистрация хода соперника на игровом поле.
+						CellNumber = self.AdjacentCellsAccession(CompetitorID, Result.ColorIndex);
 					// Добавление хода в протокол ходов.
 					self.MoveAdd(CompetitorID, Result.ColorIndex, CellNumber);
 					// Переключение очереди хода.
 					self.MoveTurn();
+					// Если соперник сдался:
+					if (!Result.ColorIndex) {
+						//
+						self.PlayerFieldReindex(CompetitorID, 0);
+						// Удаление указанного соперника из списка игроков текущей игры.
+						self.PlayerRemove(CompetitorID);
+					}
 					// Если задана callback-функция:
 					if (typeof Callback === 'function')
-						Callback();
+						Callback(CompetitorID);
 				}
 				// Если ошибка данных:
 				else if (Result.Error == self.ErrorTypes.ExpireError || Result.Error == self.ErrorTypes.DataError)
@@ -237,6 +247,23 @@ $(document).ready(function () {
 			// Переход хода к первому игроку в списке.
 			this.NextMove = this.PlayersList.Player[0].ID;
 		return true;
+	}
+	/**
+	 *	Удаление указанного игрока из списка игроков текущей игры.
+	 *
+	 */
+	modelGameBoard.prototype.PlayerRemove = function (PlayerID) {
+		var PlayerIndex = null;
+		//
+		$.each(this.PlayersList.Player, function(Index, Player) {
+			if (Player.ID == PlayerID)
+				PlayerIndex = Index;
+		});
+		if (PlayerIndex !== null) {
+			this.PlayersList.Player.splice(PlayerIndex, 1);
+			return true;
+		}
+		return false;
 	}
 	/**
 	 *	Инициализация.
@@ -325,11 +352,11 @@ $(document).ready(function () {
 	 */
 	modelGameBoard.prototype.GameReset = function () {
 		// Массив состояния игрового поля.
-		this.PlayingField = Array();
+		this.PlayingField = [];
 		// Индекс домашней ячейки собственного игрока.
 		this.HomeCellIndex = null;
 		// Матрица индексов цветов игрового поля.
-		this.ColorMatrix = Array();
+		this.ColorMatrix = [];
 		// Идентификатор текущего лобби.
 		this.LobbyID = null;
 		// Идентификатор текущей игры.
@@ -348,7 +375,7 @@ $(document).ready(function () {
 			Position: []
 		};
 		// Список ходов.
-		this.MoveList = Array();
+		this.MoveList = [];
 		// Текущая ошибка.
 		this.Error = {
 			Code: null,
@@ -494,6 +521,18 @@ $(document).ready(function () {
 		return Math.round((this.PointsGet(PlayerID) / (this.Size.X * this.Size.Y)) * 100);
 	}
 	/**
+	 *	Получение текущего индекса цвета указанной ячейки.
+	 *	Если указанная ячейка не найдена, возвращается null.
+	 *
+	 */
+	modelGameBoard.prototype.CellColorIndexGet = function (CellIndex) {
+		// Если указанный индекс ячейки не действителен:
+		if (typeof window.GameBoard.ColorMatrix[CellIndex - 1] !== 'number')
+			return null;
+		// Текущий индекс цвета указанной ячейки.
+		return window.GameBoard.ColorMatrix[CellIndex - 1];
+	}
+	/**
 	 *	Получение текущего счета игры для всех игроков.
 	 *
 	 */
@@ -566,7 +605,7 @@ $(document).ready(function () {
 	 *
 	 */
 	modelGameBoard.prototype.DisabledColorsGet = function () {
-		var DisabledColors = Array();
+		var DisabledColors = [];
 		var self = this;
 		$.each(this.PlayersList.Position, function(Key, Value) {
 			DisabledColors.push(parseInt(self.ColorMatrix[Value - 1], 10));
@@ -580,7 +619,7 @@ $(document).ready(function () {
 	modelGameBoard.prototype.ProgressByColorsListGet = function () {
 		// console.time('ProgressByColorsListGet');
 		// Список количества смежных ячеек.
-		var ProgressByColorsList = Array();
+		var ProgressByColorsList = [];
 		// Добавление количества смежных ячеек для каждого цвета в список.
 		for (var ColorIndex = 1; ColorIndex <= this.ColorsNumber; ColorIndex++) {
 			ProgressByColorsList.push(this.AdjacentCellsNumberGet(this.PlayerID, ColorIndex));
@@ -598,7 +637,7 @@ $(document).ready(function () {
 		// Флаг наличия новых присоединенных ячеек.
 		var Flag = true;
 		// Количество присоединенных ячеек указанным игроком.
-		var AdjacentCellsList = Array();
+		var AdjacentCellsList = [];
 		// Сканирование продолжается пока в каждом цикле указанному игроку 
 		// добавляется хотя бы одна новая ячейка.
 		while (Flag) {
@@ -836,4 +875,11 @@ $(document).ready(function () {
 	modelGameBoard.prototype.RandomInteger = function (Min, Max) {
 		return Math.floor(Math.random() * (Max - Min + 1)) + Min;
 	}
+
+
+
+	// $('#content').click(function() {
+	// 	$('#GameBoardDiv').animate({top: '0'}, 1500, 'easeOutBounce');
+	// });
+
 });

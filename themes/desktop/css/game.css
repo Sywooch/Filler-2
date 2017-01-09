@@ -47,10 +47,11 @@
 	cursor: pointer;
 	background-color: rgba(255, 255, 255, 0.1);
 	border: 1px solid #666666;
-
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
 
 .Lobby:hover {
@@ -69,6 +70,8 @@
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
 
 .Bot {
@@ -86,6 +89,8 @@
 	/*background-color: rgba(60, 40, 40, 0.8) !important;
 	border: 1px solid #884444 !important;*/
 	/*color: #bb5555 !important;*/
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
 
 .Player-Active {
@@ -213,6 +218,24 @@
 	padding-top: 7px;
 }
 
+.Player-Box-Off {
+	color: #191919 !important;
+	text-shadow: 1px 1px 0 rgba(255,255,255,0.1);
+	box-shadow: 1px 1px 0 rgba(255,255,255,0.05);
+	border-left: 1px solid #202020;
+	border-top: 1px solid #202020;
+}
+
+.Player-Lable-Off {
+	color: #191919 !important;
+}
+
+.Player-Status-Off {
+	color: #b11 !important;
+	font-weight: bold !important;
+	text-shadow: none !important;
+}
+
 .NextMoveIndicator {
 	color: #EE7000 !important;
 	background: rgba(37, 37, 37, 0.85) !important;
@@ -226,6 +249,9 @@
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	color: #999999;
+	moz-user-select: none;
+	-webkit-user-select: none;
+	cursor: default;
 }
 
 .Player-Box-1 {
@@ -323,9 +349,9 @@
 	border-radius: 6px;
 	/*background-color: rgba(255, 255, 255, 0.1);*/
 	border: 1px solid #888;
-	width: 60px;
+	/*width: 60px;*/
 	height: 60px;
-	margin-right: 20px;
+	/*margin-right: 20px;*/
 	/*border: 1px solid #5bc0de;
 	-webkit-box-shadow: 0px 0px 7px #5bc0de;
 	-moz-box-shadow: 0px 0px 7px #5bc0de;
@@ -334,6 +360,18 @@
 	margin-right: 10px;
 	width: 100px;
 	font-size: 16px;
+}
+
+#LobbyDialog {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	cursor: default;
+}
+
+#MessageDialog {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	cursor: default;
 }
 
 

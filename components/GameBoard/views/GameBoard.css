@@ -27,6 +27,8 @@
 	vertical-align: middle;
 	text-align: center;
 	height: 80px;
+	moz-user-select: none;
+	-webkit-user-select: none;
 }
 
 .GameTile {
@@ -40,10 +42,10 @@
 	padding: 3px 1px 0px 0px;
 	color: #FFFFFF;
 	background-color: #303030; /* #897559; */
-
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
+	cursor: pointer;
 }
 
 .GameTile-Mask {

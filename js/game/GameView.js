@@ -166,6 +166,19 @@ viewScoreboard.prototype.GamePlayerHighlight = function (PlayerID) {
 	$('.Player-Box-5').html('');
 }
 /**
+ *	Блокирование представления указанного игрока (признавшего поражение).
+ *
+ */
+viewScoreboard.prototype.GamePlayerOff = function (PlayerID, Status) {
+	// 
+	$('#PlayerID-' + PlayerID).addClass('Player-Box-Off');
+	$('#NamePlayerID-' + PlayerID).addClass('Player-Lable-Off');
+	$('#PortionPlayerID-' + PlayerID).addClass('Player-Lable-Off');
+	$('#PointsPlayerID-' + PlayerID).addClass('Player-Lable-Off');
+	$('#IncrementPlayerID-' + PlayerID).html(Status);
+	$('#IncrementPlayerID-' + PlayerID).addClass('Player-Status-Off');
+}
+/**
  *	Обновление представления игровых показателей всех игроков для текущей игры.
  *
  */
@@ -175,20 +188,58 @@ viewScoreboard.prototype.PlayersScoreRefresh = function (PlayersList, ColorsList
 	if (Array.isArray(PlayersList)) {
 		PlayersList.forEach(function(Player, Index) {
 			// Отображение количества баллов текущего игрока.
-			$('#PointsPlayerID-' + Player.ID).html(self.TextLable.Point + ': ' + Player.Points);
+			self.PlayerPointsRefresh(Player);
 			// Отображение доли игрового поля текущего игрока.
-			$('#PortionPlayerID-' + Player.ID).html(Player.Portion + '%');
-			// 
-			var MoveResult = '';
-			// Если известен результат последнего хода текущего игрока:
-			if (Player.LastMove)
-				MoveResult = '+' + Player.LastMove.CellNumber;
+			self.PlayerPortionRefresh(Player);
 			// Отображение результата последнего хода.
-			$('#IncrementPlayerID-' + Player.ID).html(MoveResult + '<div class="Player-Color" id="Player-Color-' + Player.ID + '"></div>');
-			// Установка меркеру текущего цвета игрока указанного цвета.
-			$('#Player-Color-' + Player.ID).css({'background-color': '#' + ColorsList[Player.ColorIndex - 1]});
+			self.PlayerIncrementRefresh(Player, ColorsList);
+			
+			// // Отображение количества баллов текущего игрока.
+			// $('#PointsPlayerID-' + Player.ID).html(self.TextLable.Point + ': ' + Player.Points);
+			// // Отображение доли игрового поля текущего игрока.
+			// $('#PortionPlayerID-' + Player.ID).html(Player.Portion + '%');
+			// //
+			// var MoveResult = '';
+			// // Если известен результат последнего хода текущего игрока:
+			// if (Player.LastMove)
+			// 	MoveResult = '+' + Player.LastMove.CellNumber;
+			// // Отображение результата последнего хода.
+			// $('#IncrementPlayerID-' + Player.ID).html(MoveResult + '<div class="Player-Color" id="Player-Color-' + Player.ID + '"></div>');
+			// // Установка меркеру текущего цвета игрока указанного цвета.
+			// $('#Player-Color-' + Player.ID).css({'background-color': '#' + ColorsList[Player.ColorIndex]});
 		});
 	}
+}
+/**
+ *
+ *
+ */
+viewScoreboard.prototype.PlayerPointsRefresh = function (Player) {
+	// Отображение количества баллов текущего игрока.
+	$('#PointsPlayerID-' + Player.ID).html(this.TextLable.Point + ': ' + Player.Points);
+}
+/**
+ *
+ *
+ */
+viewScoreboard.prototype.PlayerPortionRefresh = function (Player) {
+	// Отображение доли игрового поля текущего игрока.
+	$('#PortionPlayerID-' + Player.ID).html(Player.Portion + '%');
+}
+/**
+ *
+ *
+ */
+viewScoreboard.prototype.PlayerIncrementRefresh = function (Player, ColorsList) {
+	//
+	var MoveResult = '';
+	// Если известен результат последнего хода текущего игрока:
+	if (Player.LastMove)
+		MoveResult = '+' + Player.LastMove.CellNumber;
+	// Отображение результата последнего хода.
+	$('#IncrementPlayerID-' + Player.ID).html(MoveResult + '<div class="Player-Color" id="Player-Color-' + Player.ID + '"></div>');
+	// Установка меркеру текущего цвета игрока указанного цвета.
+	$('#Player-Color-' + Player.ID).css({'background-color': '#' + ColorsList[Player.ColorIndex]});
 }
 /**
  *	Обновление представления таймера хода указанного игрока.

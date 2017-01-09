@@ -590,6 +590,21 @@ GameController.MoveSetReady = function() {
 		GameController.MoveGet();
 }
 /**
+ *	Регистрация признания поражения собственного игрока.
+ *
+ */
+GameController.GiveUp = function() {
+	console.log('GameController.GiveUp');
+	//
+	GameController.MoveSet(0);
+	//
+	window.GameBoard.GameReset();
+	// Выключение таймера игры.
+	window.GameTimer.Stop();
+	// Включение режима просмотра / создания лобби.
+	GameController.LobbyModeSet();
+}
+/**
  *	Обработка срабатывания таймера хода собственного игрока.
  *
  */
@@ -617,23 +632,26 @@ GameController.MoveGet = function() {
  *	Подтверждение получения хода соперника.
  *
  */
-GameController.MoveGetReady = function() {
+GameController.MoveGetReady = function(CompetitorID) {
 	console.log('GameController.MoveGetReady');
 	// Обновление представления игрового поля.
 	window.GameBoardView.Repaint(
-		window.GameBoard.ColorMatrix, 
-		window.GameBoard.PlayingField, 
+		window.GameBoard.ColorMatrix,
+		window.GameBoard.PlayingField,
 		window.GameBoard.DisabledColorsGet(),
 		window.GameBoard.ProgressByColorsListGet(),
 		window.GameBoard.HomeCellIndex
 	);
 	// Обновление представления игровых показателей всех игроков для текущей игры.
 	window.ScoreboardView.PlayersScoreRefresh(
-		window.GameBoard.PlayerGameScoreGet(), 
+		window.GameBoard.PlayerGameScoreGet(),
 		window.GameBoardView.ColorsListGet()
 	);
 	// Переключение индикатора следующего хода.
 	window.ScoreboardView.GamePlayerHighlight(window.GameBoard.NextMovePlayerGet());
+	// Если соперник признал поражение:
+	if (window.GameBoard.PlayerColorIndexGet(CompetitorID) == 0)
+		window.ScoreboardView.GamePlayerOff(CompetitorID, 'СДАЛСЯ');
 	// Включение воспроизведения звукового файла.
 	window.Sound.Play('Move');
 	// Если победитель определен:
@@ -746,6 +764,13 @@ $(document).ready(function() {
 	}).on('mouseleave', '.GameButton', function() {
 		// Выключение режима подсветки смежных ячеек игрового поля.
 		GameController.AdjacentCellsHighlightOff();
+	});
+
+	// Нажатие на ячейку игрового поля.
+	$(document).on('click', '.GameTile', function(event) {
+		var cellIndex = parseInt(this.id.replace(/\D+/g, ''), 10);
+		var colorIndex = window.GameBoard.CellColorIndexGet(cellIndex);
+		GameController.MoveSet(colorIndex);
 	});
 
 });

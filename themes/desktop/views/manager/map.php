@@ -20,6 +20,7 @@
 	<div class="col-xs-24" id="map">
 		<ul class="nav nav-tabs nav-justified">
 			<li class="active"><a href="#t1" data-toggle="pill">Статистика</a></li>
+			<li><a href="#t1-1" data-toggle="pill">Оповещения</a></li>
 			<li><a href="#t2" data-toggle="pill">Игроки</a></li>			
 			<li><a href="#t3" data-toggle="pill">Боты</a></li>
 			<li><a href="#t4" data-toggle="pill">Игровые карты</a></li>
@@ -30,6 +31,7 @@
 	</div>
 	<div class="tab-content indent-md">
 		<div class="tab-pane" id="t1"></div>
+		<div class="tab-pane" id="t1-1"></div>
 		<div class="tab-pane" id="t2"></div>
 		<div class="tab-pane" id="t3"></div>
 		<div class="tab-pane" id="t4">

@@ -263,7 +263,7 @@ class GameController extends ExtController {
 			return $this -> getGameData($Lobby, $Game);
 		// Если в указанном интервале времени незавершенная игра не найдена:
 		else
-			return FALSE;
+			return false;
 	}
 
 
@@ -395,25 +395,51 @@ class GameController extends ExtController {
 				$timeout = self::TIMEOUT;
 				// Закрытие сессии, чтобы обрабатывались другие запросы.
 				Yii::$app -> session -> close();
+
+
+
 				// Ожидание хода соперника, пока не истекло время ожидания.
 				do {
-					// Если текущий игрок является автором лобби 
+					// Получение последнего хода для указанного соперника.
+					$competitorMove = $game -> getMove($playerID, $competitorID);
+
+					// Если текущий игрок является автором лобби
 					// и указанный соперник является ботом:
-					if ($playerID == $lobby -> getCreatorID() && $isBot) {
+//					if ($playerID == $lobby -> getCreatorID() && $isBot) {
+					if (!$competitorMove && $isBot) {
 						// Если выдержана достаточная пауза перед ходом бота:
-						if ((self::TIMEOUT - $timeout) * 2 >= $bot -> getMoveTime()) {
+//						if ((self::TIMEOUT - $timeout) * 2 >= $bot -> getMoveTime()) {
 							// Регистрация хода бота.
 							$move = $bot -> getMove($game);
 							$game -> setMove($move['colorIndex'], $move['points'], $competitorID);
-						}
+//						}
 					}
 					//
 					$timeout--;
 					sleep(self::SLEEP_INTERVAL);
-					// Получение последнего хода для указанного соперника.
-					$competitorMove = $game -> getMove($playerID, $competitorID);
 				}
 				while ($timeout > 0 && !$competitorMove);
+
+
+
+//				while ($timeout > 0 && !$game -> getMove($playerID, $competitorID)) {
+//					// Если текущий игрок является автором лобби
+//					// и указанный соперник является ботом:
+//					if ($isBot) {
+//						// Если выдержана достаточная пауза перед ходом бота:
+//						if ((self::TIMEOUT - $timeout) * 2 >= $bot -> getMoveTime()) {
+//							// Регистрация хода бота.
+//							$move = $bot -> getMove($game);
+//							$game -> setMove($move['colorIndex'], $move['points'], $competitorID);
+//						}
+//					}
+//					//
+//					$timeout--;
+//					sleep(self::SLEEP_INTERVAL);
+//				}
+
+
+
 				// Открытие сессии.
 				Yii::$app -> session -> open();
 				// Если время ожидания хода истекло:
