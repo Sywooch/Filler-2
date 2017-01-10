@@ -677,26 +677,33 @@ $(document).ready(function () {
 	 *
 	 */
 	MessageDialog.Set = function (DialogData, Callback) {
-		// Если указан индикатор загрузки, отображение индикатора загрузки.
-		if (typeof DialogData !== 'undefined' && DialogData.Loading == true)
-			this.LoadingShow();
-		else
-			this.LoadingHide();
-		// Если указан заголовок окна, установка заголовка окна.
-		if (typeof DialogData !== 'undefined' && typeof DialogData.Caption === 'string')
-			this.CaptionSet(DialogData.Caption);
-		// Если указан текст сообщения окна, установка сообщения окна.
-		if (typeof DialogData !== 'undefined' && typeof DialogData.Message === 'string')
-			this.MessageSet(DialogData.Message);
-		// Если указан URL для AJAX-загрузки сообщения окна, загрузка сообщения окна.
-		if (typeof DialogData !== 'undefined' && typeof DialogData.MessageURL === 'string')
-			this.MessageLoad(DialogData.MessageURL);
-		// Если указана кнопка положительного ответа, установка кнопки.
-		if (typeof DialogData !== 'undefined' && typeof DialogData.YesButton === 'string')
-			this.YesButtonSet(DialogData.YesButton);
-		// Если указана кнопка отрицательного ответа, установка кнопки.
-		if (typeof DialogData !== 'undefined' && typeof DialogData.NoButton === 'string')
-			this.NoButtonSet(DialogData.NoButton);
+		if (typeof DialogData !== 'undefined') {
+			//
+			if (typeof DialogData.Format === 'string')
+				this.FormatSet(DialogData.Format);
+			else
+				this.FormatSet('');
+			// Если указан индикатор загрузки, отображение индикатора загрузки.
+			if (DialogData.Loading == true)
+				this.LoadingShow();
+			else
+				this.LoadingHide();
+			// Если указан заголовок окна, установка заголовка окна.
+			if (typeof DialogData.Caption === 'string')
+				this.CaptionSet(DialogData.Caption);
+			// Если указан текст сообщения окна, установка сообщения окна.
+			if (typeof DialogData.Message === 'string')
+				this.MessageSet(DialogData.Message);
+			// Если указан URL для AJAX-загрузки сообщения окна, загрузка сообщения окна.
+			if (typeof DialogData.MessageURL === 'string')
+				this.MessageLoad(DialogData.MessageURL);
+			// Если указана кнопка положительного ответа, установка кнопки.
+			if (typeof DialogData.YesButton === 'string')
+				this.YesButtonSet(DialogData.YesButton);
+			// Если указана кнопка отрицательного ответа, установка кнопки.
+			if (typeof DialogData.NoButton === 'string')
+				this.NoButtonSet(DialogData.NoButton);
+		}
 		// Установка Callback-функции.
 		this.Callback = Callback;
 	}
@@ -776,6 +783,26 @@ $(document).ready(function () {
 		// Если задана callback-функция:
 		if (typeof this.Callback !== 'undefined' && typeof this.Callback.NoButton === 'function')
 			this.Callback.NoButton();
+	}
+	/**
+	 *	Установка формата универсального окна сообщения.
+	 *
+	 */
+	MessageDialog.FormatSet = function (Format) {
+		//
+		$('#MessageDialog .modal-dialog').removeClass('modal-lg modal-md modal-sm');
+		$('#' + this.ID.Message).removeClass('text-center text-left text-right');
+		//
+		if (Format === 'Notification') {
+			$('#MessageDialog .modal-dialog').addClass('modal-sm');
+			$('#' + this.ID.Message).addClass('text-center');
+			$('#MessageDialog .modal-footer').attr('style', 'text-align: center !important;');
+		}
+		else {
+			$('#MessageDialog .modal-dialog').addClass('modal-md');
+			$('#' + this.ID.Message).addClass('text-left');
+			$('#MessageDialog .modal-footer').attr('style', '');
+		}
 	}
 
 

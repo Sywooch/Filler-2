@@ -690,6 +690,29 @@ GameController.AdjacentCellsHighlightOff = function() {
 	console.log('GameController.AdjacentCellsHighlightOff');
 	window.GameBoardView.CellHighlightHide();
 }
+/**
+ *	Вывод оповещений.
+ *
+ */
+GameController.News = function() {
+	console.log('GameController.News');
+
+	// window.model.
+
+	MessageDialog.Show(
+		{
+			Caption:'Обновления игры',
+			Message:'Добавлена возможность осуществлять ход кликом по ячейке на игровом поле.',
+			YesButton:'Далее',
+			NoButton:'',
+			Format:'Notification'
+		},
+		{
+			YesButton: GameController.News
+		}
+	);
+
+}
 
 
 
