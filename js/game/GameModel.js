@@ -1,3 +1,67 @@
+//
+// /**
+//  *	Модель оповещений.
+//  *
+//  */
+// modelNotification = function (Settings) {
+// 	// Если задан объект Player:
+// 	if (typeof Settings.PlayerID === 'number') {
+// 		// Уникальный идентификатор игрока.
+// 		this.PlayerID = Settings.PlayerID;
+// 	}
+// 	// Адреса типа контроллер / действие на сервере.
+// 	if (typeof Settings.URL !== 'undefined' && Settings.URL !== null)
+// 		this.URL = Settings.URL;
+// 	// Типы ошибок.
+// 	if (typeof Settings.ErrorTypes !== 'undefined' && Settings.ErrorTypes !== null)
+// 		this.ErrorTypes = Settings.ErrorTypes;
+// 	// Игровые показатели игрока.
+// 	this.Notification = [];
+// }
+// /**
+//  *
+//  *
+//  */
+// modelNotification.prototype.Load = function (Callback) {
+// 	console.log('modelNotification.prototype.Load');
+// 	var self = this;
+// 	// AJAX-запрос.
+// 	$.post(
+// 		this.URL.Base + this.URL.Notification,
+// 		{
+// 			PlayerID: this.PlayerID
+// 		},
+// 		function(Result) {
+// 			// Если нет ошибок:
+// 			if (!Result.Error) {
+// 				// Текущие игровые показатели.
+// 				self.Notification = Result;
+// 			}
+// 			// Если ошибка данных:
+// 			else if (Result.Error == self.ErrorTypes.DataError) {
+//
+// 			}
+// 			// Если неизвестная ошибка:
+// 			else
+// 				console.log(self.URL.Base + self.URL.PlayerStatistics + ' : Error = ' + Result.Error);
+// 			// Если задана callback-функция:
+// 			if (typeof Callback === 'function')
+// 				Callback();
+// 		},
+// 		'json'
+// 	)
+// }
+// /**
+//  *
+//  *
+//  */
+// modelNotification.prototype.GetID = function () {
+// 	return this.ID;
+// }
+
+
+
+
 
 /**
  *  Модель лобби.
@@ -52,7 +116,7 @@ modelLobby.prototype.Set = function (Lobby) {
 	if (typeof Lobby.PlayersList !== 'undefined' && Lobby.PlayersList !== null)
 		this.PlayersList = Lobby.PlayersList;
 	else
-		this.PlayersList = Array();
+		this.PlayersList = [];
 }
 /**
  *	Начальная инициализация параметров лобби.
@@ -455,16 +519,17 @@ modelCollection = function (Settings) {
 	else
 		this.TIMER_PERIOD = 10 * 1000;
 	// Список объектов коллекции.
-	this.List = Array();
+	this.List = [];
 	// Таймер обновления коллекции.
 	this.Timer = 0;
+	//
+	this.Index = 0;
 }
 /**
  *	Обновление коллекции. Отправляется AJAX-запрос на сервер.
  *
  */
 modelCollection.prototype.ListReload = function () {
-	console.log('modelCollection.prototype.ListReload');
 	var self = this;
 	// AJAX-запрос.
 	$.post(
@@ -477,6 +542,8 @@ modelCollection.prototype.ListReload = function () {
 			if (!List.Error) {
 				// Обновление списка объектов коллекции.
 				self.List = List;
+				//
+				self.PointerReset();
 				// Если задана callback-функция:
 				if (typeof self.Callback === 'function')
 					self.Callback();
@@ -493,7 +560,6 @@ modelCollection.prototype.ListReload = function () {
  *
  */
 modelCollection.prototype.ListRefreshStart = function () {
-	console.log('modelCollection.prototype.ListRefreshStart');
 	// Первое обновление коллекции.
 	this.ListReload();
 	// Если таймер еще не запущен:
@@ -506,7 +572,6 @@ modelCollection.prototype.ListRefreshStart = function () {
  *
  */
 modelCollection.prototype.ListRefreshStop = function () {
-	console.log('modelCollection.prototype.ListRefreshStop');
 	clearInterval(this.Timer);
 	this.Timer = 0;
 }
@@ -515,15 +580,46 @@ modelCollection.prototype.ListRefreshStop = function () {
  *
  */
 modelCollection.prototype.ListGet = function () {
-	console.log('modelCollection.prototype.ListGet');
 	return this.List;
+}
+/**
+ *	Получение размера коллекции.
+ *
+ */
+modelCollection.prototype.ListSizeGet = function () {
+	return this.List.length;
+}
+/**
+ *	Сброс указателя коллекции.
+ *
+ */
+modelCollection.prototype.PointerGet = function () {
+	return this.Index;
+}
+/**
+ *	Сброс указателя коллекции.
+ *
+ */
+modelCollection.prototype.PointerReset = function () {
+	this.Index = 0;
+	return this.Index;
+}
+/**
+ *	Сброс указателя коллекции.
+ *
+ */
+modelCollection.prototype.PointerShift = function () {
+	if (this.Index == (this.ListSizeGet() - 1))
+		this.PointerReset();
+	else
+		this.Index = this.Index + 1;
+	return this.Index;
 }
 /**
  *	Получение объекта коллекции по указанному идентификатору.
  *
  */
 modelCollection.prototype.ItemGet = function (ID) {
-	console.log('modelCollection.prototype.ItemGet');
 	var Item = false;
 	// Поиск в коллекции указанного объекта.
 	if (Array.isArray(this.List)) {
@@ -535,7 +631,18 @@ modelCollection.prototype.ItemGet = function (ID) {
 	// Возвращение объекта коллекции.
 	return Item;
 }
-
+/**
+ *	Получение следующего объекта коллекции.
+ *
+ */
+modelCollection.prototype.NextItemGet = function () {
+	//
+	var Index = this.PointerGet();
+	//
+	this.PointerShift();
+	// Возвращение объекта коллекции.
+	return this.List[Index];
+}
 
 
 

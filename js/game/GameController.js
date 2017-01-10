@@ -48,6 +48,34 @@ GameController = function() {
  */
 GameController.Run = function() {
 	console.log('GameController.Run');
+	// Оповещения.
+	window.NotificationCollectionModel = new modelCollection({
+		// Идентификатор собственного игрока.
+		PlayerID: Player.ID,
+		// Адреса типа контроллер / экшен на сервере.
+		URL: {
+			Base: BASE_URL,
+			ListGet: '/notification/notificationget'
+		},
+		// Типы ошибок сервера.
+		ErrorTypes: SERVER_ERROR,
+		// Период обновления (секунды).
+		TimerPeriod: 0,
+		// Callback-функция.
+		Callback: GameController.NotificationListReady
+	});
+	// window.NotificationModel = new modelNotification({
+	// 	// Собственный игрок.
+	// 	PlayerID: Player.ID,
+	// 	// Адреса типа контроллер / экшен на сервере.
+	// 	URL: {
+	// 		Base: BASE_URL,
+	// 		Notification: '/notification/notificationget'
+	// 	},
+	// 	// Типы ошибок сервера.
+	// 	ErrorTypes: SERVER_ERROR
+	// });
+
 	// Игрок.
 	window.PlayerModel = new modelPlayer({
 		// Собственный игрок.
@@ -697,20 +725,20 @@ GameController.AdjacentCellsHighlightOff = function() {
 GameController.News = function() {
 	console.log('GameController.News');
 
-	// window.model.
+	window.NotificationCollectionModel.ListReload();
 
-	MessageDialog.Show(
-		{
-			Caption:'Обновления игры',
-			Message:'Добавлена возможность осуществлять ход кликом по ячейке на игровом поле.',
-			YesButton:'Далее',
-			NoButton:'',
-			Format:'Notification'
-		},
-		{
-			YesButton: GameController.News
-		}
-	);
+}
+GameController.NotificationListReady = function() {
+	console.log('GameController.NotificationListReady');
+
+	var Callback;
+	//
+	var Notification = window.NotificationCollectionModel.NextItemGet();
+	//
+	if (window.NotificationCollectionModel.PointerGet())
+		Callback = {YesButton: GameController.NotificationListReady};
+	//
+	MessageDialog.Show(Notification, Callback);
 
 }
 
