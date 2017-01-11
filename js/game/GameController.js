@@ -719,16 +719,23 @@ GameController.News = function() {
 }
 GameController.NotificationListReady = function() {
 	console.log('GameController.NotificationListReady');
-
+	// Callback-функция.
 	var Callback;
-	//
+	// Получение текущего оповещения из списка всех оповещений.
 	var Notification = window.NotificationCollectionModel.NextItemGet();
-	//
+	// Если оповещение не последнее в списке:
 	if (window.NotificationCollectionModel.PointerGet())
-		Callback = {YesButton: GameController.NotificationListReady};
-	//
-	MessageDialog.Show(Notification, Callback);
-
+		Callback = {
+			YesButton: GameController.NotificationListReady
+		};
+	// Если показывается первое оповещение:
+	if (window.NotificationCollectionModel.PointerGet() == 1)
+		// Открывается окно.
+		MessageDialog.Show(Notification, Callback);
+	// Если показываются последующие оповещения:
+	else
+		// Данные передаются в открытое окно.
+		MessageDialog.Set(Notification, Callback);
 }
 
 

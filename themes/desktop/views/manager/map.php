@@ -30,11 +30,11 @@
 		</ul>
 	</div>
 	<div class="tab-content indent-md">
-		<div class="tab-pane" id="t1"></div>
-		<div class="tab-pane" id="t1-1"></div>
-		<div class="tab-pane" id="t2"></div>
-		<div class="tab-pane" id="t3"></div>
-		<div class="tab-pane" id="t4">
+		<div class="tab-pane fade in active" id="t1"></div>
+		<div class="tab-pane fade" id="t1-1"></div>
+		<div class="tab-pane fade" id="t2"></div>
+		<div class="tab-pane fade" id="t3"></div>
+		<div class="tab-pane fade" id="t4">
 			<div class="col-xs-24" id="mapListMode">
 				<div class="col-xs-24 indent-md">
 					<div class="col-xs-6 text-left text-14" style="padding-left: 0;">
@@ -127,9 +127,9 @@
 				</div>
 			</div>		
 		</div>
-		<div class="tab-pane" id="t5"></div>
-		<div class="tab-pane" id="t6"></div>
-		<div class="tab-pane" id="t7"></div>
+		<div class="tab-pane fade" id="t5"></div>
+		<div class="tab-pane fade" id="t6"></div>
+		<div class="tab-pane fade" id="t7"></div>
 	</div>
 </div>
 
