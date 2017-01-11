@@ -64,17 +64,6 @@ GameController.Run = function() {
 		// Callback-функция.
 		Callback: GameController.NotificationListReady
 	});
-	// window.NotificationModel = new modelNotification({
-	// 	// Собственный игрок.
-	// 	PlayerID: Player.ID,
-	// 	// Адреса типа контроллер / экшен на сервере.
-	// 	URL: {
-	// 		Base: BASE_URL,
-	// 		Notification: '/notification/notificationget'
-	// 	},
-	// 	// Типы ошибок сервера.
-	// 	ErrorTypes: SERVER_ERROR
-	// });
 
 	// Игрок.
 	window.PlayerModel = new modelPlayer({
@@ -356,7 +345,7 @@ GameController.StatisticsRefreshReady = function() {
  *
  */
 GameController.LobbiesListReady = function() {
-	console.log('GameController.LobbiesListReady');
+	// console.log('GameController.LobbiesListReady');
 	// Обновление представления списка действующих лобби.
 	window.ScoreboardView.LobbiesListRefresh(window.LobbiesCollectionModel.ListGet(), 'GameController.LobbySelectHandler');
 }
@@ -365,7 +354,7 @@ GameController.LobbiesListReady = function() {
  *
  */
 GameController.CompetitorsListReady = function() {
-	console.log('GameController.CompetitorsListReady');
+	// console.log('GameController.CompetitorsListReady');
 	// Обновление представления списка активных соперников.
 	window.ScoreboardView.CompetitorsListRefresh(window.CompetitorsModelCollection.ListGet(), 'GameController.PlayerSelectHandler');
 }

@@ -797,11 +797,13 @@ $(document).ready(function () {
 			$('#MessageDialog .modal-dialog').addClass('modal-sm');
 			$('#' + this.ID.Message).addClass('text-center');
 			$('#MessageDialog .modal-footer').attr('style', 'text-align: center !important;');
+			$('#MessageDialog-YesButton').attr('data-dismiss', '');
 		}
 		else {
 			$('#MessageDialog .modal-dialog').addClass('modal-md');
 			$('#' + this.ID.Message).addClass('text-left');
 			$('#MessageDialog .modal-footer').attr('style', '');
+			$('#MessageDialog-YesButton').attr('data-dismiss', 'modal');
 		}
 	}
 
