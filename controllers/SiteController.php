@@ -802,7 +802,15 @@ class SiteController extends ExtController {
 
 //		return $this -> redirect(Yii::$app -> user -> loginUrl);
 
-		echo 'Доступ есть';
+//		echo 'Доступ есть';
+
+
+
+		$map = new \app\models\models\Notification();
+		echo $map -> isExist();
+		print_r($map::findOne(1));
+		
+//		echo($map);
 
 	}
 

@@ -792,7 +792,7 @@ $(document).ready(function () {
 		//
 		$('#MessageDialog .modal-dialog').removeClass('modal-lg modal-md modal-sm');
 		$('#' + this.ID.Message).removeClass('text-center text-left text-right');
-		//
+		// Если формат сообщения - Оповещение:
 		if (Format === 'Notification') {
 			$('#MessageDialog .modal-dialog').addClass('modal-sm');
 			$('#' + this.ID.Message).addClass('text-center');

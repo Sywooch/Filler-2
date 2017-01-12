@@ -31,7 +31,43 @@
 	</div>
 	<div class="tab-content indent-md">
 		<div class="tab-pane fade in active" id="t1"></div>
-		<div class="tab-pane fade" id="t1-1"></div>
+		<div class="tab-pane fade" id="t1-1">
+			<div class="col-xs-24" id="notificationListMode">
+				<div class="col-xs-24 indent-md">
+					<div class="col-xs-4 text-left text-14" style="padding-left: 0;">
+						<label class="control-label" for="notificationStartData"><?= Yii::t('Dictionary', 'Type'); ?></label>
+						<select class="form-control" id="notificationStartData" style="cursor: pointer; height: 40px;">
+							<option style="padding: 7px 7px;" value="1">Цветные ячейки</option>
+							<option style="padding: 7px 7px;" value="2">Блокирующие ячейки</option>
+							<option style="padding: 7px 7px;" value="0" selected>Все типы</option>
+						</select>
+					</div>
+					<div class="col-xs-4 text-left text-14">
+						<label class="control-label" for="notificationEndData"><?= Yii::t('Dictionary', 'Size'); ?></label>
+						<select class="form-control" id="notificationEndData" style="cursor: pointer; height: 40px;">
+							<option style="padding: 7px 7px;" value="1">18 x 12</option>
+							<option style="padding: 7px 7px;" value="2">24 x 16</option>
+							<option style="padding: 7px 7px;" value="3">30 x 20</option>
+							<option style="padding: 7px 7px;" value="0" selected>Все размеры</option>
+						</select>
+					</div>
+					<div class="col-xs-4 text-left text-14">
+						<label class="control-label" for="notificationLanguageFilter"><?= Yii::t('Dictionary', 'Язык'); ?></label>
+						<select class="form-control" id="notificationLanguageFilter" style="cursor: pointer; height: 40px;">
+							<option style="padding: 7px 7px;" value="1">Английский</option>
+							<option style="padding: 7px 7px;" value="2">Русский</option>
+							<option style="padding: 7px 7px;" value="0" selected>Все языки</option>
+						</select>
+					</div>
+					<div class="col-xs-12 text-left text-14" style="margin-top: 26px;">
+						<button type="button" class="btn btn-primary" data-dismiss="modal" id="create"><?= Yii::t('Dictionary', 'Создать оповещение'); ?></button>
+					</div>
+				</div>
+				<div class="col-xs-24">
+<!--					<table id="mapList" class="display table table-hover cursor-pointer" width="100%"></table>-->
+				</div>
+			</div>
+		</div>
 		<div class="tab-pane fade" id="t2"></div>
 		<div class="tab-pane fade" id="t3"></div>
 		<div class="tab-pane fade" id="t4">

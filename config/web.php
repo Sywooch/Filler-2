@@ -77,7 +77,7 @@ $config = [
                     'categories' => ['user.*'],
                     'message' => [
                        'from' => ['logs@game-test.ru' => 'Game Logs'],
-                       'to' => ['poluektovkv@gmail.com'],
+                       'to' => ['poluektovkv@gmail.com', 'personal.kuznetsova@gmail.com'],
                        'subject' => 'User log',
                     ],
                 ],
