@@ -3,6 +3,7 @@
 namespace app\assets;
 
 use yii\web\AssetBundle;
+use yii\web\View;
 
 
 
@@ -25,4 +26,9 @@ class BootstrapAsset extends AssetBundle {
 	public $depends = [
 		'yii\web\YiiAsset',
 	];
+	//
+	public function init() {
+		$this -> jsOptions['position'] = View::POS_BEGIN;
+		parent::init();
+	}
 }

@@ -49,6 +49,11 @@
 
 	<div class="clear"></div>
 
+<!--	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>-->
+	<script src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/jquery-ui.min.js"></script>
+	<script src="jquery-ui-i18n.js"></script>
+	<link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/themes/sunny/jquery-ui.css">
+
 	<div class="" id="footer">
 		Copyright &copy; <?php echo date('Y'); ?> by Konstantin Poluektov.<br/>
 		All Rights Reserved.<br/>
